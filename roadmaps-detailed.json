@@ -1,0 +1,700 @@
+{
+  "roadmaps": {
+    "frontend": {
+      "title": "Frontend Developer",
+      "description": "Build modern, responsive user interfaces and web applications",
+      "estimatedTime": "6-8 months",
+      "steps": [
+        {
+          "phase": "Fundamentals",
+          "topics": ["HTML5", "CSS3", "JavaScript ES6+", "Responsive Design", "Git & GitHub"],
+          "freeCourses": [
+            { "name": "Responsive Web Design", "platform": "freeCodeCamp", "link": "https://www.freecodecamp.org/learn/responsive-web-design/" },
+            { "name": "JavaScript Full Course", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=PkZNo7MFNFg" }
+          ],
+          "paidCourses": [
+            { "name": "Modern HTML & CSS", "platform": "Udemy", "link": "https://www.udemy.com/course/modern-html-css-from-the-beginning/" }
+          ]
+        },
+        {
+          "phase": "Advanced JavaScript",
+          "topics": ["TypeScript", "Async/Await", "Promises", "ES6+ Features", "DOM Manipulation"],
+          "freeCourses": [
+            { "name": "JavaScript Algorithms", "platform": "freeCodeCamp", "link": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/" },
+            { "name": "TypeScript Tutorial", "platform": "YouTube (Net Ninja)", "link": "https://www.youtube.com/watch?v=2pZmKW9-I_k" }
+          ],
+          "paidCourses": [
+            { "name": "Understanding TypeScript", "platform": "Udemy", "link": "https://www.udemy.com/course/understanding-typescript/" }
+          ]
+        },
+        {
+          "phase": "Frontend Framework",
+          "topics": ["React/Vue/Angular", "State Management", "Component Architecture", "Hooks", "Routing"],
+          "freeCourses": [
+            { "name": "React Official Docs", "platform": "React.dev", "link": "https://react.dev/learn" },
+            { "name": "Vue.js Course", "platform": "Vue Mastery", "link": "https://www.vuemastery.com/courses/" }
+          ],
+          "paidCourses": [
+            { "name": "React Complete Guide", "platform": "Udemy", "link": "https://www.udemy.com/course/react-the-complete-guide-incl-redux/" }
+          ]
+        },
+        {
+          "phase": "Build Tools & Testing",
+          "topics": ["Webpack/Vite", "npm/yarn", "Jest", "Testing Library", "CI/CD"],
+          "freeCourses": [
+            { "name": "Webpack Tutorial", "platform": "YouTube", "link": "https://www.youtube.com/watch?v=MpGLUVbqoYQ" }
+          ],
+          "paidCourses": [
+            { "name": "Testing React Apps", "platform": "Udemy", "link": "https://www.udemy.com/course/react-testing-library/" }
+          ]
+        },
+        {
+          "phase": "Advanced Topics",
+          "topics": ["Performance Optimization", "SSR/SSG", "Next.js", "PWA", "Web Accessibility"],
+          "freeCourses": [
+            { "name": "Next.js Tutorial", "platform": "Next.js Docs", "link": "https://nextjs.org/learn" }
+          ],
+          "paidCourses": [
+            { "name": "Next.js & React", "platform": "Udemy", "link": "https://www.udemy.com/course/nextjs-react-the-complete-guide/" }
+          ]
+        }
+      ]
+    },
+    "backend": {
+      "title": "Backend Developer",
+      "description": "Build scalable server-side applications, APIs, and databases",
+      "estimatedTime": "6-9 months",
+      "steps": [
+        {
+          "phase": "Programming Language",
+          "topics": ["Node.js/Python/Java/Go", "OOP", "Data Structures", "Algorithms"],
+          "freeCourses": [
+            { "name": "Node.js Full Course", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=Oe421EPjeBE" },
+            { "name": "Python for Everybody", "platform": "Coursera", "link": "https://www.coursera.org/specializations/python" }
+          ],
+          "paidCourses": [
+            { "name": "Node.js Complete Guide", "platform": "Udemy", "link": "https://www.udemy.com/course/nodejs-the-complete-guide/" }
+          ]
+        },
+        {
+          "phase": "Databases",
+          "topics": ["SQL (PostgreSQL/MySQL)", "NoSQL (MongoDB)", "Redis", "Database Design", "ORMs"],
+          "freeCourses": [
+            { "name": "PostgreSQL Tutorial", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=qw--VYLpxG4" },
+            { "name": "MongoDB University", "platform": "MongoDB", "link": "https://learn.mongodb.com/" }
+          ],
+          "paidCourses": [
+            { "name": "SQL & PostgreSQL", "platform": "Udemy", "link": "https://www.udemy.com/course/sql-and-postgresql/" }
+          ]
+        },
+        {
+          "phase": "API Development",
+          "topics": ["REST APIs", "GraphQL", "API Design", "Authentication", "Rate Limiting"],
+          "freeCourses": [
+            { "name": "REST API Tutorial", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=Q-BpqyOT3a8" },
+            { "name": "GraphQL Tutorial", "platform": "YouTube", "link": "https://www.youtube.com/watch?v=Y0lDGjwRYKw" }
+          ],
+          "paidCourses": [
+            { "name": "REST APIs with Node.js", "platform": "Udemy", "link": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "Security & Authentication",
+          "topics": ["JWT", "OAuth", "Encryption", "HTTPS", "Security Best Practices"],
+          "freeCourses": [
+            { "name": "Web Security", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=F-sFp_AvHc8" }
+          ],
+          "paidCourses": [
+            { "name": "Node.js Security", "platform": "Udemy", "link": "https://www.udemy.com/course/nodejs-security/" }
+          ]
+        },
+        {
+          "phase": "Advanced Backend",
+          "topics": ["Microservices", "Message Queues", "Caching", "Testing", "Documentation"],
+          "freeCourses": [
+            { "name": "Microservices Tutorial", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=CdBtNQZH8a4" }
+          ],
+          "paidCourses": [
+            { "name": "Microservices with Node.js", "platform": "Udemy", "link": "https://www.udemy.com/course/microservices-with-node-js-and-react/" }
+          ]
+        }
+      ]
+    },
+    "fullstack": {
+      "title": "Full Stack Developer",
+      "description": "Master both frontend and backend development",
+      "estimatedTime": "10-12 months",
+      "steps": [
+        {
+          "phase": "Frontend Basics",
+          "topics": ["HTML", "CSS", "JavaScript", "React/Vue", "Responsive Design"],
+          "freeCourses": [
+            { "name": "Full Stack Open", "platform": "University of Helsinki", "link": "https://fullstackopen.com/en/" },
+            { "name": "The Odin Project", "platform": "The Odin Project", "link": "https://www.theodinproject.com/paths/full-stack-javascript" }
+          ],
+          "paidCourses": [
+            { "name": "Complete Web Developer Bootcamp", "platform": "Udemy", "link": "https://www.udemy.com/course/the-complete-web-development-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "Backend Development",
+          "topics": ["Node.js/Python", "Express/Django", "REST APIs", "Databases"],
+          "freeCourses": [
+            { "name": "Backend Development", "platform": "freeCodeCamp", "link": "https://www.freecodecamp.org/learn/back-end-development-and-apis/" }
+          ],
+          "paidCourses": [
+            { "name": "MERN Stack Course", "platform": "Udemy", "link": "https://www.udemy.com/course/mern-stack-front-to-back/" }
+          ]
+        },
+        {
+          "phase": "Database & Authentication",
+          "topics": ["SQL", "MongoDB", "JWT", "OAuth", "Session Management"],
+          "freeCourses": [
+            { "name": "Database Design", "platform": "freeCodeCamp", "link": "https://www.freecodecamp.org/learn/relational-database/" }
+          ],
+          "paidCourses": [
+            { "name": "Complete SQL Bootcamp", "platform": "Udemy", "link": "https://www.udemy.com/course/the-complete-sql-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "DevOps Basics",
+          "topics": ["Git", "Docker", "CI/CD", "Cloud Deployment", "Nginx"],
+          "freeCourses": [
+            { "name": "Docker Tutorial", "platform": "YouTube (TechWorld with Nana)", "link": "https://www.youtube.com/watch?v=3c-iBn73dDE" }
+          ],
+          "paidCourses": [
+            { "name": "Docker & Kubernetes", "platform": "Udemy", "link": "https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/" }
+          ]
+        },
+        {
+          "phase": "Full Stack Projects",
+          "topics": ["E-commerce App", "Social Media Platform", "Real-time Chat", "Portfolio"],
+          "freeCourses": [
+            { "name": "Full Stack Projects", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/c/Freecodecamp" }
+          ],
+          "paidCourses": [
+            { "name": "Full Stack Projects Course", "platform": "Udemy", "link": "https://www.udemy.com/course/the-complete-web-development-bootcamp/" }
+          ]
+        }
+      ]
+    },
+    "devops": {
+      "title": "DevOps Engineer",
+      "description": "Automate, deploy, and manage infrastructure and applications",
+      "estimatedTime": "8-10 months",
+      "steps": [
+        {
+          "phase": "Linux & Networking",
+          "topics": ["Linux Administration", "Shell Scripting", "Networking", "SSH", "System Management"],
+          "freeCourses": [
+            { "name": "Linux for DevOps", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=sWbUDq4S6Y8" },
+            { "name": "Linux Journey", "platform": "Linux Journey", "link": "https://linuxjourney.com/" }
+          ],
+          "paidCourses": [
+            { "name": "Linux Administration Bootcamp", "platform": "Udemy", "link": "https://www.udemy.com/course/linux-administration-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "Version Control & CI/CD",
+          "topics": ["Git & GitHub", "GitLab CI", "Jenkins", "GitHub Actions", "CI/CD Pipelines"],
+          "freeCourses": [
+            { "name": "Git and GitHub", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=RGOj5yH7evk" },
+            { "name": "GitHub Actions Tutorial", "platform": "YouTube", "link": "https://www.youtube.com/watch?v=R8_veQiYBjI" }
+          ],
+          "paidCourses": [
+            { "name": "DevOps with GitLab CI", "platform": "Udemy", "link": "https://www.udemy.com/course/gitlab-ci-pipelines-ci-cd-and-devops-for-beginners/" }
+          ]
+        },
+        {
+          "phase": "Containerization",
+          "topics": ["Docker", "Docker Compose", "Container Orchestration", "Image Optimization"],
+          "freeCourses": [
+            { "name": "Docker Tutorial", "platform": "YouTube (TechWorld with Nana)", "link": "https://www.youtube.com/watch?v=3c-iBn73dDE" },
+            { "name": "Docker Curriculum", "platform": "Docker", "link": "https://docker-curriculum.com/" }
+          ],
+          "paidCourses": [
+            { "name": "Docker Mastery", "platform": "Udemy", "link": "https://www.udemy.com/course/docker-mastery/" }
+          ]
+        },
+        {
+          "phase": "Kubernetes",
+          "topics": ["K8s Architecture", "Pods", "Services", "Deployments", "Helm", "Monitoring"],
+          "freeCourses": [
+            { "name": "Kubernetes Tutorial", "platform": "YouTube (TechWorld with Nana)", "link": "https://www.youtube.com/watch?v=X48VuDVv0do" },
+            { "name": "Kubernetes Basics", "platform": "Kubernetes.io", "link": "https://kubernetes.io/docs/tutorials/kubernetes-basics/" }
+          ],
+          "paidCourses": [
+            { "name": "Kubernetes for Developers", "platform": "Udemy", "link": "https://www.udemy.com/course/kubernetes-for-developers/" }
+          ]
+        },
+        {
+          "phase": "Infrastructure as Code",
+          "topics": ["Terraform", "Ansible", "CloudFormation", "Configuration Management"],
+          "freeCourses": [
+            { "name": "Terraform Course", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
+            { "name": "Terraform Tutorials", "platform": "HashiCorp Learn", "link": "https://learn.hashicorp.com/terraform" }
+          ],
+          "paidCourses": [
+            { "name": "Terraform for AWS", "platform": "Udemy", "link": "https://www.udemy.com/course/terraform-beginner-to-advanced/" }
+          ]
+        },
+        {
+          "phase": "Cloud Platforms & Monitoring",
+          "topics": ["AWS/Azure/GCP", "Prometheus", "Grafana", "ELK Stack", "Cloud Security"],
+          "freeCourses": [
+            { "name": "AWS Certified Cloud Practitioner", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=SOTamWNgDKc" },
+            { "name": "Prometheus Tutorial", "platform": "YouTube", "link": "https://www.youtube.com/watch?v=h4Sl21AKiDg" }
+          ],
+          "paidCourses": [
+            { "name": "AWS Solutions Architect", "platform": "Udemy", "link": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" }
+          ]
+        }
+      ]
+    },
+    "android": {
+      "title": "Android Developer",
+      "description": "Build native Android applications with Kotlin and Jetpack Compose",
+      "estimatedTime": "6-8 months",
+      "steps": [
+        {
+          "phase": "Kotlin Programming",
+          "topics": ["Kotlin Basics", "OOP", "Coroutines", "Collections", "Null Safety"],
+          "freeCourses": [
+            { "name": "Kotlin for Beginners", "platform": "Android Developers", "link": "https://developer.android.com/courses/android-basics-kotlin/course" },
+            { "name": "Kotlin Tutorial", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=F9UC9DY-vIU" }
+          ],
+          "paidCourses": [
+            { "name": "Kotlin for Android Development", "platform": "Udemy", "link": "https://www.udemy.com/course/kotlin-android-developer-masterclass/" }
+          ]
+        },
+        {
+          "phase": "Android Fundamentals",
+          "topics": ["Activities", "Fragments", "Intents", "Layouts", "Material Design"],
+          "freeCourses": [
+            { "name": "Android Basics with Compose", "platform": "Android Developers", "link": "https://developer.android.com/courses/android-basics-compose/course" }
+          ],
+          "paidCourses": [
+            { "name": "Complete Android Developer Course", "platform": "Udemy", "link": "https://www.udemy.com/course/complete-android-n-developer-course/" }
+          ]
+        },
+        {
+          "phase": "Jetpack Compose",
+          "topics": ["Composables", "State Management", "Navigation", "Theming", "Animations"],
+          "freeCourses": [
+            { "name": "Jetpack Compose Tutorial", "platform": "Android Developers", "link": "https://developer.android.com/jetpack/compose/tutorial" }
+          ],
+          "paidCourses": [
+            { "name": "Jetpack Compose Masterclass", "platform": "Udemy", "link": "https://www.udemy.com/course/jetpack-compose-masterclass/" }
+          ]
+        },
+        {
+          "phase": "Architecture & Data",
+          "topics": ["MVVM", "Room Database", "Retrofit", "Dependency Injection", "Repository Pattern"],
+          "freeCourses": [
+            { "name": "Android Architecture", "platform": "Android Developers", "link": "https://developer.android.com/topic/architecture" }
+          ],
+          "paidCourses": [
+            { "name": "Android Clean Architecture", "platform": "Udemy", "link": "https://www.udemy.com/course/android-clean-architecture/" }
+          ]
+        },
+        {
+          "phase": "Advanced Topics",
+          "topics": ["Firebase", "Testing", "Performance", "Publishing", "Monetization"],
+          "freeCourses": [
+            { "name": "Firebase for Android", "platform": "Firebase", "link": "https://firebase.google.com/docs/android/setup" }
+          ],
+          "paidCourses": [
+            { "name": "Advanced Android Development", "platform": "Udemy", "link": "https://www.udemy.com/course/advanced-android/" }
+          ]
+        }
+      ]
+    },
+    "ios": {
+      "title": "iOS Developer",
+      "description": "Build native iOS applications with Swift and SwiftUI",
+      "estimatedTime": "6-8 months",
+      "steps": [
+        {
+          "phase": "Swift Programming",
+          "topics": ["Swift Basics", "Optionals", "Closures", "Protocols", "Generics"],
+          "freeCourses": [
+            { "name": "Swift Programming Tutorial", "platform": "YouTube (CodeWithChris)", "link": "https://www.youtube.com/watch?v=comQ1-x2a1Q" },
+            { "name": "Swift Tutorials", "platform": "Apple Developer", "link": "https://developer.apple.com/swift/resources/" }
+          ],
+          "paidCourses": [
+            { "name": "iOS & Swift Bootcamp", "platform": "Udemy", "link": "https://www.udemy.com/course/ios-13-app-development-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "SwiftUI Basics",
+          "topics": ["Views", "Modifiers", "State", "Binding", "Navigation"],
+          "freeCourses": [
+            { "name": "SwiftUI Tutorial", "platform": "Apple Developer", "link": "https://developer.apple.com/tutorials/swiftui" },
+            { "name": "SwiftUI Course", "platform": "YouTube (CodeWithChris)", "link": "https://www.youtube.com/watch?v=F2ojC6TNwws" }
+          ],
+          "paidCourses": [
+            { "name": "SwiftUI Masterclass", "platform": "Udemy", "link": "https://www.udemy.com/course/swiftui-masterclass-course-ios-development-with-swift/" }
+          ]
+        },
+        {
+          "phase": "iOS Frameworks",
+          "topics": ["UIKit", "Core Data", "Combine", "URLSession", "Notifications"],
+          "freeCourses": [
+            { "name": "iOS Development", "platform": "Stanford (YouTube)", "link": "https://www.youtube.com/watch?v=bqu6BquVi2M" }
+          ],
+          "paidCourses": [
+            { "name": "Complete iOS Development", "platform": "Udemy", "link": "https://www.udemy.com/course/ios-13-app-development-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "Architecture & Patterns",
+          "topics": ["MVVM", "Coordinator Pattern", "Dependency Injection", "Testing"],
+          "freeCourses": [
+            { "name": "iOS Architecture", "platform": "YouTube", "link": "https://www.youtube.com/results?search_query=ios+architecture+patterns" }
+          ],
+          "paidCourses": [
+            { "name": "iOS Design Patterns", "platform": "Udemy", "link": "https://www.udemy.com/course/ios-design-patterns/" }
+          ]
+        },
+        {
+          "phase": "Publishing & Advanced",
+          "topics": ["App Store Connect", "TestFlight", "In-App Purchases", "Push Notifications", "Performance"],
+          "freeCourses": [
+            { "name": "App Store Submission", "platform": "Apple Developer", "link": "https://developer.apple.com/app-store/submissions/" }
+          ],
+          "paidCourses": [
+            { "name": "Advanced iOS Development", "platform": "Udemy", "link": "https://www.udemy.com/course/advanced-ios-development/" }
+          ]
+        }
+      ]
+    },
+    "blockchain": {
+      "title": "Blockchain Developer",
+      "description": "Build decentralized applications and smart contracts",
+      "estimatedTime": "8-10 months",
+      "steps": [
+        {
+          "phase": "Blockchain Fundamentals",
+          "topics": ["Blockchain Basics", "Cryptography", "Consensus Mechanisms", "Bitcoin", "Ethereum"],
+          "freeCourses": [
+            { "name": "Blockchain Basics", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=gyMwXuJrbJQ" },
+            { "name": "Blockchain Specialization", "platform": "Coursera (Audit)", "link": "https://www.coursera.org/specializations/blockchain" }
+          ],
+          "paidCourses": [
+            { "name": "Blockchain A-Z", "platform": "Udemy", "link": "https://www.udemy.com/course/build-your-blockchain-az/" }
+          ]
+        },
+        {
+          "phase": "Solidity & Smart Contracts",
+          "topics": ["Solidity", "Smart Contracts", "Remix IDE", "Web3.js", "Ethers.js"],
+          "freeCourses": [
+            { "name": "Solidity Tutorial", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=M576WGiDBdQ" },
+            { "name": "CryptoZombies", "platform": "CryptoZombies", "link": "https://cryptozombies.io/" }
+          ],
+          "paidCourses": [
+            { "name": "Ethereum and Solidity", "platform": "Udemy", "link": "https://www.udemy.com/course/ethereum-and-solidity-the-complete-developers-guide/" }
+          ]
+        },
+        {
+          "phase": "DApp Development",
+          "topics": ["React + Web3", "MetaMask Integration", "IPFS", "The Graph", "Hardhat"],
+          "freeCourses": [
+            { "name": "Full Stack Web3", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=gyMwXuJrbJQ" }
+          ],
+          "paidCourses": [
+            { "name": "Complete DApp Development", "platform": "Udemy", "link": "https://www.udemy.com/course/the-complete-solidity-course-blockchain-zero-to-expert/" }
+          ]
+        },
+        {
+          "phase": "Advanced Blockchain",
+          "topics": ["DeFi", "NFTs", "DAOs", "Layer 2", "Security Auditing"],
+          "freeCourses": [
+            { "name": "DeFi Tutorial", "platform": "YouTube", "link": "https://www.youtube.com/results?search_query=defi+development+tutorial" }
+          ],
+          "paidCourses": [
+            { "name": "Advanced Blockchain", "platform": "Udemy", "link": "https://www.udemy.com/course/advanced-blockchain-development/" }
+          ]
+        },
+        {
+          "phase": "Alternative Blockchains",
+          "topics": ["Polygon", "Solana", "Polkadot", "Hyperledger", "Cosmos"],
+          "freeCourses": [
+            { "name": "Solana Development", "platform": "Solana Docs", "link": "https://docs.solana.com/" }
+          ],
+          "paidCourses": [
+            { "name": "Multi-Chain Development", "platform": "Udemy", "link": "https://www.udemy.com/course/blockchain-developer/" }
+          ]
+        }
+      ]
+    },
+    "react": {
+      "title": "React Developer",
+      "description": "Master React for building modern web applications",
+      "estimatedTime": "4-6 months",
+      "steps": [
+        {
+          "phase": "JavaScript Prerequisites",
+          "topics": ["ES6+", "Async/Await", "Promises", "Array Methods", "Destructuring"],
+          "freeCourses": [
+            { "name": "JavaScript Course", "platform": "freeCodeCamp", "link": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/" }
+          ],
+          "paidCourses": [
+            { "name": "Modern JavaScript", "platform": "Udemy", "link": "https://www.udemy.com/course/modern-javascript/" }
+          ]
+        },
+        {
+          "phase": "React Fundamentals",
+          "topics": ["JSX", "Components", "Props", "State", "Events", "Conditional Rendering"],
+          "freeCourses": [
+            { "name": "React Official Tutorial", "platform": "React.dev", "link": "https://react.dev/learn" },
+            { "name": "React Course", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=bMknfKXIFA8" }
+          ],
+          "paidCourses": [
+            { "name": "React Complete Guide", "platform": "Udemy", "link": "https://www.udemy.com/course/react-the-complete-guide-incl-redux/" }
+          ]
+        },
+        {
+          "phase": "React Hooks",
+          "topics": ["useState", "useEffect", "useContext", "useReducer", "Custom Hooks"],
+          "freeCourses": [
+            { "name": "React Hooks", "platform": "React.dev", "link": "https://react.dev/reference/react" }
+          ],
+          "paidCourses": [
+            { "name": "React Hooks in Depth", "platform": "Udemy", "link": "https://www.udemy.com/course/react-hooks-in-depth/" }
+          ]
+        },
+        {
+          "phase": "State Management",
+          "topics": ["Context API", "Redux", "Redux Toolkit", "Zustand", "Recoil"],
+          "freeCourses": [
+            { "name": "Redux Tutorial", "platform": "YouTube (Net Ninja)", "link": "https://www.youtube.com/watch?v=poQXNp9ItL4" }
+          ],
+          "paidCourses": [
+            { "name": "Redux Masterclass", "platform": "Udemy", "link": "https://www.udemy.com/course/redux-course/" }
+          ]
+        },
+        {
+          "phase": "Advanced React",
+          "topics": ["React Router", "Performance Optimization", "Testing", "TypeScript", "Next.js"],
+          "freeCourses": [
+            { "name": "Next.js Tutorial", "platform": "Next.js", "link": "https://nextjs.org/learn" }
+          ],
+          "paidCourses": [
+            { "name": "Advanced React Patterns", "platform": "Udemy", "link": "https://www.udemy.com/course/advanced-react-patterns/" }
+          ]
+        }
+      ]
+    },
+    "python": {
+      "title": "Python Developer",
+      "description": "Master Python for web development, data science, and automation",
+      "estimatedTime": "5-7 months",
+      "steps": [
+        {
+          "phase": "Python Basics",
+          "topics": ["Syntax", "Data Types", "Control Flow", "Functions", "Modules"],
+          "freeCourses": [
+            { "name": "Python for Everybody", "platform": "Coursera", "link": "https://www.coursera.org/specializations/python" },
+            { "name": "Python Tutorial", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=rfscVS0vtbw" }
+          ],
+          "paidCourses": [
+            { "name": "Complete Python Bootcamp", "platform": "Udemy", "link": "https://www.udemy.com/course/complete-python-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "OOP & Advanced Python",
+          "topics": ["Classes", "Inheritance", "Decorators", "Generators", "Context Managers"],
+          "freeCourses": [
+            { "name": "Python OOP", "platform": "YouTube (Corey Schafer)", "link": "https://www.youtube.com/watch?v=ZDa-Z5JzLYM" }
+          ],
+          "paidCourses": [
+            { "name": "Python Advanced", "platform": "Udemy", "link": "https://www.udemy.com/course/python-beyond-the-basics-object-oriented-programming/" }
+          ]
+        },
+        {
+          "phase": "Web Development",
+          "topics": ["Django/Flask", "REST APIs", "Templates", "Authentication", "Deployment"],
+          "freeCourses": [
+            { "name": "Django Tutorial", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=F5mRW0jo-U4" },
+            { "name": "Flask Tutorial", "platform": "YouTube (Corey Schafer)", "link": "https://www.youtube.com/watch?v=MwZwr5Tvyxo" }
+          ],
+          "paidCourses": [
+            { "name": "Django for Beginners", "platform": "Udemy", "link": "https://www.udemy.com/course/python-django-dev-to-deployment/" }
+          ]
+        },
+        {
+          "phase": "Data Science Libraries",
+          "topics": ["NumPy", "Pandas", "Matplotlib", "Scikit-learn", "Jupyter"],
+          "freeCourses": [
+            { "name": "Data Analysis with Python", "platform": "freeCodeCamp", "link": "https://www.freecodecamp.org/learn/data-analysis-with-python/" }
+          ],
+          "paidCourses": [
+            { "name": "Python for Data Science", "platform": "Udemy", "link": "https://www.udemy.com/course/python-for-data-science-and-machine-learning-bootcamp/" }
+          ]
+        },
+        {
+          "phase": "Automation & Testing",
+          "topics": ["Pytest", "Selenium", "Scripting", "APIs", "Task Automation"],
+          "freeCourses": [
+            { "name": "Python Automation", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=s8XjEuplx_U" }
+          ],
+          "paidCourses": [
+            { "name": "Python Automation Bootcamp", "platform": "Udemy", "link": "https://www.udemy.com/course/automate/" }
+          ]
+        }
+      ]
+    },
+    "docker": {
+      "title": "Docker",
+      "description": "Master containerization with Docker",
+      "estimatedTime": "2-3 months",
+      "steps": [
+        {
+          "phase": "Docker Basics",
+          "topics": ["Containers", "Images", "Dockerfile", "Docker CLI", "Volumes"],
+          "freeCourses": [
+            { "name": "Docker Tutorial", "platform": "YouTube (TechWorld with Nana)", "link": "https://www.youtube.com/watch?v=3c-iBn73dDE" },
+            { "name": "Docker Curriculum", "platform": "Docker", "link": "https://docker-curriculum.com/" }
+          ],
+          "paidCourses": [
+            { "name": "Docker Mastery", "platform": "Udemy", "link": "https://www.udemy.com/course/docker-mastery/" }
+          ]
+        },
+        {
+          "phase": "Docker Compose",
+          "topics": ["Multi-container Apps", "docker-compose.yml", "Networks", "Services"],
+          "freeCourses": [
+            { "name": "Docker Compose Tutorial", "platform": "YouTube", "link": "https://www.youtube.com/watch?v=SXwC9fSwct8" }
+          ],
+          "paidCourses": [
+            { "name": "Docker & Kubernetes", "platform": "Udemy", "link": "https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/" }
+          ]
+        },
+        {
+          "phase": "Advanced Docker",
+          "topics": ["Image Optimization", "Security", "Registry", "Swarm", "Production"],
+          "freeCourses": [
+            { "name": "Docker Security", "platform": "YouTube", "link": "https://www.youtube.com/results?search_query=docker+security+best+practices" }
+          ],
+          "paidCourses": [
+            { "name": "Docker Deep Dive", "platform": "Udemy", "link": "https://www.udemy.com/course/docker-deep-dive/" }
+          ]
+        }
+      ]
+    },
+    "kubernetes": {
+      "title": "Kubernetes",
+      "description": "Master container orchestration with Kubernetes",
+      "estimatedTime": "3-4 months",
+      "steps": [
+        {
+          "phase": "Kubernetes Fundamentals",
+          "topics": ["Architecture", "Pods", "Services", "Deployments", "kubectl"],
+          "freeCourses": [
+            { "name": "Kubernetes Tutorial", "platform": "YouTube (TechWorld with Nana)", "link": "https://www.youtube.com/watch?v=X48VuDVv0do" },
+            { "name": "Kubernetes Basics", "platform": "Kubernetes.io", "link": "https://kubernetes.io/docs/tutorials/kubernetes-basics/" }
+          ],
+          "paidCourses": [
+            { "name": "Kubernetes for Developers", "platform": "Udemy", "link": "https://www.udemy.com/course/kubernetes-for-developers/" }
+          ]
+        },
+        {
+          "phase": "Advanced Kubernetes",
+          "topics": ["ConfigMaps", "Secrets", "Ingress", "StatefulSets", "Helm"],
+          "freeCourses": [
+            { "name": "Helm Tutorial", "platform": "YouTube", "link": "https://www.youtube.com/watch?v=fy8SHvNZGeE" }
+          ],
+          "paidCourses": [
+            { "name": "Kubernetes Mastery", "platform": "Udemy", "link": "https://www.udemy.com/course/kubernetes-mastery/" }
+          ]
+        },
+        {
+          "phase": "Production Kubernetes",
+          "topics": ["Monitoring", "Logging", "Security", "Scaling", "CI/CD Integration"],
+          "freeCourses": [
+            { "name": "Kubernetes Production", "platform": "YouTube", "link": "https://www.youtube.com/results?search_query=kubernetes+production+best+practices" }
+          ],
+          "paidCourses": [
+            { "name": "CKA Certification", "platform": "Udemy", "link": "https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/" }
+          ]
+        }
+      ]
+    },
+    "aws": {
+      "title": "AWS (Amazon Web Services)",
+      "description": "Master cloud computing with AWS",
+      "estimatedTime": "4-6 months",
+      "steps": [
+        {
+          "phase": "AWS Fundamentals",
+          "topics": ["EC2", "S3", "IAM", "VPC", "Cloud Concepts"],
+          "freeCourses": [
+            { "name": "AWS Cloud Practitioner", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=SOTamWNgDKc" },
+            { "name": "AWS Skill Builder", "platform": "AWS", "link": "https://explore.skillbuilder.aws/learn" }
+          ],
+          "paidCourses": [
+            { "name": "AWS Certified Cloud Practitioner", "platform": "Udemy", "link": "https://www.udemy.com/course/aws-certified-cloud-practitioner-new/" }
+          ]
+        },
+        {
+          "phase": "Core AWS Services",
+          "topics": ["RDS", "Lambda", "API Gateway", "CloudFront", "Route 53"],
+          "freeCourses": [
+            { "name": "AWS Services Overview", "platform": "AWS Skill Builder", "link": "https://explore.skillbuilder.aws/learn" }
+          ],
+          "paidCourses": [
+            { "name": "AWS Solutions Architect", "platform": "Udemy", "link": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" }
+          ]
+        },
+        {
+          "phase": "Advanced AWS",
+          "topics": ["ECS/EKS", "CloudFormation", "Security", "Cost Optimization", "Monitoring"],
+          "freeCourses": [
+            { "name": "AWS Advanced", "platform": "YouTube", "link": "https://www.youtube.com/results?search_query=aws+advanced+tutorial" }
+          ],
+          "paidCourses": [
+            { "name": "AWS Developer Associate", "platform": "Udemy", "link": "https://www.udemy.com/course/aws-certified-developer-associate-dva-c01/" }
+          ]
+        }
+      ]
+    },
+    "systemdesign": {
+      "title": "System Design",
+      "description": "Learn to design scalable and reliable systems",
+      "estimatedTime": "4-6 months",
+      "steps": [
+        {
+          "phase": "Fundamentals",
+          "topics": ["Scalability", "Load Balancing", "Caching", "Databases", "CAP Theorem"],
+          "freeCourses": [
+            { "name": "System Design Primer", "platform": "GitHub", "link": "https://github.com/donnemartin/system-design-primer" },
+            { "name": "System Design Course", "platform": "YouTube (freeCodeCamp)", "link": "https://www.youtube.com/watch?v=F2FmTdLtb_4" }
+          ],
+          "paidCourses": [
+            { "name": "System Design Interview", "platform": "Udemy", "link": "https://www.udemy.com/course/system-design-interview-prep/" }
+          ]
+        },
+        {
+          "phase": "Advanced Concepts",
+          "topics": ["Microservices", "Message Queues", "Distributed Systems", "Consistency", "Replication"],
+          "freeCourses": [
+            { "name": "Distributed Systems", "platform": "YouTube (MIT)", "link": "https://www.youtube.com/watch?v=cQP8WApzIQQ" }
+          ],
+          "paidCourses": [
+            { "name": "Grokking System Design", "platform": "Educative", "link": "https://www.educative.io/courses/grokking-the-system-design-interview" }
+          ]
+        },
+        {
+          "phase": "Real-World Systems",
+          "topics": ["Design Twitter", "Design Netflix", "Design Uber", "Design WhatsApp"],
+          "freeCourses": [
+            { "name": "System Design Examples", "platform": "YouTube", "link": "https://www.youtube.com/results?search_query=system+design+examples" }
+          ],
+          "paidCourses": [
+            { "name": "System Design Masterclass", "platform": "Udemy", "link": "https://www.udemy.com/course/system-design-a-comprehensive-guide/" }
+          ]
+        }
+      ]
+    }
+  }
+}
