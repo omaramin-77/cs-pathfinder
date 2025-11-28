@@ -1,0 +1,967 @@
+{
+  "careerPaths": [
+    {
+      "title": "AI Engineer",
+      "description": "Build intelligent systems using machine learning and deep learning techniques",
+      "steps": [
+        {
+          "title": "Python Programming Fundamentals",
+          "description": "Master Python basics, data structures, OOP, and libraries essential for AI development",
+          "freeCourses": [
+            {
+              "name": "Python for Everybody",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/python"
+            },
+            {
+              "name": "CS50's Introduction to Programming with Python",
+              "platform": "Harvard (edX)",
+              "link": "https://cs50.harvard.edu/python/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Complete Python Bootcamp",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/complete-python-bootcamp/"
+            }
+          ]
+        },
+        {
+          "title": "Machine Learning Fundamentals",
+          "description": "Learn supervised/unsupervised learning, model training, evaluation, and core ML algorithms",
+          "freeCourses": [
+            {
+              "name": "Machine Learning by Andrew Ng",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/learn/machine-learning"
+            },
+            {
+              "name": "Introduction to Machine Learning",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/intro-to-machine-learning"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Machine Learning A-Z",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/machinelearning/"
+            }
+          ]
+        },
+        {
+          "title": "Deep Learning & Neural Networks",
+          "description": "Master CNNs, RNNs, transformers, and frameworks like TensorFlow and PyTorch",
+          "freeCourses": [
+            {
+              "name": "Deep Learning Specialization",
+              "platform": "Coursera (Audit)",
+              "link": "https://www.coursera.org/specializations/deep-learning"
+            },
+            {
+              "name": "Practical Deep Learning for Coders",
+              "platform": "fast.ai",
+              "link": "https://course.fast.ai/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "PyTorch for Deep Learning Bootcamp",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/pytorch-for-deep-learning/"
+            }
+          ]
+        },
+        {
+          "title": "Natural Language Processing",
+          "description": "Build NLP applications with transformers, BERT, GPT, and text processing techniques",
+          "freeCourses": [
+            {
+              "name": "NLP with Python",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=X2vAabgKiuM"
+            },
+            {
+              "name": "Hugging Face NLP Course",
+              "platform": "Hugging Face",
+              "link": "https://huggingface.co/learn/nlp-course"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "NLP Specialization",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/natural-language-processing"
+            }
+          ]
+        },
+        {
+          "title": "AI Model Deployment & MLOps",
+          "description": "Deploy AI models to production using FastAPI, Docker, cloud platforms, and CI/CD",
+          "freeCourses": [
+            {
+              "name": "Full Stack Deep Learning",
+              "platform": "FSDL",
+              "link": "https://fullstackdeeplearning.com/"
+            },
+            {
+              "name": "MLOps Basics",
+              "platform": "YouTube (Made With ML)",
+              "link": "https://madewithml.com/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Machine Learning Engineering for Production",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ML Engineer",
+      "description": "Design, build, and deploy scalable machine learning systems and pipelines",
+      "steps": [
+        {
+          "title": "Python & Data Science Libraries",
+          "description": "Master NumPy, Pandas, Scikit-learn, and data manipulation for ML workflows",
+          "freeCourses": [
+            {
+              "name": "Python for Data Science",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/python"
+            },
+            {
+              "name": "Data Analysis with Python",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/data-analysis-with-python/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Python for Data Science and ML Bootcamp",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/python-for-data-science-and-machine-learning-bootcamp/"
+            }
+          ]
+        },
+        {
+          "title": "Machine Learning Algorithms",
+          "description": "Deep dive into regression, classification, clustering, ensemble methods, and feature engineering",
+          "freeCourses": [
+            {
+              "name": "Machine Learning Crash Course",
+              "platform": "Google",
+              "link": "https://developers.google.com/machine-learning/crash-course"
+            },
+            {
+              "name": "Intermediate Machine Learning",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/intermediate-machine-learning"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Advanced Machine Learning Specialization",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/aml"
+            }
+          ]
+        },
+        {
+          "title": "MLOps & Pipeline Development",
+          "description": "Build automated ML pipelines with MLflow, Kubeflow, Apache Airflow, and version control",
+          "freeCourses": [
+            {
+              "name": "MLOps Course",
+              "platform": "Made With ML",
+              "link": "https://madewithml.com/"
+            },
+            {
+              "name": "MLOps Zoomcamp",
+              "platform": "DataTalks.Club",
+              "link": "https://github.com/DataTalksClub/mlops-zoomcamp"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "MLOps Specialization",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops"
+            }
+          ]
+        },
+        {
+          "title": "Model Optimization & Scaling",
+          "description": "Learn hyperparameter tuning, model compression, quantization, and distributed training",
+          "freeCourses": [
+            {
+              "name": "Efficient Deep Learning",
+              "platform": "MIT (YouTube)",
+              "link": "https://www.youtube.com/playlist?list=PL80kAHvQbh-pT4lCkDT53zT8DKmhE0idB"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "ML Engineer Nanodegree",
+              "platform": "Udacity",
+              "link": "https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009t"
+            }
+          ]
+        },
+        {
+          "title": "Cloud ML Services",
+          "description": "Deploy ML models using AWS SageMaker, Google Cloud AI Platform, or Azure ML",
+          "freeCourses": [
+            {
+              "name": "AWS Machine Learning Foundations",
+              "platform": "Udacity",
+              "link": "https://www.udacity.com/course/aws-machine-learning-foundations--ud090"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "AWS Certified ML Specialty",
+              "platform": "A Cloud Guru",
+              "link": "https://acloudguru.com/course/aws-certified-machine-learning-specialty"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Data Scientist",
+      "description": "Extract insights from data using statistics, ML, and visualization techniques",
+      "steps": [
+        {
+          "title": "Statistics & Probability",
+          "description": "Build foundation in statistical analysis, hypothesis testing, distributions, and probability theory",
+          "freeCourses": [
+            {
+              "name": "Statistics and Probability",
+              "platform": "Khan Academy",
+              "link": "https://www.khanacademy.org/math/statistics-probability"
+            },
+            {
+              "name": "Statistics for Data Science",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/intro-to-statistics"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Statistics Specialization",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/statistics"
+            }
+          ]
+        },
+        {
+          "title": "Data Analysis with Python",
+          "description": "Master data cleaning, exploration, and visualization using Pandas, Matplotlib, Seaborn, and Plotly",
+          "freeCourses": [
+            {
+              "name": "Data Analysis with Python",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/data-analysis-with-python/"
+            },
+            {
+              "name": "Pandas Tutorial",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/pandas"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Data Analysis with Python",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/learn/data-analysis-with-python"
+            }
+          ]
+        },
+        {
+          "title": "SQL & Database Management",
+          "description": "Master SQL queries, joins, aggregations, database design, and data warehousing concepts",
+          "freeCourses": [
+            {
+              "name": "SQL Tutorial",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/intro-to-sql"
+            },
+            {
+              "name": "SQL for Data Science",
+              "platform": "Mode Analytics",
+              "link": "https://mode.com/sql-tutorial/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "SQL for Data Science",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/learn/sql-for-data-science"
+            }
+          ]
+        },
+        {
+          "title": "Machine Learning for Data Science",
+          "description": "Apply ML algorithms to solve business problems, build predictive models, and extract insights",
+          "freeCourses": [
+            {
+              "name": "Machine Learning Crash Course",
+              "platform": "Google",
+              "link": "https://developers.google.com/machine-learning/crash-course"
+            },
+            {
+              "name": "Intro to Machine Learning",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/intro-to-machine-learning"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Data Science Specialization",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/jhu-data-science"
+            }
+          ]
+        },
+        {
+          "title": "Data Visualization & Communication",
+          "description": "Present insights effectively using Tableau, Power BI, and storytelling techniques",
+          "freeCourses": [
+            {
+              "name": "Data Visualization",
+              "platform": "Kaggle",
+              "link": "https://www.kaggle.com/learn/data-visualization"
+            },
+            {
+              "name": "Data Visualization with Python",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/data-visualization/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Data Visualization with Tableau",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/data-visualization"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Web Developer",
+      "description": "Build modern, responsive web applications using frontend and backend technologies",
+      "steps": [
+        {
+          "title": "HTML, CSS & JavaScript Fundamentals",
+          "description": "Master HTML structure, CSS styling, responsive design, and JavaScript programming basics",
+          "freeCourses": [
+            {
+              "name": "Responsive Web Design",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/responsive-web-design/"
+            },
+            {
+              "name": "JavaScript Algorithms and Data Structures",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/"
+            },
+            {
+              "name": "The Odin Project",
+              "platform": "The Odin Project",
+              "link": "https://www.theodinproject.com/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "The Complete Web Developer Bootcamp",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/the-complete-web-development-bootcamp/"
+            }
+          ]
+        },
+        {
+          "title": "Frontend Frameworks & Libraries",
+          "description": "Build interactive UIs with React, Vue, or Angular, and manage state effectively",
+          "freeCourses": [
+            {
+              "name": "React Official Tutorial",
+              "platform": "React.dev",
+              "link": "https://react.dev/learn"
+            },
+            {
+              "name": "Frontend Development Libraries",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/front-end-development-libraries/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "React - The Complete Guide",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/react-the-complete-guide-incl-redux/"
+            }
+          ]
+        },
+        {
+          "title": "Backend Development",
+          "description": "Build server-side applications with Node.js, Express, Django, or Flask and create RESTful APIs",
+          "freeCourses": [
+            {
+              "name": "Backend Development and APIs",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/back-end-development-and-apis/"
+            },
+            {
+              "name": "Node.js Tutorial",
+              "platform": "YouTube (Programming with Mosh)",
+              "link": "https://www.youtube.com/watch?v=TlB_eWDSMt4"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Node.js - The Complete Guide",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/nodejs-the-complete-guide/"
+            }
+          ]
+        },
+        {
+          "title": "Database Design & Integration",
+          "description": "Work with SQL (PostgreSQL, MySQL) and NoSQL (MongoDB) databases, implement CRUD operations",
+          "freeCourses": [
+            {
+              "name": "Relational Database",
+              "platform": "freeCodeCamp",
+              "link": "https://www.freecodecamp.org/learn/relational-database/"
+            },
+            {
+              "name": "MongoDB University",
+              "platform": "MongoDB",
+              "link": "https://learn.mongodb.com/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "SQL & Database Design A-Z",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/sqldatabases/"
+            }
+          ]
+        },
+        {
+          "title": "DevOps & Deployment",
+          "description": "Deploy applications using Git, Docker, CI/CD pipelines, and cloud platforms like AWS, Vercel, or Netlify",
+          "freeCourses": [
+            {
+              "name": "Git and GitHub",
+              "platform": "freeCodeCamp",
+              "link": "https://www.youtube.com/watch?v=RGOj5yH7evk"
+            },
+            {
+              "name": "Docker Tutorial",
+              "platform": "YouTube (TechWorld with Nana)",
+              "link": "https://www.youtube.com/watch?v=3c-iBn73dDE"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Docker & Kubernetes: The Complete Guide",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Cybersecurity Analyst",
+      "description": "Protect systems and networks from cyber threats through security analysis and incident response",
+      "steps": [
+        {
+          "title": "Networking Fundamentals",
+          "description": "Understand TCP/IP, DNS, HTTP/HTTPS, firewalls, VPNs, and network protocols",
+          "freeCourses": [
+            {
+              "name": "Computer Networking Course",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=qiQR5rTSshw"
+            },
+            {
+              "name": "Networking Basics",
+              "platform": "Cisco Networking Academy",
+              "link": "https://www.netacad.com/courses/networking"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "The Complete Networking Fundamentals",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/complete-networking-fundamentals-course-ccna-start/"
+            }
+          ]
+        },
+        {
+          "title": "Operating Systems & Linux",
+          "description": "Master Linux command line, system administration, file permissions, and security hardening",
+          "freeCourses": [
+            {
+              "name": "Linux for Ethical Hackers",
+              "platform": "YouTube (HackerSploit)",
+              "link": "https://www.youtube.com/playlist?list=PLBf0hzazHTGMh2fe2MFf3lCgk0rKmS2by"
+            },
+            {
+              "name": "Linux Journey",
+              "platform": "Linux Journey",
+              "link": "https://linuxjourney.com/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Linux Administration Bootcamp",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/linux-administration-bootcamp/"
+            }
+          ]
+        },
+        {
+          "title": "Security Principles & Cryptography",
+          "description": "Learn encryption, hashing, authentication, access control, and security frameworks",
+          "freeCourses": [
+            {
+              "name": "Cybersecurity Basics",
+              "platform": "Cisco Networking Academy",
+              "link": "https://www.netacad.com/courses/cybersecurity"
+            },
+            {
+              "name": "Cryptography Course",
+              "platform": "Stanford (Coursera Audit)",
+              "link": "https://www.coursera.org/learn/crypto"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Complete Cyber Security Course",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/the-complete-internet-security-privacy-course-volume-1/"
+            }
+          ]
+        },
+        {
+          "title": "Threat Detection & Incident Response",
+          "description": "Identify vulnerabilities, analyze threats, perform penetration testing, and respond to security incidents",
+          "freeCourses": [
+            {
+              "name": "Introduction to Cybersecurity",
+              "platform": "Cisco Networking Academy",
+              "link": "https://www.netacad.com/courses/cybersecurity/introduction-cybersecurity"
+            },
+            {
+              "name": "TryHackMe Free Rooms",
+              "platform": "TryHackMe",
+              "link": "https://tryhackme.com/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Practical Ethical Hacking",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/practical-ethical-hacking/"
+            }
+          ]
+        },
+        {
+          "title": "Security Tools & Certifications",
+          "description": "Master tools like Wireshark, Nmap, Metasploit, Burp Suite and prepare for CompTIA Security+, CEH",
+          "freeCourses": [
+            {
+              "name": "CompTIA Security+ Full Course",
+              "platform": "YouTube (Professor Messer)",
+              "link": "https://www.professormesser.com/security-plus/sy0-601/sy0-601-video/sy0-601-comptia-security-plus-course/"
+            },
+            {
+              "name": "Hack The Box Academy",
+              "platform": "Hack The Box",
+              "link": "https://academy.hackthebox.com/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Google Cybersecurity Professional Certificate",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/professional-certificates/google-cybersecurity"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Cloud Engineer",
+      "description": "Design, deploy, and manage scalable cloud infrastructure and services",
+      "steps": [
+        {
+          "title": "Cloud Computing Fundamentals",
+          "description": "Understand cloud service models (IaaS, PaaS, SaaS), deployment models, and cloud architecture",
+          "freeCourses": [
+            {
+              "name": "Cloud Computing Basics",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=M988_fsOSWo"
+            },
+            {
+              "name": "Introduction to Cloud Computing",
+              "platform": "Coursera (Audit)",
+              "link": "https://www.coursera.org/learn/introduction-to-cloud"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Cloud Computing Fundamentals",
+              "platform": "Pluralsight",
+              "link": "https://www.pluralsight.com/paths/cloud-fundamentals"
+            }
+          ]
+        },
+        {
+          "title": "Linux & Networking Basics",
+          "description": "Master Linux administration, shell scripting, networking, and system management for cloud",
+          "freeCourses": [
+            {
+              "name": "Linux Command Line Basics",
+              "platform": "Udacity",
+              "link": "https://www.udacity.com/course/linux-command-line-basics--ud595"
+            },
+            {
+              "name": "Bash Scripting Tutorial",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=tK9Oc6AEnR4"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Linux for Cloud Engineers",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/linux-for-cloud-and-devops-engineers/"
+            }
+          ]
+        },
+        {
+          "title": "AWS/Azure/GCP Core Services",
+          "description": "Learn compute (EC2, VMs), storage (S3, Blob), networking (VPC), and database services",
+          "freeCourses": [
+            {
+              "name": "AWS Cloud Practitioner Essentials",
+              "platform": "AWS Skill Builder",
+              "link": "https://explore.skillbuilder.aws/learn"
+            },
+            {
+              "name": "Google Cloud Skills Boost",
+              "platform": "Google Cloud",
+              "link": "https://www.cloudskillsboost.google/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "AWS Certified Solutions Architect",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/"
+            }
+          ]
+        },
+        {
+          "title": "Infrastructure as Code (IaC)",
+          "description": "Automate infrastructure deployment using Terraform, CloudFormation, ARM templates, or Pulumi",
+          "freeCourses": [
+            {
+              "name": "Terraform Course",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=SLB_c_ayRMo"
+            },
+            {
+              "name": "Terraform Tutorials",
+              "platform": "HashiCorp Learn",
+              "link": "https://learn.hashicorp.com/terraform"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Terraform for AWS",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/terraform-beginner-to-advanced/"
+            }
+          ]
+        },
+        {
+          "title": "Cloud Security & Monitoring",
+          "description": "Implement IAM, security groups, encryption, monitoring with CloudWatch/Azure Monitor, and cost optimization",
+          "freeCourses": [
+            {
+              "name": "AWS Security Fundamentals",
+              "platform": "AWS Skill Builder",
+              "link": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/48/aws-security-fundamentals-second-edition"
+            },
+            {
+              "name": "Cloud Security Basics",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=1JNMqx_DbHQ"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "AWS Certified Security Specialty",
+              "platform": "A Cloud Guru",
+              "link": "https://acloudguru.com/course/aws-certified-security-specialty"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Mobile Developer",
+      "description": "Create native and cross-platform mobile applications for iOS and Android",
+      "steps": [
+        {
+          "title": "Programming Language Basics",
+          "description": "Learn Kotlin for Android or Swift for iOS with OOP concepts and mobile-specific patterns",
+          "freeCourses": [
+            {
+              "name": "Kotlin for Beginners",
+              "platform": "Android Developers",
+              "link": "https://developer.android.com/courses/android-basics-kotlin/course"
+            },
+            {
+              "name": "Swift Programming Tutorial",
+              "platform": "YouTube (CodeWithChris)",
+              "link": "https://www.youtube.com/watch?v=comQ1-x2a1Q"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "iOS & Swift - The Complete iOS App Development Bootcamp",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/ios-13-app-development-bootcamp/"
+            }
+          ]
+        },
+        {
+          "title": "Mobile UI/UX Design",
+          "description": "Design intuitive interfaces following Material Design (Android) and Human Interface Guidelines (iOS)",
+          "freeCourses": [
+            {
+              "name": "Material Design Guidelines",
+              "platform": "Google",
+              "link": "https://m3.material.io/"
+            },
+            {
+              "name": "iOS Design Guidelines",
+              "platform": "Apple",
+              "link": "https://developer.apple.com/design/human-interface-guidelines/"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Mobile Design Course",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/learn/mobile-design-and-usability-for-ios"
+            }
+          ]
+        },
+        {
+          "title": "Native App Development",
+          "description": "Build native apps using Android Studio (Jetpack Compose) or Xcode (SwiftUI) with modern architectures",
+          "freeCourses": [
+            {
+              "name": "Android Basics with Compose",
+              "platform": "Android Developers",
+              "link": "https://developer.android.com/courses/android-basics-compose/course"
+            },
+            {
+              "name": "SwiftUI Tutorial",
+              "platform": "Apple Developer",
+              "link": "https://developer.apple.com/tutorials/swiftui"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "The Complete Android Developer Course",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/complete-android-n-developer-course/"
+            }
+          ]
+        },
+        {
+          "title": "Cross-Platform Development",
+          "description": "Create apps for multiple platforms using React Native or Flutter for faster development cycles",
+          "freeCourses": [
+            {
+              "name": "React Native Tutorial",
+              "platform": "YouTube (Programming with Mosh)",
+              "link": "https://www.youtube.com/watch?v=0-S5a0eXPoc"
+            },
+            {
+              "name": "Flutter Course",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=VPvVD8t02U8"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "The Complete React Native + Hooks Course",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/the-complete-react-native-and-redux-course/"
+            }
+          ]
+        },
+        {
+          "title": "Mobile Backend & APIs",
+          "description": "Integrate REST APIs, GraphQL, implement authentication, and use Firebase or AWS Amplify",
+          "freeCourses": [
+            {
+              "name": "Firebase for Mobile",
+              "platform": "Firebase",
+              "link": "https://firebase.google.com/docs/guides"
+            },
+            {
+              "name": "REST API Tutorial",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=Q-BpqyOT3a8"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Mobile App Development with Backend",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/flutter-bootcamp-with-dart/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Game Developer",
+      "description": "Design and develop engaging games for PC, console, mobile, and web platforms",
+      "steps": [
+        {
+          "title": "Programming Fundamentals",
+          "description": "Learn C# for Unity or C++ for Unreal Engine with focus on game logic and algorithms",
+          "freeCourses": [
+            {
+              "name": "C# Programming",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=GhQdlIFylQ8"
+            },
+            {
+              "name": "C++ Tutorial",
+              "platform": "YouTube (freeCodeCamp)",
+              "link": "https://www.youtube.com/watch?v=vLnPwxZdW4Y"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Complete C# Unity Game Developer 2D",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/unitycourse/"
+            }
+          ]
+        },
+        {
+          "title": "Game Engine Basics",
+          "description": "Master Unity or Unreal Engine including scene management, physics, lighting, and asset integration",
+          "freeCourses": [
+            {
+              "name": "Unity Learn",
+              "platform": "Unity",
+              "link": "https://learn.unity.com/"
+            },
+            {
+              "name": "Unreal Engine 5 Tutorial",
+              "platform": "YouTube (Unreal Sensei)",
+              "link": "https://www.youtube.com/watch?v=k-zMkzmduqI"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Unreal Engine 5 C++ Developer",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/unrealcourse/"
+            }
+          ]
+        },
+        {
+          "title": "2D/3D Graphics & Animation",
+          "description": "Create game assets, understand rendering pipelines, shaders, and implement animations and VFX",
+          "freeCourses": [
+            {
+              "name": "Blender Tutorial",
+              "platform": "YouTube (Blender Guru)",
+              "link": "https://www.youtube.com/watch?v=nIoXOplUvAw"
+            },
+            {
+              "name": "Game Art & Animation",
+              "platform": "YouTube (Brackeys)",
+              "link": "https://www.youtube.com/c/Brackeys"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Complete Blender Creator",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/blendertutorial/"
+            }
+          ]
+        },
+        {
+          "title": "Game Design Principles",
+          "description": "Learn gameplay mechanics, level design, player engagement, balancing, and game theory",
+          "freeCourses": [
+            {
+              "name": "Game Design Concepts",
+              "platform": "YouTube (GMTK)",
+              "link": "https://www.youtube.com/c/MarkBrownGMT"
+            },
+            {
+              "name": "Introduction to Game Design",
+              "platform": "Coursera (Audit)",
+              "link": "https://www.coursera.org/learn/game-design"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Game Design and Development Specialization",
+              "platform": "Coursera",
+              "link": "https://www.coursera.org/specializations/game-development"
+            }
+          ]
+        },
+        {
+          "title": "Multiplayer & Game Optimization",
+          "description": "Implement networking, multiplayer systems, and optimize performance for different platforms",
+          "freeCourses": [
+            {
+              "name": "Unity Multiplayer Tutorial",
+              "platform": "YouTube (Dapper Dino)",
+              "link": "https://www.youtube.com/watch?v=3yuBOB3VrCk"
+            },
+            {
+              "name": "Game Optimization Techniques",
+              "platform": "Unity Learn",
+              "link": "https://learn.unity.com/tutorial/optimizing-your-game"
+            }
+          ],
+          "paidCourses": [
+            {
+              "name": "Unreal Engine Multiplayer Master",
+              "platform": "Udemy",
+              "link": "https://www.udemy.com/course/unrealmultiplayer/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
