@@ -59,3 +59,35 @@ Instructions:
 
 Your recommendation:
 """
+
+def choose_field_from_answers(answers):
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        print("⚠️ GEMINI_API_KEY missing — using fallback.")
+        return "AI Engineer"
+
+    try:
+        import google.generativeai as genai
+        genai.configure(api_key=api_key)
+
+        model = genai.GenerativeModel("gemini-2.5-flash-lite")
+        prompt = build_prompt(answers)
+
+        response = model.generate_content(prompt)
+        field = response.text.strip()
+
+        # Validate
+        if field in AVAILABLE_FIELDS:
+            return field
+
+        for f in AVAILABLE_FIELDS:
+            if f.lower() in field.lower():
+                return f
+
+        print("⚠️ Unexpected output:", field)
+        return "AI Engineer"
+
+    except Exception as e:
+        print("Error:", e)
+        return "AI Engineer"
