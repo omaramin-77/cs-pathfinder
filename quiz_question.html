@@ -6,31 +6,48 @@
     <title>Quiz Page</title>
 </head>
 <body>
-    <header>
-        <h1>CS Career Recommender</h1>
-        <nav>
-            <a href="">Home</a>
-            <a href="">Roadmaps</a>
-            <a href="">Results</a>
-        </nav>
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">CS Career Recommender</div>
+            <nav class="nav-links">
+                <a href="">Home</a>
+                <a href="">Roadmaps</a>
+                <a href="">Results</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <h2>Question</h2>
-        <p>Question text goes here.</p>
+    <main class="quiz-container container">
 
-        <form>
-            <label><input type="radio" name="answer"> Option A</label><br>
-            <label><input type="radio" name="answer"> Option B</label><br>
-            <label><input type="radio" name="answer"> Option C</label><br>
+        <div class="quiz-progress">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-text">Question X of Y</div>
+        </div>
 
-            <button type="button">Previous</button>
-            <button type="submit">Next</button>
-        </form>
+        <div class="quiz-card">
+            <h2>Question Title</h2>
+            <p>Text of the question goes here.</p>
+
+            <form>
+                <div class="quiz-options">
+                    <label class="option"><input type="radio" name="answer"> Option A</label>
+                    <label class="option"><input type="radio" name="answer"> Option B</label>
+                    <label class="option"><input type="radio" name="answer"> Option C</label>
+                </div>
+
+                <div class="quiz-actions">
+                    <a class="btn btn-secondary">Previous</a>
+                    <button class="btn btn-primary" type="submit">Next</button>
+                </div>
+            </form>
+
+        </div>
     </main>
 
     <footer>
-        © 2025
+        © 2025 CS Career Recommender
     </footer>
 </body>
 </html>
