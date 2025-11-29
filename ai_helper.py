@@ -91,3 +91,13 @@ def choose_field_from_answers(answers):
     except Exception as e:
         print("Error:", e)
         return "AI Engineer"
+
+if __name__ == '__main__':
+    # Test the function
+    test_answers = {
+        "1": "A",
+        "2": "B",
+        "3": "C"
+    }
+    result = choose_field_from_answers(test_answers)
+    print(f"Recommended field: {result}")
