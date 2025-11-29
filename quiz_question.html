@@ -3,46 +3,44 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quiz Page</title>
+    <title>Quiz - CS Career Recommender</title>
 </head>
 <body>
     <header class="navbar">
         <div class="container">
             <div class="logo">CS Career Recommender</div>
             <nav class="nav-links">
-                <a href="">Home</a>
-                <a href="">Roadmaps</a>
-                <a href="">Results</a>
+                <a href="home.html">Home</a>
+                <a href="roadmap.html">Roadmaps</a>
+                <a href="results.html">Results</a>
             </nav>
         </div>
     </header>
 
     <main class="quiz-container container">
-
         <div class="quiz-progress">
             <div class="progress-bar">
-                <div class="progress-fill"></div>
+                <div class="progress-fill" style="width:50%"></div>
             </div>
-            <div class="progress-text">Question X of Y</div>
+            <div class="progress-text">Question 2 of 4</div>
         </div>
 
         <div class="quiz-card">
-            <h2>Question Title</h2>
-            <p>Text of the question goes here.</p>
+            <h2>Sample Question Title</h2>
+            <p class="mb-20">This is the question text.</p>
 
-            <form>
+            <form action="#" method="post">
                 <div class="quiz-options">
-                    <label class="option"><input type="radio" name="answer"> Option A</label>
-                    <label class="option"><input type="radio" name="answer"> Option B</label>
-                    <label class="option"><input type="radio" name="answer"> Option C</label>
+                    <label class="option"><input type="radio" name="answer" value="A"> A — Option A</label>
+                    <label class="option"><input type="radio" name="answer" value="B"> B — Option B</label>
+                    <label class="option"><input type="radio" name="answer" value="C"> C — Option C</label>
                 </div>
 
-                <div class="quiz-actions">
-                    <a class="btn btn-secondary">Previous</a>
+                <div style="display:flex;gap:10px;justify-content:flex-end;">
+                    <a class="btn btn-secondary" href="quiz_question.html">Previous</a>
                     <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </form>
-
         </div>
     </main>
 
