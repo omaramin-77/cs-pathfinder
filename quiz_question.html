@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quiz - CS Career Recommender</title>
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
     <header class="navbar">
@@ -27,13 +28,19 @@
 
         <div class="quiz-card">
             <h2>Sample Question Title</h2>
-            <p class="mb-20">This is the question text.</p>
+            <p class="mb-20">This is the question text. Choose one answer below.</p>
 
             <form action="#" method="post">
                 <div class="quiz-options">
-                    <label class="option"><input type="radio" name="answer" value="A"> A — Option A</label>
-                    <label class="option"><input type="radio" name="answer" value="B"> B — Option B</label>
-                    <label class="option"><input type="radio" name="answer" value="C"> C — Option C</label>
+                    <label class="option">
+                        <input type="radio" name="answer" value="A"> <span class="option-text">A — Option A</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="answer" value="B"> <span class="option-text">B — Option B</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="answer" value="C"> <span class="option-text">C — Option C</span>
+                    </label>
                 </div>
 
                 <div style="display:flex;gap:10px;justify-content:flex-end;">
@@ -45,7 +52,7 @@
     </main>
 
     <footer>
-        © 2025 CS Career Recommender
+        &copy; 2025 CS Career Recommender
     </footer>
 </body>
 </html>
