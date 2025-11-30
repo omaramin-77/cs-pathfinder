@@ -398,6 +398,24 @@ body {
     margin: 10px;
 }
 
+/* Results Page */
+.results-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.results-container h1 {
+    color: #e0e0e0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.results-grid {
+    display: grid;
+    gap: 20px;
+}
+
+
 /* Footer */
 footer {
     text-align: center;
