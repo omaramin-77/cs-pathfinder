@@ -619,6 +619,210 @@ ROADMAPS = {
             "description": "Design applications for the cloud. Leverage cloud services effectively.",
             "course": "https://www.coursera.org/learn/cloud-native-development"
         }
+    ],
+    "Mobile Developer": [
+        {
+            "text": "Learn programming fundamentals",
+            "description": "Master programming concepts and logic. Foundation for mobile development.",
+            "course": "https://www.coursera.org/learn/programming-fundamentals"
+        },
+        {
+            "text": "Study mobile UI/UX design principles",
+            "description": "Create intuitive, beautiful mobile interfaces. Understand mobile-specific patterns.",
+            "course": "https://www.coursera.org/learn/mobile-design"
+        },
+        {
+            "text": "Choose a platform (iOS/Android/Cross-platform)",
+            "description": "Decide your focus area. Each has unique tools and languages.",
+            "course": "https://developer.android.com/courses"
+        },
+        {
+            "text": "Master Swift for iOS or Kotlin for Android",
+            "description": "Learn the primary language for your platform. Write native mobile apps.",
+            "course": "https://www.coursera.org/learn/swift-5-ios-application-developer"
+        },
+        {
+            "text": "Learn mobile app architecture patterns (MVVM, MVI)",
+            "description": "Structure apps maintainably. Separate concerns effectively.",
+            "course": "https://www.raywenderlich.com/34-design-patterns-by-tutorials-mvvm"
+        },
+        {
+            "text": "Study mobile databases (SQLite, Realm, Core Data)",
+            "description": "Store data locally on devices. Handle offline scenarios.",
+            "course": "https://www.raywenderlich.com/6620276-sqlite-with-swift-tutorial-getting-started"
+        },
+        {
+            "text": "Master networking and API integration",
+            "description": "Fetch data from servers. Handle asynchronous operations.",
+            "course": "https://www.raywenderlich.com/3244963-urlsession-tutorial-getting-started"
+        },
+        {
+            "text": "Learn state management",
+            "description": "Manage app state effectively. Keep UI in sync with data.",
+            "course": "https://developer.android.com/topic/architecture"
+        },
+        {
+            "text": "Study push notifications",
+            "description": "Engage users with timely updates. Implement notification handling.",
+            "course": "https://firebase.google.com/docs/cloud-messaging"
+        },
+        {
+            "text": "Master mobile authentication",
+            "description": "Implement secure user login. Use OAuth and biometric authentication.",
+            "course": "https://firebase.google.com/docs/auth"
+        },
+        {
+            "text": "Learn React Native or Flutter for cross-platform",
+            "description": "Build for iOS and Android simultaneously. Share code across platforms.",
+            "course": "https://reactnative.dev/docs/tutorial"
+        },
+        {
+            "text": "Study app performance optimization",
+            "description": "Make apps fast and responsive. Optimize memory and battery usage.",
+            "course": "https://developer.android.com/topic/performance"
+        },
+        {
+            "text": "Master mobile testing frameworks",
+            "description": "Write automated tests. Ensure app quality and reliability.",
+            "course": "https://developer.android.com/training/testing"
+        },
+        {
+            "text": "Learn app store deployment (App Store, Play Store)",
+            "description": "Publish apps to stores. Handle app review and updates.",
+            "course": "https://developer.apple.com/app-store/submitting/"
+        },
+        {
+            "text": "Study mobile security best practices",
+            "description": "Protect user data and app integrity. Implement secure storage and communication.",
+            "course": "https://www.coursera.org/learn/mobile-security"
+        },
+        {
+            "text": "Master offline-first architecture",
+            "description": "Build apps that work without internet. Sync data when connected.",
+            "course": "https://www.raywenderlich.com/7207-offline-first-apps-with-swift-realm"
+        },
+        {
+            "text": "Learn mobile analytics and crash reporting",
+            "description": "Track user behavior and app crashes. Make data-driven improvements.",
+            "course": "https://firebase.google.com/docs/analytics"
+        },
+        {
+            "text": "Study in-app purchases and monetization",
+            "description": "Implement payment systems. Generate revenue from apps.",
+            "course": "https://developer.apple.com/in-app-purchase/"
+        },
+        {
+            "text": "Master continuous integration for mobile",
+            "description": "Automate builds and testing. Deploy updates efficiently.",
+            "course": "https://www.raywenderlich.com/1774995-fastlane-tutorial-getting-started"
+        },
+        {
+            "text": "Build and publish portfolio apps",
+            "description": "Showcase your skills with real apps. Get downloads and user feedback.",
+            "course": "https://www.raywenderlich.com/ios/paths/learn"
+        }
+    ],
+    "Game Developer": [
+        {
+            "text": "Learn programming fundamentals (C++ or C#)",
+            "description": "Master a game development language. C++ for performance, C# for Unity.",
+            "course": "https://www.learncpp.com/"
+        },
+        {
+            "text": "Study game design principles",
+            "description": "Understand what makes games fun. Learn mechanics, dynamics, and aesthetics.",
+            "course": "https://www.coursera.org/learn/game-design"
+        },
+        {
+            "text": "Master a game engine (Unity or Unreal Engine)",
+            "description": "Learn industry-standard tools. Build games efficiently with engines.",
+            "course": "https://learn.unity.com/"
+        },
+        {
+            "text": "Learn 2D game development",
+            "description": "Start with 2D games. Master sprites, tilemaps, and 2D physics.",
+            "course": "https://www.udemy.com/course/unitycourse/"
+        },
+        {
+            "text": "Study game physics and mathematics",
+            "description": "Understand vectors, collision detection, and physics simulation. Essential for realistic games.",
+            "course": "https://www.coursera.org/learn/game-physics"
+        },
+        {
+            "text": "Master 3D game development",
+            "description": "Create 3D worlds and characters. Learn 3D modeling basics and rendering.",
+            "course": "https://learn.unity.com/tutorial/3d-game-development"
+        },
+        {
+            "text": "Learn game animation techniques",
+            "description": "Bring characters to life. Master animation controllers and blend trees.",
+            "course": "https://www.udemy.com/course/unity-animation/"
+        },
+        {
+            "text": "Study game AI and pathfinding",
+            "description": "Create intelligent NPCs. Implement behavior trees and navigation.",
+            "course": "https://www.coursera.org/learn/game-ai"
+        },
+        {
+            "text": "Master game audio implementation",
+            "description": "Add sound effects and music. Create immersive audio experiences.",
+            "course": "https://learn.unity.com/tutorial/audio-in-unity"
+        },
+        {
+            "text": "Learn shader programming",
+            "description": "Create visual effects. Customize rendering for unique art styles.",
+            "course": "https://www.udemy.com/course/unity-shader-programming/"
+        },
+        {
+            "text": "Study multiplayer networking",
+            "description": "Build online multiplayer games. Handle synchronization and latency.",
+            "course": "https://learn.unity.com/tutorial/multiplayer-networking"
+        },
+        {
+            "text": "Master game optimization techniques",
+            "description": "Make games run smoothly. Optimize performance for target platforms.",
+            "course": "https://learn.unity.com/tutorial/performance-optimization"
+        },
+        {
+            "text": "Learn version control for game dev (Git, Perforce)",
+            "description": "Manage large game projects. Collaborate with team members.",
+            "course": "https://www.coursera.org/learn/version-control"
+        },
+        {
+            "text": "Study game monetization strategies",
+            "description": "Generate revenue from games. Implement ads, IAP, and premium models.",
+            "course": "https://www.udemy.com/course/game-monetization/"
+        },
+        {
+            "text": "Master mobile game development",
+            "description": "Optimize for mobile platforms. Handle touch controls and performance.",
+            "course": "https://learn.unity.com/tutorial/mobile-game-development"
+        },
+        {
+            "text": "Learn VR/AR game development",
+            "description": "Create immersive experiences. Build for VR headsets and AR devices.",
+            "course": "https://learn.unity.com/course/oculus-vr"
+        },
+        {
+            "text": "Study game testing and QA",
+            "description": "Ensure game quality. Find and fix bugs systematically.",
+            "course": "https://www.coursera.org/learn/game-testing"
+        },
+        {
+            "text": "Master game deployment and distribution",
+            "description": "Publish to Steam, consoles, and mobile stores. Handle platform requirements.",
+            "course": "https://partner.steamgames.com/doc/sdk"
+        },
+        {
+            "text": "Learn game analytics",
+            "description": "Track player behavior. Make data-driven design decisions.",
+            "course": "https://unity.com/products/analytics"
+        },
+        {
+            "text": "Build and publish portfolio games",
+            "description": "Showcase your skills with complete games. Build a following and get feedback.",
+            "course": "https://itch.io/"
+        }
     ]
     
 }
