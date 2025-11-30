@@ -1,58 +1,41 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Results - CS Career Recommender</title>
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="container">
-            <div class="logo">CS Career Recommender</div>
-            <nav class="nav-links">
-                <a href="home.html">Home</a>
-                <a href="roadmap.html">Roadmaps</a>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="results-container container">
-        <h1>Your Recommendations</h1>
+{% block title %}My Results - CS Career Recommender{% endblock %}
 
+{% block content %}
+<div class="results-container container">
+    <h1>Your Recommendations</h1>
+
+    {% if fields %}
         <div class="results-grid">
+            {% for field in fields %}
             <div class="result-card">
                 <div class="result-header">
-                    <h3>AI Engineer</h3>
-                    <div class="result-date">2025-10-01</div>
+                    <h3>{{ field.field_name }}</h3>
+                    <div class="result-date">{{ field.timestamp[:10] }}</div>
                 </div>
-                <p>Recommended based on your quiz answers.</p>
+                
                 <div class="result-actions">
-                    <a class="btn btn-primary" href="roadmap.html">View Roadmap</a>
-                    <button class="btn btn-danger" onclick="alert('Removed (static)')">Remove</button>
+                    <a class="btn btn-primary" href="/roadmap/{{ field.field_name }}">View Roadmap</a>
+
+                    <form method="POST" action="/remove_field/{{ field.id }}" style="display: inline;">
+                        <button class="btn btn-danger" type="submit">Remove</button>
+                    </form>
                 </div>
             </div>
-
-            <div class="result-card">
-                <div class="result-header">
-                    <h3>Web Developer</h3>
-                    <div class="result-date">2025-09-15</div>
-                </div>
-                <p>Another past recommendation.</p>
-                <div class="result-actions">
-                    <a class="btn btn-primary" href="roadmap.html">View Roadmap</a>
-                    <button class="btn btn-danger" onclick="alert('Removed (static)')">Remove</button>
-                </div>
-            </div>
+            {% endfor %}
         </div>
-
-        <div class="back-link">
-            <a href="home.html">&larr; Back to Home</a>
+    {% else %}
+        <div class="empty-state">
+            <p>You haven't taken the quiz yet!</p>
+            <a href="/quiz/1" class="btn btn-primary">
+                📝 Take Quiz Now
+            </a>
         </div>
-    </main>
-
-    <footer>
-        &copy; 2025 CS Career Recommender
-    </footer>
-</body>
-</html>
+    {% endif %}
+    
+    <div class="back-link">
+        <a href="/"> Back to Home</a>
+    </div>
+</div>
+{% endblock %}

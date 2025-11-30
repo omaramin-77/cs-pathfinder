@@ -1,83 +1,99 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Roadmap - CS Career Recommender</title>
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="container">
-            <div class="logo">CS Career Recommender</div>
-            <nav class="nav-links">
-                <a href="home.html">Home</a>
-                <a href="results.html">Results</a>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="roadmap-container container">
-        <div class="roadmap-header">
-            <h1>AI Engineer Roadmap</h1>
-            <p class="no-details">This is a static preview. The real roadmap will be loaded dynamically.</p>
-        </div>
+{% block title %}{{ field }} Roadmap - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="roadmap-container">
+    <div class="roadmap-header">
+        <h1> {{ field }} Roadmap</h1>
 
         <div class="progress-section">
             <div class="progress-stats">
-                <div>Completed: <strong>2</strong></div>
-                <div>Total Steps: <strong>8</strong></div>
+                <span>{{ completed_steps }} / {{ total_steps }} completed</span>
+                <span>{{ percentage }}%</span>
             </div>
-            <div class="progress-bar" style="margin-bottom:10px;">
-                <div class="progress-fill" style="width:25%"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ percentage }}%"></div>
             </div>
         </div>
+    </div>
 
-        <div class="roadmap-steps">
-            <ul class="steps-list">
-                <li class="step-item completed">
-                    <form class="step-form">
+
+    <div class="roadmap-steps">
+        <ol class="steps-list">
+            {% for step in steps %}
+            <li class="step-item {% if progress.get(loop.index, 0) == 1 %}completed{% endif %}">
+                <div class="step-content"></div>
+                    <form method="POST" action="/roadmap/{{ field }}/update" class="step-form">
+                        <input type="hidden" name="step_number" value="{{ loop.index }}">
+                        <input type="hidden" name="completed" value="{% if progress.get(loop.index, 0) == 1 %}0{% else %}1{% endif %}">
+                        
                         <label class="step-checkbox">
-                            <input type="checkbox" checked>
-                            <span class="step-text">Learn Python basics</span>
+                            <input type="checkbox" {% if progress.get(loop.index, 0) == 1 %}checked{% endif %} onchange="this.form.submit()">
+                            <span class="step-text">{{ step['text'] }}</span>
                         </label>
-                        <div class="step-content">
-                            <div class="step-info-btn">Details</div>
-                        </div>
-                        <div class="step-info-panel">
-                            <div class="step-description">
-                                <h4>Python for beginners</h4>
-                                <p>Start with core language features, data structures and basic scripts.</p>
-                            </div>
-                            <div class="step-course">
-                                <a class="course-link" href="#">Open Course</a>
-                            </div>
-                        </div>
                     </form>
-                </li>
 
-                <li class="step-item">
-                    <form class="step-form">
-                        <label class="step-checkbox">
-                            <input type="checkbox">
-                            <span class="step-text">Linear algebra & math</span>
-                        </label>
-                        <div class="step-content">
-                            <div class="step-info-btn">Details</div>
-                        </div>
-                    </form>
-                </li>
-            </ul>
-        </div>
+                    <button type="button" class="step-info-btn" onclick="toggleStepInfo({{ loop.index }})"> Info </button>
+                </div>
 
-        <div class="roadmap-actions">
-            <button class="btn btn-secondary">Reset Progress</button>
-            <a class="btn btn-primary" href="results.html">Back to Results</a>
-        </div>
-    </main>
 
-    <footer>
-        &copy; 2025 CS Career Recommender
-    </footer>
-</body>
-</html>
+                <div id="step-info-{{ loop.index }}" class="step-info-panel" style="display: none;">
+                    <div class="step-description">
+                        <h4>Why This Matters:</h4>
+                        <p>{{ step['description'] }}</p>
+                    </div>
+                    <div class="step-course">
+                        <a href="{{ step['course'] }}" target="_blank" class="course-link">
+                            🎓 Start Learning →
+                        </a>
+                    </div>
+                </div>
+
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+
+
+
+    <div class="roadmap-actions">
+        <form method="POST" action="/roadmap/{{ field }}/reset" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Reset Progress</button>
+        </form>
+        
+        <a href="/results" class="btn btn-secondary">Back to Results</a>
+    </div>
+</div>
+
+<script>
+function toggleStepInfo(stepNumber) {
+    const panel = document.getElementById('step-info-' + stepNumber);
+    const allPanels = document.querySelectorAll('.step-info-panel');
+    
+    allPanels.forEach(p => {
+        if (p.id !== 'step-info-' + stepNumber) {
+            p.style.display = 'none';
+        }
+    });
+
+    if (panel.style.display === 'none') {
+        panel.style.display = 'block';
+    } else {
+        panel.style.display = 'none';
+    }
+}
+
+document.querySelectorAll('.step-checkbox input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const stepItem = this.closest('.step-item');
+        if (this.checked) {
+            stepItem.classList.add('completed');
+        } else {
+            stepItem.classList.remove('completed');
+        }
+    });
+});
+</script>
+
+{% endblock %}
