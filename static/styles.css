@@ -467,6 +467,43 @@ body {
     font-size: 16px;
 }
 
+/* Roadmap Page */
+.roadmap-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.roadmap-header {
+    background: #263238;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.roadmap-header h1 {
+    color: #64b5f6;
+    margin-bottom: 20px;
+}
+
+.progress-section {
+    margin-top: 20px;
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+.roadmap-steps {
+    background: #263238;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
 /* Footer */
 footer {
     text-align: center;
