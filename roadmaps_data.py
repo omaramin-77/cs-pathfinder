@@ -415,6 +415,210 @@ ROADMAPS = {
             "description": "Showcase your skills with complete applications. Demonstrate end-to-end development.",
             "course": "https://www.freecodecamp.org/news/full-stack-project-ideas/"
         }
+    ],
+    "Cybersecurity Analyst": [
+        {
+            "text": "Learn networking fundamentals (TCP/IP, DNS, HTTP)",
+            "description": "Understand how data flows across networks. Foundation of cybersecurity.",
+            "course": "https://www.coursera.org/learn/computer-networking"
+        },
+        {
+            "text": "Master operating systems (Linux and Windows)",
+            "description": "Know system internals and command-line tools. Essential for security analysis.",
+            "course": "https://www.coursera.org/learn/linux-fundamentals"
+        },
+        {
+            "text": "Study information security basics",
+            "description": "Learn CIA triad, security principles, and threat landscape. Build security mindset.",
+            "course": "https://www.coursera.org/learn/intro-cyber-security"
+        },
+        {
+            "text": "Learn cryptography fundamentals",
+            "description": "Understand encryption, hashing, and digital signatures. Protect data confidentiality.",
+            "course": "https://www.coursera.org/learn/crypto"
+        },
+        {
+            "text": "Master network security concepts",
+            "description": "Secure network infrastructure. Learn firewalls, VPNs, and IDS/IPS.",
+            "course": "https://www.coursera.org/learn/network-security"
+        },
+        {
+            "text": "Study common vulnerabilities (OWASP Top 10)",
+            "description": "Know the most critical web application risks. Learn to identify and mitigate them.",
+            "course": "https://owasp.org/www-project-top-ten/"
+        },
+        {
+            "text": "Learn penetration testing basics",
+            "description": "Think like an attacker. Identify vulnerabilities before malicious actors do.",
+            "course": "https://www.coursera.org/learn/penetration-testing"
+        },
+        {
+            "text": "Master security tools (Nmap, Wireshark, Metasploit)",
+            "description": "Use industry-standard tools for security testing. Analyze network traffic and vulnerabilities.",
+            "course": "https://www.youtube.com/results?search_query=nmap+wireshark+metasploit+tutorial"
+        },
+        {
+            "text": "Study web application security",
+            "description": "Secure web apps against attacks. Understand injection, XSS, and authentication flaws.",
+            "course": "https://portswigger.net/web-security"
+        },
+        {
+            "text": "Learn incident response procedures",
+            "description": "Handle security breaches effectively. Contain, investigate, and recover from incidents.",
+            "course": "https://www.coursera.org/learn/incident-response"
+        },
+        {
+            "text": "Master security information and event management (SIEM)",
+            "description": "Monitor and analyze security events. Detect threats in real-time.",
+            "course": "https://www.splunk.com/en_us/training.html"
+        },
+        {
+            "text": "Study malware analysis basics",
+            "description": "Understand how malware works. Analyze and reverse engineer malicious software.",
+            "course": "https://www.coursera.org/learn/malware-analysis"
+        },
+        {
+            "text": "Learn threat intelligence",
+            "description": "Stay informed about emerging threats. Use intelligence to improve defenses.",
+            "course": "https://www.cybrary.it/course/threat-intelligence/"
+        },
+        {
+            "text": "Master security frameworks (NIST, ISO 27001)",
+            "description": "Implement structured security programs. Follow industry best practices.",
+            "course": "https://www.coursera.org/learn/nist-cybersecurity-framework"
+        },
+        {
+            "text": "Study cloud security (AWS, Azure, GCP)",
+            "description": "Secure cloud infrastructure and applications. Understand shared responsibility model.",
+            "course": "https://www.coursera.org/learn/cloud-security-basics"
+        },
+        {
+            "text": "Learn security automation and scripting",
+            "description": "Automate security tasks with Python. Improve efficiency and consistency.",
+            "course": "https://www.coursera.org/learn/python-for-cybersecurity"
+        },
+        {
+            "text": "Master risk assessment methodologies",
+            "description": "Identify and prioritize security risks. Make informed security decisions.",
+            "course": "https://www.coursera.org/learn/risk-management"
+        },
+        {
+            "text": "Study compliance and regulations (GDPR, HIPAA)",
+            "description": "Understand legal requirements. Ensure organizational compliance.",
+            "course": "https://www.coursera.org/learn/data-privacy-fundamentals"
+        },
+        {
+            "text": "Get certified (Security+, CEH, CISSP)",
+            "description": "Validate your skills with industry certifications. Boost career prospects.",
+            "course": "https://www.comptia.org/certifications/security"
+        },
+        {
+            "text": "Build a home lab for practice",
+            "description": "Practice skills in a safe environment. Set up vulnerable machines and practice attacks.",
+            "course": "https://www.youtube.com/results?search_query=cybersecurity+home+lab+setup"
+        }
+    ],
+    "Cloud Engineer": [
+        {
+            "text": "Learn networking fundamentals",
+            "description": "Understand IP addressing, subnets, routing, and DNS. Essential for cloud architecture.",
+            "course": "https://www.coursera.org/learn/computer-networking"
+        },
+        {
+            "text": "Master Linux system administration",
+            "description": "Manage Linux servers efficiently. Most cloud workloads run on Linux.",
+            "course": "https://www.coursera.org/learn/linux-fundamentals"
+        },
+        {
+            "text": "Study virtualization concepts",
+            "description": "Understand VMs, hypervisors, and resource allocation. Foundation of cloud computing.",
+            "course": "https://www.coursera.org/learn/cloud-computing-basics"
+        },
+        {
+            "text": "Learn cloud computing basics",
+            "description": "Understand IaaS, PaaS, SaaS models. Know cloud service types and benefits.",
+            "course": "https://www.coursera.org/learn/introduction-to-cloud"
+        },
+        {
+            "text": "Master AWS/Azure/GCP fundamentals",
+            "description": "Learn a major cloud platform. Understand core services and architecture.",
+            "course": "https://aws.amazon.com/training/"
+        },
+        {
+            "text": "Study Infrastructure as Code (IaC)",
+            "description": "Manage infrastructure through code. Ensure consistency and repeatability.",
+            "course": "https://www.coursera.org/learn/infrastructure-as-code"
+        },
+        {
+            "text": "Learn Terraform or CloudFormation",
+            "description": "Automate infrastructure provisioning. Define resources declaratively.",
+            "course": "https://learn.hashicorp.com/terraform"
+        },
+        {
+            "text": "Master Docker containerization",
+            "description": "Package applications with dependencies. Ensure consistent environments.",
+            "course": "https://www.docker.com/101-tutorial"
+        },
+        {
+            "text": "Study Kubernetes orchestration",
+            "description": "Manage containerized applications at scale. Automate deployment and scaling.",
+            "course": "https://kubernetes.io/docs/tutorials/"
+        },
+        {
+            "text": "Learn CI/CD pipelines",
+            "description": "Automate build, test, and deployment. Enable rapid, reliable releases.",
+            "course": "https://www.coursera.org/learn/continuous-integration"
+        },
+        {
+            "text": "Master monitoring and logging (CloudWatch, Prometheus)",
+            "description": "Track system health and performance. Troubleshoot issues quickly.",
+            "course": "https://www.coursera.org/learn/cloud-monitoring"
+        },
+        {
+            "text": "Study cloud security best practices",
+            "description": "Secure cloud resources and data. Implement least privilege and defense in depth.",
+            "course": "https://www.coursera.org/learn/cloud-security-basics"
+        },
+        {
+            "text": "Learn serverless computing (Lambda, Cloud Functions)",
+            "description": "Build event-driven applications. Pay only for what you use.",
+            "course": "https://aws.amazon.com/lambda/getting-started/"
+        },
+        {
+            "text": "Master cloud storage solutions",
+            "description": "Choose appropriate storage services. Optimize for performance and cost.",
+            "course": "https://www.coursera.org/learn/cloud-storage"
+        },
+        {
+            "text": "Study cloud databases (RDS, DynamoDB, Cosmos DB)",
+            "description": "Deploy and manage databases in the cloud. Choose SQL vs NoSQL appropriately.",
+            "course": "https://www.coursera.org/learn/cloud-database-fundamentals"
+        },
+        {
+            "text": "Learn cost optimization strategies",
+            "description": "Reduce cloud spending. Right-size resources and use reserved instances.",
+            "course": "https://aws.amazon.com/aws-cost-management/"
+        },
+        {
+            "text": "Master high availability and disaster recovery",
+            "description": "Design resilient systems. Ensure business continuity.",
+            "course": "https://www.coursera.org/learn/disaster-recovery"
+        },
+        {
+            "text": "Study microservices architecture",
+            "description": "Build scalable, maintainable applications. Decompose monoliths into services.",
+            "course": "https://www.coursera.org/learn/microservices"
+        },
+        {
+            "text": "Get cloud certifications (AWS/Azure/GCP)",
+            "description": "Validate your cloud expertise. Boost career opportunities.",
+            "course": "https://aws.amazon.com/certification/"
+        },
+        {
+            "text": "Build cloud-native applications",
+            "description": "Design applications for the cloud. Leverage cloud services effectively.",
+            "course": "https://www.coursera.org/learn/cloud-native-development"
+        }
     ]
     
 }
