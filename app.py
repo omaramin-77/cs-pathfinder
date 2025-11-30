@@ -81,6 +81,33 @@ def submit_quiz():
     flash(f'Your recommended field: {field_name}!', 'success')
     return redirect(url_for('results'))
 
+@app.route("/results")
+def results():
+    results = session.get("results", [])
+    return render_template("results.html", fields=results)
+
+@app.route("/remove_field/<int:id>", methods=["POST"])
+def remove_field(id: int):
+    results = session.get("results", [])
+    if 0 <= id < len(results):
+        results.pop(id)
+        session["results"] = results
+        flash("Field removed", "success")
+    return redirect(url_for("results"))
+
+@app.route("/roadmap/<field>")
+def roadmap(field: str):
+    return render_template("roadmap.html", field=field)
+
+@app.route("/roadmap/<field>/update", methods=["POST"])
+def update_roadmap(field: str):
+    flash("Roadmap updated (placeholder)", "success")
+    return redirect(url_for("roadmap", field=field))
+
+@app.route("/roadmap/<field>/reset", methods=["POST"])
+def reset_roadmap(field: str):
+    flash("Progress reset (placeholder)", "success")
+    return redirect(url_for("roadmap", field=field))
 
 if __name__ == '__main__':
     app.run(debug=True)
