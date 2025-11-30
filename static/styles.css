@@ -555,6 +555,88 @@ body {
     flex: 1;
 }
 
+.step-info-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.step-info-btn:hover {
+    background: #5568d3;
+}
+
+.step-info-panel {
+    margin-top: 15px;
+    padding: 20px;
+    background: #37474f;
+    border-left: 4px solid #64b5f6;
+    border-radius: 8px;
+}
+
+.step-description {
+    margin-bottom: 15px;
+}
+
+.step-description h4 {
+    color: #64b5f6;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.step-description p {
+    color: #b0bec5;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.step-course {
+    text-align: center;
+}
+
+.course-link {
+    display: inline-block;
+    background: #64b5f6;
+    color: #1a2332;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.course-link:hover {
+    background: #42a5f5;
+}
+
+.no-details {
+    color: #90a4ae;
+    font-style: italic;
+    text-align: center;
+}
+
+.step-item {
+    position: relative;
+}
+
+.step-form {
+    display: flex;
+    align-items: center;
+}
+
+.roadmap-actions {
+    text-align: center;
+}
+
+.roadmap-actions .btn {
+    margin: 5px;
+}
+
+
 /* Footer */
 footer {
     text-align: center;
