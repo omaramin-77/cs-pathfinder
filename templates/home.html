@@ -9,10 +9,37 @@
         <p>Take a short quiz and get a recommended career field plus a step-by-step roadmap.</p>
     </div>
 
-    <div class="action-buttons">
-        <a class="btn btn-primary btn-large" href="quiz_question.html">Take the Quiz</a>
-        <a class="btn btn-secondary btn-large" href="roadmap.html">View Roadmaps</a>
+    
+    <div class="card">
+        {% if session.user_id %}
+        <h2>Welcome, {{ email }}!</h2>
+        <p>Ready to find your ideal computer science career path?</p>
+        {% else %}
+        <h2>Welcome to CS Career Recommender</h2>
+        <p>Start your journey to find your ideal computer science career path!</p>
+        {% endif %}
+
+        <div class="action-buttons">
+            {% if session.user_id %}
+            <a href="/quiz/1" class="btn btn-primary btn-large">
+                📝 Start Quiz
+            </a>
+            
+            <a href="/results" class="btn btn-secondary btn-large">
+                📊 View My Results
+            </a>
+            {% else %}
+            <a href="/login" class="btn btn-primary btn-large">
+                📝 Start Quiz
+            </a>
+            
+            <a href="/signup" class="btn btn-secondary btn-large">
+                ✍️ Create Account
+            </a>
+            {% endif %}
+        </div>
     </div>
+
 
     <div class="info-section">
         <h3>How it works</h3>
