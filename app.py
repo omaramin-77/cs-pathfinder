@@ -67,6 +67,19 @@ def quiz_complete():
         return redirect(url_for("home"))
     return render_template('quiz_complete.html', answers=session['answers'])
 
+@app.route("/submit_quiz", methods=["POST"])
+def submit_quiz():
+    answers = session.get("answers", {})
+    if not answers:
+        flash("No answers found", "error")
+        return redirect(url_for("home"))
+
+    #field_name = send_to_api(answers)
+
+    session.pop('answers', None)
+    
+    flash(f'Your recommended field: {field_name}!', 'success')
+    return redirect(url_for('results'))
 
 
 if __name__ == '__main__':
