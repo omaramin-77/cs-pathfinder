@@ -60,5 +60,14 @@ def quiz_question(id: int):
         return redirect(url_for("quiz_question", id=id + 1))
 
 
+@app.route("/quiz/complete")
+def quiz_complete():
+    if "answers" not in session:
+        flash("Please complete the quiz first", "error")
+        return redirect(url_for("home"))
+    return render_template('quiz_complete.html', answers=session['answers'])
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
