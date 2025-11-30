@@ -1,0 +1,423 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a2332;
+    min-height: 100vh;
+    color: #e0e0e0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navigation */
+.navbar {
+    background: #253549;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    padding: 15px 0;
+    margin-bottom: 30px;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    color: #64b5f6;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #b0bec5;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #64b5f6;
+}
+
+.nav-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.nav-btn-login {
+    color: #64b5f6;
+    border: 2px solid #64b5f6;
+}
+
+.nav-btn-login:hover {
+    background: #64b5f6;
+    color: #1a2332;
+}
+
+.nav-btn-signup {
+    background: #64b5f6;
+    color: #1a2332;
+}
+
+.nav-btn-signup:hover {
+    background: #42a5f5;
+}
+
+/* Alerts */
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #64b5f6;
+    color: #1a2332;
+}
+
+.btn-primary:hover {
+    background: #42a5f5;
+}
+
+.btn-secondary {
+    background: #546e7a;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #455a64;
+}
+
+.btn-danger {
+    background: #ef5350;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #e53935;
+}
+
+.btn-large {
+    padding: 16px 32px;
+    font-size: 18px;
+}
+
+/* Cards */
+.card {
+    background: #263238;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+}
+
+/* Auth Pages */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.auth-box {
+    background: #263238;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-box h2 {
+    color: #64b5f6;
+    margin-bottom: 10px;
+}
+
+.auth-box p {
+    color: #b0bec5;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #455a64;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #37474f;
+    color: #e0e0e0;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #64b5f6;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #b0bec5;
+}
+
+.auth-link a {
+    color: #64b5f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Home Page */
+.home-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    color: #e0e0e0;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 20px;
+    opacity: 0.9;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.info-section {
+    background: #263238;
+    border-radius: 12px;
+    padding: 40px;
+    margin-top: 30px;
+}
+
+.info-section h3 {
+    text-align: center;
+    color: #64b5f6;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.step {
+    text-align: center;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: #64b5f6;
+    color: #1a2332;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto 15px;
+}
+
+.step h4 {
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.step p {
+    color: #b0bec5;
+}
+
+/* Quiz Pages */
+.quiz-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.quiz-progress {
+    background: #263238;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 20px;
+    background: #455a64;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #64b5f6;
+}
+
+.progress-text {
+    text-align: center;
+    color: #b0bec5;
+    font-weight: 600;
+}
+
+.quiz-card {
+    background: #263238;
+    padding: 40px;
+    border-radius: 12px;
+}
+
+.quiz-card h2 {
+    color: #64b5f6;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.quiz-options {
+    margin-bottom: 30px;
+}
+
+.option {
+    display: block;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 2px solid #455a64;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #37474f;
+    color: #e0e0e0;
+}
+
+.option:hover {
+    border-color: #64b5f6;
+    background: #455a64;
+}
+
+.option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.option-text {
+    font-size: 16px;
+}
+
+/* Quiz Complete */
+.complete-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+.complete-card {
+    background: #263238;
+    padding: 60px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.success-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+.complete-card h1 {
+    color: #64b5f6;
+    margin-bottom: 15px;
+}
+
+.complete-card p {
+    color: #b0bec5;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.complete-card .btn {
+    margin: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    color: #b0bec5;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 32px;
+    }
+    .action-buttons {
+        flex-direction: column;
+    }
+    .steps {
+        grid-template-columns: 1fr;
+    }
+    .result-actions {
+        flex-direction: column;
+    }
+}
