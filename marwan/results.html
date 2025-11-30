@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Results - CS Career Recommender</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">CS Career Recommender</div>
+            <nav class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="roadmap.html">Roadmaps</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="results-container container">
+        <h1>Your Recommendations</h1>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <div class="result-header">
+                    <h3>AI Engineer</h3>
+                    <div class="result-date">2025-10-01</div>
+                </div>
+                <p>Recommended based on your quiz answers.</p>
+                <div class="result-actions">
+                    <a class="btn btn-primary" href="roadmap.html">View Roadmap</a>
+                    <button class="btn btn-danger" onclick="alert('Removed (static)')">Remove</button>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <h3>Web Developer</h3>
+                    <div class="result-date">2025-09-15</div>
+                </div>
+                <p>Another past recommendation.</p>
+                <div class="result-actions">
+                    <a class="btn btn-primary" href="roadmap.html">View Roadmap</a>
+                    <button class="btn btn-danger" onclick="alert('Removed (static)')">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="home.html">&larr; Back to Home</a>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 CS Career Recommender
+    </footer>
+</body>
+</html>
