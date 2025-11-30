@@ -1,59 +1,38 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home - CS Career Recommender</title>
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="container">
-            <div class="logo">CS Career Recommender</div>
-            <nav class="nav-links">
-                <a href="home.html">Home</a>
-                <a href="roadmap.html">Roadmaps</a>
-                <a href="results.html">Results</a>
-                <a class="nav-btn nav-btn-login" href="login.html">Login</a>
-                <a class="nav-btn nav-btn-signup" href="signup.html">Sign Up</a>
-            </nav>
+{% extends "base.html" %}
+
+{% block title %}Home - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <div class="hero">
+        <h1>Find the right Computer Science career for you</h1>
+        <p>Take a short quiz and get a recommended career field plus a step-by-step roadmap.</p>
+    </div>
+
+    <div class="action-buttons">
+        <a class="btn btn-primary btn-large" href="quiz_question.html">Take the Quiz</a>
+        <a class="btn btn-secondary btn-large" href="roadmap.html">View Roadmaps</a>
+    </div>
+
+    <div class="info-section">
+        <h3>How it works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>Answer a few questions</h4>
+                <p>Tell us about your interests and preferences.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>Get a recommendation</h4>
+                <p>We recommend a single career field that fits you best.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>Follow the roadmap</h4>
+                <p>Step-by-step learning plan to reach your goal.</p>
+            </div>
         </div>
-    </header>
-
-    <main class="home-container container">
-        <section class="hero">
-            <h1>Find the right Computer Science career for you</h1>
-            <p>Take a short quiz and get a recommended career field plus a step-by-step roadmap.</p>
-            <div class="action-buttons">
-                <a class="btn btn-primary btn-large" href="quiz_question.html">Take the Quiz</a>
-                <a class="btn btn-secondary btn-large" href="roadmap.html">View Roadmaps</a>
-            </div>
-        </section>
-
-        <section class="info-section">
-            <h3>How it works</h3>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h4>Answer a few questions</h4>
-                    <p>Tell us about your interests and preferences.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h4>Get a recommendation</h4>
-                    <p>We recommend a single career field that fits you best.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h4>Follow the roadmap</h4>
-                    <p>Step-by-step learning plan to reach your goal.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        &copy; 2025 CS Career Recommender
-    </footer>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}
