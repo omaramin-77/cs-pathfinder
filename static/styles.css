@@ -414,6 +414,34 @@ body {
     display: grid;
     gap: 20px;
 }
+.result-card {
+    background: #263238;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.result-header h3 {
+    color: #64b5f6;
+    font-size: 24px;
+}
+
+.result-date {
+    color: #90a4ae;
+    font-size: 14px;
+}
+
+.result-actions {
+    display: flex;
+    gap: 10px;
+}
 
 
 /* Footer */
