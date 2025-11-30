@@ -42,5 +42,23 @@ def logout():
     return redirect(url_for('home'))
 
 
+
+@app.route("/quiz/<int:id>", methods=["GET", "POST"]) 
+def quiz_question(id: int):
+    
+    if request.method == "POST":
+        
+        answers = session.get("answers", {})
+        answer = request.form.get("answer")
+        question_text = request.form.get("question_text", "")
+        answers[str(id)] = {"question": question_text, "answer": answer}
+        session["answers"] = answers
+        
+        max_questions = 20  
+        if id > max_questions:
+            return redirect(url_for("quiz_complete"))
+        return redirect(url_for("quiz_question", id=id + 1))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
