@@ -1,58 +1,46 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quiz - CS Career Recommender</title>
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="container">
-            <div class="logo">CS Career Recommender</div>
-            <nav class="nav-links">
-                <a href="home.html">Home</a>
-                <a href="roadmap.html">Roadmaps</a>
-                <a href="results.html">Results</a>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="quiz-container container">
-        <div class="quiz-progress">
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:50%"></div>
+{% block title %}Quiz Question {{ question_num }} - CS Career Recommender{% endblock %}
+
+{% block content %}
+
+<div class="quiz-container">
+    <div class="quiz-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{(question_num / total * 100)|int }}%"></div>
+        </div>
+        <div class="progress-text">Question 2 of 4</div>
+    </div>
+
+    <div class="quiz-card">
+        <h2>{{ question.question_text }}</h2>
+        <p class="mb-20">This is the question text. Choose one answer below.</p>
+
+        <form action="#" method="post">
+            <div class="quiz-options">
+                <label class="option">
+                    <input type="radio" name="answer" value="A"> <span class="option-text">A. {{ question.option_a }}</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="B"> <span class="option-text">B. {{ question.option_b }}</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="C"> <span class="option-text">C. {{ question.option_c }}</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="D"> <span class="option-text">D. {{ question.option_d }}</span>
+                </label>
             </div>
-            <div class="progress-text">Question 2 of 4</div>
-        </div>
 
-        <div class="quiz-card">
-            <h2>Sample Question Title</h2>
-            <p class="mb-20">This is the question text. Choose one answer below.</p>
-
-            <form action="#" method="post">
-                <div class="quiz-options">
-                    <label class="option">
-                        <input type="radio" name="answer" value="A"> <span class="option-text">A — Option A</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="answer" value="B"> <span class="option-text">B — Option B</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="answer" value="C"> <span class="option-text">C — Option C</span>
-                    </label>
-                </div>
-
-                <div style="display:flex;gap:10px;justify-content:flex-end;">
-                    <a class="btn btn-secondary" href="quiz_question.html">Previous</a>
-                    <button class="btn btn-primary" type="submit">Next</button>
-                </div>
-            </form>
-        </div>
-    </main>
-
-    <footer>
-        &copy; 2025 CS Career Recommender
-    </footer>
-</body>
-</html>
+            <button class="btn btn-primary" type="submit">
+                {% if question_num < total %}
+                    Next Question →
+                {% else %}
+                    Complete Quiz ✓
+                {% endif %}
+            </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
