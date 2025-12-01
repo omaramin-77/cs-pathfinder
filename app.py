@@ -64,7 +64,7 @@ def logout():
 
 
 @app.route("/quiz/<int:id>", methods=["GET", "POST"]) 
-def quiz_question(id: int):
+def quiz_question(id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
@@ -162,7 +162,7 @@ def results():
     return render_template("results.html", fields=results)
 
 @app.route("/remove_field/<int:id>", methods=["POST"])
-def remove_field(id: int):
+def remove_field(id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
@@ -176,7 +176,7 @@ def remove_field(id: int):
     return redirect(url_for("results"))
 
 @app.route("/roadmap/<field>")
-def roadmap(field: str):
+def roadmap(field):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
@@ -199,7 +199,7 @@ def roadmap(field: str):
     completed_steps = sum(1 for p in progress.values() if p == 1)
     percentage = int((completed_steps / total_steps * 100)) if total_steps > 0 else 0
     
-    return render_template("roadmap.html", field=field
+    return render_template('roadmap.html', field=field,
                           steps=steps,
                           progress=progress,
                           percentage=percentage,
@@ -207,7 +207,7 @@ def roadmap(field: str):
                           completed_steps=completed_steps)
 
 @app.route("/roadmap/<field>/update", methods=["POST"])
-def update_roadmap(field: str):
+def update_roadmap(field):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
@@ -238,7 +238,7 @@ def update_roadmap(field: str):
     return redirect(url_for("roadmap", field=field))
 
 @app.route("/roadmap/<field>/reset", methods=["POST"])
-def reset_roadmap(field: str):
+def reset_roadmap(field):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
