@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import init_db, get_db_connection
+from DB import init_db, get_db_connection
 from ai_helper import choose_field_from_answers
 from roadmaps_data import ROADMAPS
 from datetime import datetime
@@ -159,7 +159,7 @@ def results():
                          (session['user_id'],)).fetchall()
     conn.close()
     
-    return render_template("results.html", fields=results)
+    return render_template("results.html", fields=fields)
 
 @app.route("/remove_field/<int:id>", methods=["POST"])
 def remove_field(id):
