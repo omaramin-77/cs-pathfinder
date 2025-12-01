@@ -23,7 +23,7 @@
         <ol class="steps-list">
             {% for step in steps %}
             <li class="step-item {% if progress.get(loop.index, 0) == 1 %}completed{% endif %}">
-                <div class="step-content"></div>
+                <div class="step-content">
                     <form method="POST" action="/roadmap/{{ field }}/update" class="step-form">
                         <input type="hidden" name="step_number" value="{{ loop.index }}">
                         <input type="hidden" name="completed" value="{% if progress.get(loop.index, 0) == 1 %}0{% else %}1{% endif %}">
