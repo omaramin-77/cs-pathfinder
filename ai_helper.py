@@ -6,12 +6,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def build_prompt(answers):
+def build_prompt(answers, fields):
     lines = []
     for q, v in answers.items():
         if isinstance(v, dict):
-            q_text = v.get('question', '').strip()
-            a_text = v.get('answer', '').strip()
+            q_text = (v.get('question') or '').strip()
+            a_text = (v.get('answer') or '').strip()
             if q_text:
                 lines.append(f"Question {q}: {q_text}\nAnswer: {a_text}")
             else:
@@ -25,7 +25,7 @@ def build_prompt(answers):
 You are a career counselor for computer science students.
 
 Based on the following quiz answers, recommend EXACTLY ONE career field from this list:
-{', '.join(AVAILABLE_FIELDS)}
+{', '.join(fields)}
 
 Quiz Answers:
 {answers_text}
@@ -72,16 +72,16 @@ def choose_field_from_answers(answers):
         genai.configure(api_key=api_key)
 
         model = genai.GenerativeModel("gemini-2.5-flash-lite")
-        prompt = build_prompt(answers)
+        prompt = build_prompt(answers, available_fields)
 
         response = model.generate_content(prompt)
         field = response.text.strip()
 
         # Validate
-        if field in AVAILABLE_FIELDS:
+        if field in available_fields:
             return field
 
-        for f in AVAILABLE_FIELDS:
+        for f in available_fields:
             if f.lower() in field.lower():
                 return f
 
