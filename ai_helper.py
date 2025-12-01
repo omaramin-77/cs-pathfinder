@@ -10,8 +10,8 @@ def build_prompt(answers, fields):
     lines = []
     for q, v in answers.items():
         if isinstance(v, dict):
-            q_text = v.get('question', '').strip()
-            a_text = v.get('answer', '').strip()
+            q_text = (v.get('question') or '').strip()
+            a_text = (v.get('answer') or '').strip()
             if q_text:
                 lines.append(f"Question {q}: {q_text}\nAnswer: {a_text}")
             else:
@@ -78,10 +78,10 @@ def choose_field_from_answers(answers):
         field = response.text.strip()
 
         # Validate
-        if field in AVAILABLE_FIELDS:
+        if field in available_fields:
             return field
 
-        for f in AVAILABLE_FIELDS:
+        for f in available_fields:
             if f.lower() in field.lower():
                 return f
 
