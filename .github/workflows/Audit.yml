@@ -1,0 +1,6 @@
+name: Dependency Audit
+
+on:
+  schedule:
+    - cron: '30 10 * * 2'  # every Tuesday at 12:30 Africa/Cairo (10:30 UTC)
+  workflow_dispatch:
