@@ -5,3 +5,28 @@ on:
     branches: [ dev ]
   pull_request:
     branches: [ dev ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8
+
+      - name: test
+        run: flake8 app.py DB.py ai_helper.py
+
+      - name: Compile check
+        run: python -m compileall app.py DB.py ai_helper.py roadmaps_data.py
+
+      - name: Run AI helper smoke test
+        run: python test_pipeline.py
