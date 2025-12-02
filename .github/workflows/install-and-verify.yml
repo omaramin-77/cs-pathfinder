@@ -1,37 +1,33 @@
-name: Install and Verify Dependencies
+name: Install Dependencies Check
 
 on:
   push:
   pull_request:
 
 jobs:
-  dependency-check:
+  check-dependencies:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.10
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install requirements
         run: |
-          echo "Installing packages from requirements.txt..."
           pip install -r requirements.txt
 
-      - name: Verify installation
+      - name: Verify imports
         run: |
-          echo "Listing installed packages..."
-          pip list
-
-      - name: Sanity import check
-        run: |
-          echo "Testing imports..."
           python - << 'EOF'
           import flask
           import werkzeug
           import dotenv
-          import google
+          import google.generativeai
+          print("All imports succeeded!")
+          EOF
+
