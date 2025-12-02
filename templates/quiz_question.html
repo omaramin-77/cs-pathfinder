@@ -16,7 +16,7 @@
         <h2>{{ question.question_text }}</h2>
         <p class="mb-20">This is the question text. Choose one answer below.</p>
 
-        <form action="#" method="post">
+        <form action="/quiz/{{ question.id }}" method="post">
             <div class="quiz-options">
                 <label class="option">
                     <input type="radio" name="answer" value="A"> <span class="option-text">A. {{ question.option_a }}</span>
