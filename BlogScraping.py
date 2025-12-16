@@ -181,6 +181,28 @@ def scrape_article(url, timeout=15):
                     best_len = len(text)
                     best = d
             content = best
+        # Extract HTML content with styling preserved
+        if content:
+            # Process images to ensure they load
+            for img in content.find_all('img'):
+                # Ensure images have proper src
+                if img.get('data-src'):
+                    img['src'] = img['data-src']
+                elif img.get('data-lazy-src'):
+                    img['src'] = img['data-lazy-src']
+                
+                # Remove lazy loading attributes
+                for attr in ['data-src', 'data-lazy-src', 'data-srcset', 'loading']:
+                    if img.get(attr):
+                        del img[attr]
+                
+                # Add class for styling
+                img_classes = img.get('class', [])
+                if isinstance(img_classes, list):
+                    img_classes.append('article-img')
+                else:
+                    img_classes = ['article-img']
+                img['class'] = img_classes
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
