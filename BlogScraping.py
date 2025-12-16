@@ -77,3 +77,19 @@ def parse_feed_entries(feed):
             continue
     
     return entries
+
+def scrape_article(url, timeout=15):
+    """Fetch article page and extract full text content, author, thumbnail, and published date"""
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        resp = requests.get(url, headers=headers, timeout=timeout)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        
+        if not soup:
+            print(f"Failed to parse HTML for {url}")
+            return None
+
+        
