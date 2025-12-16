@@ -38,3 +38,14 @@ def extract_image_from_entry(entry):
                 return img_tag.get('src')
         except:
             pass
+    # Try summary with HTML parsing
+    if hasattr(entry, 'summary'):
+        try:
+            soup = BeautifulSoup(entry.summary, 'html.parser')
+            img_tag = soup.find('img')
+            if img_tag and img_tag.get('src'):
+                return img_tag.get('src')
+        except:
+            pass
+    
+    return None
