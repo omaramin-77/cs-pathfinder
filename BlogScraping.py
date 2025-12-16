@@ -100,6 +100,16 @@ def scrape_article(url, timeout=15):
         if not title and soup.title:
             title = soup.title.string
 
+        # Author
+        author = None
+        author_meta = soup.find('meta', {'name': 'author'})
+        if author_meta and author_meta.get('content'):
+            author = author_meta.get('content')
+        else:
+            article_author = soup.find('meta', property='article:author')
+            if article_author and article_author.get('content'):
+                author = article_author.get('content')
+
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
