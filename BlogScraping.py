@@ -254,3 +254,11 @@ def scrape_article(url, timeout=15):
         print(f"Error scraping article {url}: {e}")
         print(traceback.format_exc())
         return None
+
+
+
+def count_words(text):
+    """Count words in text"""
+    if not text:
+        return 0
+    return len(text.split())
