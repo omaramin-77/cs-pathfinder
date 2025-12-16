@@ -49,3 +49,31 @@ def extract_image_from_entry(entry):
             pass
     
     return None
+
+def parse_feed_entries(feed):
+    """Parse feed entries and extract required fields"""
+    entries = []
+    
+    if not feed or not hasattr(feed, 'entries'):
+        return entries
+    
+    for entry in feed.entries:
+        try:
+            title = entry.get('title', 'Untitled')
+            url = entry.get('link', '')
+            summary = entry.get('summary', '')
+            published_date = entry.get('published', '')
+            image_url = extract_image_from_entry(entry)
+            
+            entries.append({
+                'title': title,
+                'url': url,
+                'summary': summary,
+                'image_url': image_url,
+                'published_date': published_date
+            })
+        except Exception as e:
+            print(f"Error parsing entry: {e}")
+            continue
+    
+    return entries
