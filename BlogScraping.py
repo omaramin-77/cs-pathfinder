@@ -203,6 +203,33 @@ def scrape_article(url, timeout=15):
                 else:
                     img_classes = ['article-img']
                 img['class'] = img_classes
+            # Remove inline styles that conflict with dark theme
+            for el in content.find_all(True):
+                if el.get('style'):
+                    # Remove background colors and text colors that conflict
+                    style = el.get('style', '')
+                    # Remove problematic inline styles
+                    style_parts = [s.strip() for s in style.split(';') if s.strip()]
+                    cleaned_styles = []
+                    for part in style_parts:
+                        if ':' in part:
+                            prop = part.split(':')[0].strip().lower()
+                            # Keep only safe styles
+                            if prop not in ['background', 'background-color', 'color', 'background-image']:
+                                cleaned_styles.append(part)
+                    
+                    if cleaned_styles:
+                        el['style'] = '; '.join(cleaned_styles)
+                    else:
+                        del el['style']
+                
+                # Remove classes that might conflict
+                if el.get('class'):
+                    classes = el.get('class', [])
+                    if isinstance(classes, list):
+                        # Keep classes but they'll be overridden by our CSS
+                        pass
+            
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
