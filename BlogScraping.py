@@ -29,4 +29,12 @@ def extract_image_from_entry(entry):
         if isinstance(entry.media_content, list) and len(entry.media_content) > 0:
             if 'url' in entry.media_content[0]:
                 return entry.media_content[0]['url']
-    
+    # Try summary_detail with HTML parsing
+    if hasattr(entry, 'summary_detail') and entry.summary_detail:
+        try:
+            soup = BeautifulSoup(entry.summary_detail.get('value', ''), 'html.parser')
+            img_tag = soup.find('img')
+            if img_tag and img_tag.get('src'):
+                return img_tag.get('src')
+        except:
+            pass
