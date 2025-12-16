@@ -92,4 +92,17 @@ def scrape_article(url, timeout=15):
             print(f"Failed to parse HTML for {url}")
             return None
 
-        
+        # Title
+        title = None
+        og_title = soup.find('meta', property='og:title')
+        if og_title and og_title.get('content'):
+            title = og_title.get('content')
+        if not title and soup.title:
+            title = soup.title.string
+
+    except Exception as e:
+        import traceback
+        print(f"Error scraping article {url}: {e}")
+        print(traceback.format_exc())
+        return None
+
