@@ -132,6 +132,11 @@ def scrape_article(url, timeout=15):
             if twitter_image and twitter_image.get('content'):
                 thumbnail = twitter_image.get('content')
 
+        # Remove unwanted elements
+        for selector in ['script', 'style', 'aside', 'nav', 'footer', 'header', 'form', 'noscript', 'iframe']:
+            for el in soup.find_all(selector):
+                el.decompose()
+
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
