@@ -110,6 +110,18 @@ def scrape_article(url, timeout=15):
             if article_author and article_author.get('content'):
                 author = article_author.get('content')
 
+        # Published date
+        pub_date = None
+        pub_meta = soup.find('meta', property='article:published_time')
+        if pub_meta and pub_meta.get('content'):
+            pub_date = pub_meta.get('content')
+        elif soup.find('time'):
+            try:
+                time_tag = soup.find('time')
+                pub_date = time_tag.get('datetime') or time_tag.text
+            except:
+                pub_date = None
+
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
