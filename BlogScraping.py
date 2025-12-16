@@ -137,6 +137,21 @@ def scrape_article(url, timeout=15):
             for el in soup.find_all(selector):
                 el.decompose()
 
+        # Remove ads, social widgets, and navigation by class/id
+        for el in soup.find_all(True):
+            if el is None:
+                continue
+            try:
+                cls = ' '.join(el.get('class', []) or []) if el.get('class') else ''
+                idv = el.get('id', '') or ''
+                combined = (cls + ' ' + idv).lower()
+                noise_keywords = ['subscribe', 'newsletter', 'follow', 'share', 'social', 'ad', 'advert', 
+                                'comment', 'sidebar', 'menu', 'navigation', 'related', 'recommend']
+                if any(k in combined for k in noise_keywords):
+                    el.decompose()
+            except:
+                pass
+
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
