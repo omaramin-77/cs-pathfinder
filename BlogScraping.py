@@ -151,6 +151,25 @@ def scrape_article(url, timeout=15):
                     el.decompose()
             except:
                 pass
+        # Extract main article content
+        content = None
+        # Try common article containers
+        candidates = [
+            ('article', None),
+            ('div', {'class': 'entry-content'}),
+            ('div', {'class': 'post-content'}),
+            ('div', {'class': 'article-content'}),
+            ('div', {'id': 'content'}),
+            ('main', None)
+        ]
+        for tag, attrs in candidates:
+            if attrs:
+                el = soup.find(tag, attrs=attrs)
+            else:
+                el = soup.find(tag)
+            if el:
+                content = el
+                break
 
     except Exception as e:
         import traceback
