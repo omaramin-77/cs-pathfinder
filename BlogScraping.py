@@ -170,7 +170,17 @@ def scrape_article(url, timeout=15):
             if el:
                 content = el
                 break
-
+        # Fallback: find largest text block
+        if not content:
+            divs = soup.find_all(['div', 'article', 'main'])
+            best = None
+            best_len = 0
+            for d in divs:
+                text = d.get_text(strip=True)
+                if len(text) > best_len:
+                    best_len = len(text)
+                    best = d
+            content = best
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
