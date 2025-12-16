@@ -122,6 +122,16 @@ def scrape_article(url, timeout=15):
             except:
                 pub_date = None
 
+        # Thumbnail
+        thumbnail = None
+        og_image = soup.find('meta', property='og:image')
+        if og_image and og_image.get('content'):
+            thumbnail = og_image.get('content')
+        else:
+            twitter_image = soup.find('meta', attrs={'name': 'twitter:image'})
+            if twitter_image and twitter_image.get('content'):
+                thumbnail = twitter_image.get('content')
+
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
