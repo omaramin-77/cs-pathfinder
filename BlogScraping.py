@@ -202,7 +202,7 @@ def scrape_article(url, timeout=15):
                     img_classes.append('article-img')
                 else:
                     img_classes = ['article-img']
-                img['class'] = img_classes
+                img['class'] = img_classes            
             # Remove inline styles that conflict with dark theme
             for el in content.find_all(True):
                 if el.get('style'):
@@ -230,9 +230,27 @@ def scrape_article(url, timeout=15):
                         # Keep classes but they'll be overridden by our CSS
                         pass
             
+            # Get the cleaned HTML string
+            full_html = str(content)
+            
+            # Also get plain text as fallback
+            full_text = content.get_text(separator='\n', strip=True)
+            lines = [line.strip() for line in full_text.split('\n') if line.strip()]
+            full_text = '\n'.join(lines)
+        else:
+            full_html = ''
+            full_text = ''
+
+        return {
+            'title': title or 'Untitled',
+            'author': author,
+            'published_date': pub_date,
+            'full_text': full_text,
+            'full_html': full_html,
+            'thumbnail': thumbnail
+        }
     except Exception as e:
         import traceback
         print(f"Error scraping article {url}: {e}")
         print(traceback.format_exc())
         return None
-
