@@ -267,7 +267,12 @@ def count_words(text):
 
 
 def main():
-    pass
+    print("🔹 Fetching RSS feed...")
+    feed = fetch_rss_feed()
+
+    if not feed:
+        print("❌ Failed to fetch feed.")
+        return
 
 
 if __name__ == "__main__":
