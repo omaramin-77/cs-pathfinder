@@ -273,7 +273,14 @@ def main():
     if not feed:
         print("❌ Failed to fetch feed.")
         return
+    print("🔹 Parsing feed entries...")
+    entries = parse_feed_entries(feed)
 
+    if not entries:
+        print("❌ No entries found.")
+        return
+
+    print(f"🔹 Found {len(entries)} feed entries")
 
 if __name__ == "__main__":
     main()
