@@ -267,24 +267,24 @@ def count_words(text):
 
 
 def main():
-    print("🔹 Fetching RSS feed...")
+    print("Fetching RSS feed...")
     feed = fetch_rss_feed()
 
     if not feed:
-        print("❌ Failed to fetch feed.")
+        print("Failed to fetch feed.")
         return
-    print("🔹 Parsing feed entries...")
+    print("Parsing feed entries...")
     entries = parse_feed_entries(feed)
 
     if not entries:
-        print("❌ No entries found.")
+        print("No entries found.")
         return
 
-    print(f"🔹 Found {len(entries)} feed entries")
+    print(f"Found {len(entries)} feed entries")
     max_articles = 5
     results = []
 
-    print(f"🔹 Scraping up to {max_articles} full articles...")
+    print(f"Scraping up to {max_articles} full articles...")
 
     for idx, entry in enumerate(entries[:max_articles], start=1):
         url = entry.get("url")
@@ -295,7 +295,7 @@ def main():
         article = scrape_article(url)
 
         if not article:
-            print("    ⚠️ Failed to scrape article.")
+            print("Failed to scrape article.")
             continue
 
         results.append({
@@ -304,7 +304,18 @@ def main():
             "word_count": count_words(article.get("full_text")),
             "scraped_at": datetime.utcnow().isoformat()
         })
-        
+    if not results:
+        print("No articles scraped successfully.")
+        return
+
+    
+    output_file = "scraped_articles.json"
+    output_path = Path(output_file)
+
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+
+    print(f"Saved {len(results)} articles to: {output_path.resolve()}")
 
 if __name__ == "__main__":
     main()
