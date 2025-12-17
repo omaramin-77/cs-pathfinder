@@ -281,6 +281,27 @@ def main():
         return
 
     print(f"🔹 Found {len(entries)} feed entries")
+    max_articles = 5
+    results = []
+
+    print(f"🔹 Scraping up to {max_articles} full articles...")
+
+    for idx, entry in enumerate(entries[:max_articles], start=1):
+        url = entry.get("url")
+        if not url:
+            continue
+
+        print(f"  [{idx}/{max_articles}] Scraping: {url}")
+        article = scrape_article(url)
+
+        if not article:
+            print("    ⚠️ Failed to scrape article.")
+            continue
+
+        results.append({
+            **entry,
+            **article
+        })
 
 if __name__ == "__main__":
     main()
