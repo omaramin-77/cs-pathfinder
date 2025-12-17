@@ -300,8 +300,11 @@ def main():
 
         results.append({
             **entry,
-            **article
+            **article,
+            "word_count": count_words(article.get("full_text")),
+            "scraped_at": datetime.utcnow().isoformat()
         })
+        
 
 if __name__ == "__main__":
     main()
