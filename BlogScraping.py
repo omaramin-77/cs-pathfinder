@@ -1,7 +1,8 @@
 """
  feed parsing and blog management
 """
-
+import json
+from pathlib import Path
 import feedparser
 import requests
 from datetime import datetime
@@ -262,3 +263,12 @@ def count_words(text):
     if not text:
         return 0
     return len(text.split())
+
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()
