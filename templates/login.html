@@ -1,44 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - CS Career Recommender</title>
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
-<body>
-    <header class="navbar">
-        <div class="container">
-            <div class="logo">CS Career Recommender</div>
-            <nav class="nav-links">
-                <a href="home.html">Home</a>
-                <a href="roadmap.html">Roadmaps</a>
-                <a href="results.html">Results</a>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="auth-container container">
-        <div class="auth-box">
-            <h2>Welcome Back</h2>
-            <p>Log in to save your progress and see past recommendations.</p>
-            <form action="#" method="post">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" name="email" type="email" placeholder="you@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input id="password" name="password" type="password" placeholder="••••••">
-                </div>
-                <button class="btn btn-primary" type="submit">Login</button>
-            </form>
-            <div class="auth-link">Don't have an account? <a href="signup.html">Sign up</a></div>
-        </div>
-    </main>
+{% block title %}Login - CS Career Recommender{% endblock %}
 
-    <footer>
-        &copy; 2025 CS Career Recommender
-    </footer>
-</body>
-</html>
+{% block content %}
+<div class="auth-container container">
+    <div class="auth-box">
+        <h2>Welcome Back</h2>
+        <p>Log in to save your progress and see past recommendations.</p>
+        
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+        
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+        
+        <div class="auth-link">Don't have an account? <a href="/signup">Sign up</a></div>
+    </div>
+</div>
+{% endblock %}
+
