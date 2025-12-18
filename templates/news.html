@@ -9,6 +9,50 @@
         <p>Discover the latest insights from Towards Data Science</p>
     </div>
 
+    {% if blogs %}
+    <div class="news-grid">
+        {% for blog in blogs %}
+        <div class="news-card">
+            {% if blog.thumbnail or blog.image_url %}
+            <img src="{{ blog.thumbnail or blog.image_url }}" alt="{{ blog.title }}" class="news-image">
+            {% else %}
+            <div class="news-image placeholder">📰</div>
+            {% endif %}
+            
+            <div class="news-content">
+                <h3>{{ blog.title }}</h3>
+                <p class="news-date">{{ blog.published_date[:10] if blog.published_date else 'Recent' }}</p>
+                <p class="news-summary">{{ blog.summary[:150] }}...</p>
+                
+                <div class="news-footer">
+                    <a href="{{ url_for('news_detail', blog_id=blog.id) }}" class="btn btn-small btn-primary">Read More</a>
+                    <a href="{{ blog.url }}" target="_blank" class="btn btn-small btn-secondary">Original →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No blog posts available yet</p>
+        <p>Check back soon for the latest articles!</p>
+    </div>
+    {% endif %}
+
+    {% if total_pages and total_pages > 1 %}
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('news_list') }}?page={{ page-1 }}" class="btn btn-small">← Prev</a>
+        {% endif %}
+
+        <span>Page {{ page }} of {{ total_pages }}</span>
+
+        {% if page < total_pages %}
+        <a href="{{ url_for('news_list') }}?page={{ page+1 }}" class="btn btn-small">Next →</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
     <div class="news-footer-section">
         <a href="/" class="btn btn-secondary">Back to Home</a>
     </div>
