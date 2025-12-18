@@ -4,8 +4,34 @@
 
 {% block content %}
 <div class="news-detail-container">
+    <article class="news-article">
+        {% if blog.thumbnail or blog.image_url %}
+        <img src="{{ blog.thumbnail or blog.image_url }}" alt="{{ blog.title }}" class="article-image">
+        {% endif %}
 
-<div class="article-sidebar">
+        <div class="article-header">
+            <h1>{{ blog.title }}</h1>
+            <p class="article-meta">
+                Published: <span class="date">{{ blog.published_date[:10] if blog.published_date else 'Recent' }}</span>
+            </p>
+        </div>
+
+        <div class="article-content">
+            {% if blog.full_text %}
+                <div class="article-html">{{ blog.full_text | safe }}</div>
+            {% else %}
+                <div class="article-summary">{{ blog.summary | safe }}</div>
+            {% endif %}
+        </div>
+
+        <div class="article-footer">
+            <a href="{{ blog.url }}" target="_blank" class="btn btn-primary btn-large">
+                Read Original Article on KDnuggets →
+            </a>
+        </div>
+    </article>
+
+    <div class="article-sidebar">
         <div class="related-section">
             <h3>More News</h3>
             <a href="{{ url_for('news_list') }}" class="btn btn-secondary btn-block">
@@ -17,4 +43,4 @@
         </div>
     </div>
 </div>
-{% endblock %}  
+{% endblock %}
