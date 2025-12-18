@@ -1,1 +1,20 @@
+{% extends "base.html" %}
 
+{% block title %}{{ blog.title }} - News{% endblock %}
+
+{% block content %}
+<div class="news-detail-container">
+
+<div class="article-sidebar">
+        <div class="related-section">
+            <h3>More News</h3>
+            <a href="{{ url_for('news_list') }}" class="btn btn-secondary btn-block">
+                ← Back to All Articles
+            </a>
+            <a href="/" class="btn btn-secondary btn-block">
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}  
