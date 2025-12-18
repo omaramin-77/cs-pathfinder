@@ -1,1 +1,52 @@
+{% extends "base.html" %}
 
+{% block title %}CV Ranking History - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <h1>📚 CV Ranking History</h1>
+    
+    {% if rankings %}
+    <div class="rankings-grid">
+        {% for ranking in rankings %}
+        <div class="ranking-card">
+            <div class="card-header">
+                <h3>{{ ranking['cv_filename'] }}</h3>
+                <span class="score score-{{ 'high' if ranking['overall_score'] >= 70 else 'medium' if ranking['overall_score'] >= 50 else 'low' }}">
+                    {{ ranking['overall_score'] }}/100
+                </span>
+            </div>
+            
+            <div class="card-body">
+                <p class="job-title">
+                    {% if ranking['job_title'] %}
+                    <strong>Job:</strong> {{ ranking['job_title'] }}
+                    {% else %}
+                    <strong>Job:</strong> <em>Custom description</em>
+                    {% endif %}
+                </p>
+                <p class="date">{{ ranking['created_at'] }}</p>
+                <p class="description">{{ ranking['description'][:150] }}{% if ranking['description']|length > 150 %}...{% endif %}</p>
+            </div>
+            
+            <div class="card-actions">
+                <a href="{{ url_for('cv_ranking_result', ranking_id=ranking['id']) }}" class="btn btn-small btn-primary">View Details</a>
+                <form action="{{ url_for('delete_cv_ranking', ranking_id=ranking['id']) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-data">
+        <p>No rankings yet. Start by ranking your first CV!</p>
+        <a href="{{ url_for('cv_ranker') }}" class="btn btn-primary">Rank a CV</a>
+    </div>
+    {% endif %}
+    
+    <div class="back-link">
+        <a href="{{ url_for('cv_ranker') }}" class="btn btn-secondary">← Back to CV Ranker</a>
+    </div>
+</div>
+{% endblock %}
