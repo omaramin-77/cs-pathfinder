@@ -9,7 +9,6 @@ def get_db_connection():
     """Create and return a database connection"""
     # Ensure instance folder exists
     os.makedirs('instance', exist_ok=True)
-    
     conn = sqlite3.connect(DATABASE_PATH)
     conn.row_factory = sqlite3.Row  # Access columns by name
     return conn
@@ -18,15 +17,18 @@ def init_db():
     """Initialize database with tables and sample data"""
     conn = get_db_connection()
     cursor = conn.cursor()
-   # Create users table
+    
+    # Create users table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL
+            password_hash TEXT NOT NULL,
+            is_admin INTEGER DEFAULT 0
         )
-    ''')  
-# Create quiz_questions table
+    ''')
+    
+    # Create quiz_questions table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS quiz_questions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,7 +62,8 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
-     # Create blogs table (include fields for full scraped content)
+    
+    # Create blogs table (include fields for full scraped content)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS blogs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -110,6 +113,7 @@ def init_db():
             UNIQUE(roadmap_id, step_number)
         )
     ''')
+    
     # Create job_descriptions table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS job_descriptions (
@@ -141,7 +145,38 @@ def init_db():
         )
     ''')
     
-  # Check if roadmaps already exist
+    # Check if questions already exist
+    cursor.execute('SELECT COUNT(*) as count FROM quiz_questions')
+    existing = cursor.fetchone()
+    
+    if existing[0] == 0:
+        # Import and insert quiz questions from data file
+        from data.questions_data import QUESTIONS
+        
+        print("❓ Seeding quiz questions...")
+        cursor.executemany('''
+            INSERT INTO quiz_questions (question_text, option_a, option_b, option_c, option_d)
+            VALUES (?, ?, ?, ?, ?)
+        ''', QUESTIONS)
+        print(f"✅ Seeded {len(QUESTIONS)} quiz questions")
+    
+    # Check if admin user exists, create default admin if not
+    cursor.execute('SELECT id FROM users WHERE email = ?', ('a@a',))
+    admin_user = cursor.fetchone()
+    
+    if not admin_user:
+        # Create default admin user
+        admin_password_hash = generate_password_hash('123456')
+        cursor.execute('''
+            INSERT INTO users (email, password_hash, is_admin)
+            VALUES (?, ?, ?)
+        ''', ('a@a', admin_password_hash, 1))
+        admin_id = cursor.lastrowid
+        print("✅ Default admin user created: a@a / 123456")
+    else:
+        admin_id = admin_user['id']
+    
+    # Check if roadmaps already exist
     cursor.execute('SELECT COUNT(*) as count FROM roadmaps')
     roadmap_count = cursor.fetchone()
     
@@ -189,5 +224,3 @@ def init_db():
 
 if __name__ == '__main__':
     init_db()
-  
-   
