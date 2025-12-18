@@ -111,6 +111,37 @@ def init_db():
             UNIQUE(roadmap_id, step_number)
         )
     ''')
+    # Create job_descriptions table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS job_descriptions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL,
+            created_by INTEGER NOT NULL,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (created_by) REFERENCES users (id)
+        )
+    ''')
+    
+    # Create cv_rankings table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS cv_rankings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            cv_filename TEXT NOT NULL,
+            job_description_id INTEGER,
+            custom_job_description TEXT,
+            overall_score INTEGER,
+            matching_analysis TEXT,
+            description TEXT,
+            recommendation TEXT,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id),
+            FOREIGN KEY (job_description_id) REFERENCES job_descriptions (id)
+        )
+    ''')
+    
     
     # Check if questions already exist
     existing = cursor.execute('SELECT COUNT(*) as count FROM quiz_questions').fetchone()
