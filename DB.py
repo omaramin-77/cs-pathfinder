@@ -1,6 +1,8 @@
 # Database setup and initialization
 import sqlite3
 import os
+from werkzeug.security import generate_password_hash
+
 
 DATABASE_PATH = 'instance/database.db'
 
@@ -57,6 +59,56 @@ def init_db():
             step_number INTEGER NOT NULL,
             completed INTEGER DEFAULT 0,
             FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
+     # Create blogs table (include fields for full scraped content)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS blogs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            url TEXT UNIQUE NOT NULL,
+            summary TEXT,
+            full_text TEXT,
+            author TEXT,
+            thumbnail TEXT,
+            published_date TEXT,
+            scraped_at TEXT,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            image_url TEXT
+        )
+    ''')
+
+    # Add missing columns if needed
+    cursor.execute("PRAGMA table_info(blogs)")
+    existing_cols = [row[1] for row in cursor.fetchall()]
+    for col_name, col_def in [('full_text', 'TEXT'), ('author', 'TEXT'), ('thumbnail', 'TEXT'), 
+                               ('scraped_at', 'TEXT'), ('image_url', 'TEXT')]:
+        if col_name not in existing_cols:
+            try:
+                cursor.execute(f'ALTER TABLE blogs ADD COLUMN {col_name} {col_def}')
+            except Exception:
+                pass
+    
+    # Create roadmaps table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS roadmaps (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            field_name TEXT UNIQUE NOT NULL,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    
+    # Create roadmap_steps table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS roadmap_steps (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            roadmap_id INTEGER NOT NULL,
+            step_number INTEGER NOT NULL,
+            step_text TEXT NOT NULL,
+            description TEXT NOT NULL,
+            course_url TEXT NOT NULL,
+            FOREIGN KEY (roadmap_id) REFERENCES roadmaps (id),
+            UNIQUE(roadmap_id, step_number)
         )
     ''')
     
