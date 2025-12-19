@@ -122,3 +122,20 @@ def test_choose_field_partial_match(
     result = choose_field_from_answers(answers)
 
     assert result == "AI Engineer"
+
+
+@patch("ai_helper.get_available_fields")
+@patch("ai_helper.os.getenv")
+@patch("ai_helper.genai.GenerativeModel", side_effect=Exception("API error"))
+def test_choose_field_api_failure(
+    mock_model,
+    mock_getenv,
+    mock_get_fields
+):
+    mock_getenv.return_value = "fake-api-key"
+    mock_get_fields.return_value = ["AI Engineer"]
+
+    answers = {"1": "A"}
+    result = choose_field_from_answers(answers)
+
+    assert result == "AI Engineer"
