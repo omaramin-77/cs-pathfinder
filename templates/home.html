@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Home - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <div class="hero">
+        <h1>Find the right Computer Science career for you</h1>
+        <p>Take a short quiz and get a recommended career field plus a step-by-step roadmap.</p>
+    </div>
+
+    
+    <div class="card">
+        {% if session.user_id %}
+        <h2>Welcome, {{ email }}!</h2>
+        <p>Ready to find your ideal computer science career path?</p>
+        {% else %}
+        <h2>Welcome to CS Career Recommender</h2>
+        <p>Start your journey to find your ideal computer science career path!</p>
+        {% endif %}
+
+        <div class="action-buttons">
+            {% if session.user_id %}
+            <a href="/quiz/1" class="btn btn-primary btn-large">
+                Start Quiz
+            </a>
+            
+            <a href="/results" class="btn btn-secondary btn-large">
+                View My Results
+            </a>
+            {% else %}
+            <a href="/login" class="btn btn-primary btn-large">
+                Start Quiz
+            </a>
+            
+            <a href="/signup" class="btn btn-secondary btn-large">
+                Create Account
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="info-section">
+        <h3>How it works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>Answer a few questions</h4>
+                <p>Tell us about your interests and preferences.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>Get a recommendation</h4>
+                <p>We recommend a single career field that fits you best.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>Follow the roadmap</h4>
+                <p>Step-by-step learning plan to reach your goal.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
