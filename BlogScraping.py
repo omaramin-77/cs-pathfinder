@@ -375,7 +375,7 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                 )
                 if post_id:
                     new_count += 1
-                    
+
     # Get total blog count
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -383,3 +383,13 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
     total = cursor.fetchone()['count']
     conn.close()
     
+    message = f'Added {new_count} new articles'
+    if skipped_count > 0:
+        message += f', skipped {skipped_count} articles (too short)'
+    
+    return {
+        'success': True,
+        'new_count': new_count,
+        'total_count': total,
+        'message': message
+    }
