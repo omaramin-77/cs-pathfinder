@@ -309,3 +309,23 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
     entries = parse_feed_entries(feed)
     new_count = 0
     skipped_count = 0
+    
+    for entry in entries:
+        if not article_exists(entry['url']):
+            # Scrape full article content
+            scraped = scrape_article(entry['url'])
+            if scraped and isinstance(scraped, dict):
+                title = scraped.get('title') or entry['title']
+                author = scraped.get('author')
+                full_text = scraped.get('full_text')
+                thumb = scraped.get('thumbnail') or entry.get('image_url')
+                pub = scraped.get('published_date') or entry.get('published_date')
+
+                # Check article length - skip if less than 200 words
+                article_text = full_text or entry.get('summary', '')
+                word_count = count_words(article_text)
+                
+                if word_count < 200:
+                    print(f"⏭️ Skipping article '{title}' - only {word_count} words (minimum 200 required)")
+                    skipped_count += 1
+                    continue
