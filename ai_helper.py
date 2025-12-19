@@ -93,7 +93,8 @@ def choose_field_from_answers(answers):
         String with recommended field name
     """
     
-
+    # Get available fields from database (includes newly created roadmaps)
+    available_fields = get_available_fields()
     api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
