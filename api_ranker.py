@@ -112,3 +112,6 @@ class APICVRanker:
                 )
                 return None
           
+        except Exception as e:
+            logger.error(f"Error during ChatPDF chat: {e}")
+            return None
