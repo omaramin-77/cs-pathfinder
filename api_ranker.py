@@ -84,4 +84,31 @@ class APICVRanker:
                 return None
         except Exception as e:
             logger.error(f"Error uploading PDF to ChatPDF: {e}")
-            return None            
+            return None  
+
+    def chat_with_chatpdf(self, source_id: str, message: str) -> str:
+        """Send a message to ChatPDF and get response"""
+        try:
+            headers = {"x-api-key": self.api_key, "Content-Type": "application/json"}
+
+            payload = {
+                "sourceId": source_id,
+                "messages": [{"role": "user", "content": message}],
+            }
+
+            response = requests.post(
+                "https://api.chatpdf.com/v1/chats/message",
+                headers=headers,
+                json=payload,
+                timeout=120,
+            )
+
+            if response.status_code == 200:
+                content = response.json().get("content", "").strip()
+                return content
+            else:
+                logger.error(
+                    f"ChatPDF chat failed: {response.status_code} - {response.text}"
+                )
+                return None
+          
