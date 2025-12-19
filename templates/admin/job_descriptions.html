@@ -4,8 +4,21 @@
 
 {% block content %}
 <div class="admin-container">
-    <h1>Manage Job Descriptions</h1>
+    <h1>💼 Manage Job Descriptions</h1>
 
-    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+    <div class="admin-actions">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
+            ← Back to Dashboard
+        </a>
+        <a href="{{ url_for('admin_new_job_description') }}" class="btn btn-primary">
+            + Add New Job Description
+        </a>
+    </div>
+
+    {% if job_descriptions %}
+        <p>Job descriptions exist.</p>
+    {% else %}
+        <p>No job descriptions yet.</p>
+    {% endif %}
 </div>
 {% endblock %}
