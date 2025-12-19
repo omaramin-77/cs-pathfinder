@@ -5,7 +5,7 @@ import pytest
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from DB import init_db, get_db_connection, DATABASE_PATH
-from admin_helper import (
+from BlogScraping import (
     fetch_rss_feed,
     parse_feed_entries,
     extract_image_from_entry,
@@ -15,6 +15,7 @@ from admin_helper import (
     get_blog_by_id,
     update_blog,
     delete_blog,
+    RSS_FEED_URL
 )
 
 
