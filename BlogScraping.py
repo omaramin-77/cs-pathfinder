@@ -442,17 +442,7 @@ def get_blog_by_id(blog_id):
     conn.close()
     return dict(blog) if blog else None
     
-
-def update_blog(
-    blog_id,
-    title=None,
-    summary=None,
-    image_url=None,
-    full_text=None,
-    author=None,
-    thumbnail=None,
-    published_date=None
-):
+def update_blog(blog_id, title=None, summary=None, image_url=None, full_text=None, author=None, thumbnail=None, published_date=None):
     """Update blog post details"""
     try:
         updates = []
@@ -482,7 +472,7 @@ def update_blog(
 
         if not updates:
             return False
-        
+
         params.append(blog_id)
         query = f'UPDATE blogs SET {", ".join(updates)} WHERE id = ?'
 
@@ -492,7 +482,8 @@ def update_blog(
         conn.commit()
         conn.close()
         return True
-        
+
     except Exception as e:
         print(f"Error updating blog: {e}")
         return False
+
