@@ -482,7 +482,10 @@ def update_blog(
 
         if not updates:
             return False
-
+        
+        params.append(blog_id)
+        query = f'UPDATE blogs SET {", ".join(updates)} WHERE id = ?'
+        
         conn = get_db_connection()
         cursor = conn.cursor()
         conn.close()
