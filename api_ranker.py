@@ -181,4 +181,10 @@ Respond with ONLY the JSON, no additional text."""
                     "description": data.get("description", ""),
                     "recommendation": data.get("recommendation", ""),
                 }
-
+            else:
+                return {
+                    "overall_score": 50,
+                    "matching_analysis": "Unable to parse detailed analysis",
+                    "description": response[:200] if response else "No description",
+                    "recommendation": "Manual review recommended",
+                }
