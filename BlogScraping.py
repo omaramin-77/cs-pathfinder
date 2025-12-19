@@ -441,3 +441,15 @@ def get_blog_by_id(blog_id):
     blog = cursor.fetchone()
     conn.close()
     return dict(blog) if blog else None
+    
+
+def update_blog(blog_id):
+    """Update blog post details"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        conn.close()
+        return True
+    except Exception as e:
+        print(f"Error updating blog: {e}")
+        return False
