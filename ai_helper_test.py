@@ -60,3 +60,17 @@ def test_get_available_fields_fallback_on_error(mock_get_db):
 
     assert "AI Engineer" in fields
     assert len(fields) > 0
+
+
+# ------------------------------------------------------------------
+# Tests for choose_field_from_answers
+# ------------------------------------------------------------------
+
+def test_choose_field_without_api_key(monkeypatch):
+    # Remove API key if it exists
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+
+    answers = {"1": "A", "2": "B"}
+    result = choose_field_from_answers(answers)
+
+    assert result == "AI Engineer"
