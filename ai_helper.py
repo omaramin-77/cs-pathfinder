@@ -115,9 +115,8 @@ def choose_field_from_answers(answers):
         if field in available_fields:
             return field
 
-        # Try partial match (case-insensitive)
         for f in available_fields:
-            if f.lower() in field.lower() or field.lower() in f.lower():
+            if f.lower() in field.lower():
                 return f
 
         # If no match found, return first available field as fallback
