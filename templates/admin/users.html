@@ -4,8 +4,13 @@
 
 {% block content %}
 <div class="admin-container">
-    <h1>User Management</h1>
-    <p>View all users and manage admin privileges</p>
+    <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>User Management</h1>
+            <p>View all users and manage admin privileges</p>
+        </div>
+        <a href="{{ url_for('admin_new_user') }}" class="btn btn-primary">+ Create New User</a>
+    </div>
 
     {% if users %}
     <table class="admin-table">
@@ -14,6 +19,7 @@
                 <th>ID</th>
                 <th>Email</th>
                 <th>Admin Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +29,31 @@
                 <td>{{ user.email }}</td>
                 <td>
                     {% if user.is_admin %}
-                        Admin
+                        <span class="badge badge-admin">Admin</span>
                     {% else %}
-                        User
+                        <span class="badge badge-user">User</span>
                     {% endif %}
+                </td>
+                <td>
+                    <form method="POST" action="{{ url_for('toggle_user_admin', user_id=user.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-small btn-secondary">
+                            {% if user.is_admin %}Demote{% else %}Promote{% endif %}
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}" style="display: inline;" onsubmit="return confirm('Delete this user? This cannot be undone.');">
+                        <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-        <p>No users found</p>
+    <p class="empty-message">No users found</p>
     {% endif %}
+
+    <div class="admin-footer">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
 </div>
 {% endblock %}
