@@ -1,1 +1,11 @@
+{% extends "base.html" %}
 
+{% block title %}Manage Job Descriptions - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h1>Manage Job Descriptions</h1>
+
+    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+</div>
+{% endblock %}
