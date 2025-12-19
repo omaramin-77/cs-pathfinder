@@ -375,4 +375,11 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                 )
                 if post_id:
                     new_count += 1
+                    
+    # Get total blog count
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) as count FROM blogs')
+    total = cursor.fetchone()['count']
+    conn.close()
     
