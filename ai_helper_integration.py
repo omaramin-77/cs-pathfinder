@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from ai_helper import choose_field_from_answers, get_available_fields
 
+
 @pytest.mark.integration
 def test_choose_field_real_gemini_call():
     """
@@ -14,7 +15,6 @@ def test_choose_field_real_gemini_call():
     - Uses real Gemini API
     - Verifies returned field is valid
     """
-
     # Ensure API key exists
     api_key = os.getenv("GEMINI_API_KEY")
     assert api_key is not None, "GEMINI_API_KEY must be set for this test"
