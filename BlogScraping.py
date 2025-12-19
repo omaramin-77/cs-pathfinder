@@ -432,3 +432,12 @@ def get_blogs_paginated(page=1, per_page=10):
         'total': total,
         'blogs': [dict(b) for b in blogs]
     }
+
+def get_blog_by_id(blog_id):
+    """Get a single blog post by ID"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM blogs WHERE id = ?', (blog_id,))
+    blog = cursor.fetchone()
+    conn.close()
+    return dict(blog) if blog else None
