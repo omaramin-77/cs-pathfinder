@@ -1,1 +1,50 @@
+{% extends "base.html" %}
 
+{% block title %}Manage Blog Posts - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Blog Management</h1>
+        <form method="POST" action="{{ url_for('admin_refresh_blogs') }}" style="display: inline;">
+            <button type="submit" class="btn btn-primary">🔄 Refresh RSS Feed</button>
+        </form>
+    </div>
+
+    {% if blogs %}
+    <div class="blog-grid">
+        {% for blog in blogs %}
+        <div class="blog-card">
+            {% if blog.thumbnail or blog.image_url %}
+            <img src="{{ blog.thumbnail or blog.image_url }}" alt="{{ blog.title }}" class="blog-image">
+            {% else %}
+            <div class="blog-image placeholder">📰</div>
+            {% endif %}
+            
+            <div class="blog-info">
+                <h4>{{ blog.title }}</h4>
+                <p class="blog-date">{{ blog.published_date[:10] if blog.published_date else 'No date' }}</p>
+                <p class="blog-summary">{{ blog.summary[:100] }}...</p>
+                
+                <div class="blog-actions">
+                    <a href="{{ url_for('admin_edit_blog', blog_id=blog.id) }}" class="btn btn-small btn-secondary">Edit</a>
+                    <form method="POST" action="{{ url_for('admin_delete_blog', blog_id=blog.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No blog posts found</p>
+        <p>Click "Refresh RSS Feed" to fetch articles from KDnuggets</p>
+    </div>
+    {% endif %}
+
+    <div class="admin-footer">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
