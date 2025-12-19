@@ -1,8 +1,6 @@
 """
- feed parsing and blog management
+RSS feed parsing and blog management
 """
-import json
-from pathlib import Path
 import feedparser
 import requests
 from datetime import datetime
@@ -10,7 +8,6 @@ from DB import get_db_connection
 from bs4 import BeautifulSoup
 
 RSS_FEED_URL = "https://www.kdnuggets.com/feed"
-
 
 def fetch_rss_feed(feed_url=RSS_FEED_URL):
     """Fetch RSS feed from URL"""
@@ -23,6 +20,7 @@ def fetch_rss_feed(feed_url=RSS_FEED_URL):
         print(f"Error fetching RSS feed: {e}")
         return None
 
+
 def extract_image_from_entry(entry):
     """Extract image URL from feed entry"""
     # Try media_content first
@@ -30,6 +28,7 @@ def extract_image_from_entry(entry):
         if isinstance(entry.media_content, list) and len(entry.media_content) > 0:
             if 'url' in entry.media_content[0]:
                 return entry.media_content[0]['url']
+    
     # Try summary_detail with HTML parsing
     if hasattr(entry, 'summary_detail') and entry.summary_detail:
         try:
@@ -39,6 +38,7 @@ def extract_image_from_entry(entry):
                 return img_tag.get('src')
         except:
             pass
+    
     # Try summary with HTML parsing
     if hasattr(entry, 'summary'):
         try:
@@ -50,6 +50,7 @@ def extract_image_from_entry(entry):
             pass
     
     return None
+
 
 def parse_feed_entries(feed):
     """Parse feed entries and extract required fields"""
@@ -78,6 +79,37 @@ def parse_feed_entries(feed):
             continue
     
     return entries
+
+
+def article_exists(url):
+    """Check if article with given URL already exists in database"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM blogs WHERE url = ?', (url,))
+    result = cursor.fetchone()
+    conn.close()
+    return result is not None
+
+
+def save_blog_post(title, url, summary, image_url, published_date):
+    """Save a blog post to database"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            INSERT INTO blogs (title, url, summary, image_url, published_date, scraped_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (title, url, summary, image_url, published_date, datetime.utcnow()))
+
+        conn.commit()
+        post_id = cursor.lastrowid
+        conn.close()
+        return post_id
+    except Exception as e:
+        print(f"Error saving blog post: {e}")
+        return None
+
 
 def scrape_article(url, timeout=15):
     """Fetch article page and extract full text content, author, thumbnail, and published date"""
@@ -152,6 +184,7 @@ def scrape_article(url, timeout=15):
                     el.decompose()
             except:
                 pass
+
         # Extract main article content
         content = None
         # Try common article containers
@@ -171,6 +204,7 @@ def scrape_article(url, timeout=15):
             if el:
                 content = el
                 break
+
         # Fallback: find largest text block
         if not content:
             divs = soup.find_all(['div', 'article', 'main'])
@@ -182,6 +216,7 @@ def scrape_article(url, timeout=15):
                     best_len = len(text)
                     best = d
             content = best
+
         # Extract HTML content with styling preserved
         if content:
             # Process images to ensure they load
@@ -203,7 +238,8 @@ def scrape_article(url, timeout=15):
                     img_classes.append('article-img')
                 else:
                     img_classes = ['article-img']
-                img['class'] = img_classes            
+                img['class'] = img_classes
+            
             # Remove inline styles that conflict with dark theme
             for el in content.find_all(True):
                 if el.get('style'):
@@ -257,42 +293,12 @@ def scrape_article(url, timeout=15):
         return None
 
 
-
 def count_words(text):
     """Count words in text"""
     if not text:
         return 0
     return len(text.split())
 
-
-
-def article_exists(url):
-    """Check if article with given URL already exists in database"""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('SELECT id FROM blogs WHERE url = ?', (url,))
-    result = cursor.fetchone()
-    conn.close()
-    return result is not None
-
-def save_blog_post(title, url, summary, image_url, published_date):
-    """Save a blog post to database"""
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        cursor.execute('''
-            INSERT INTO blogs (title, url, summary, image_url, published_date, scraped_at)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (title, url, summary, image_url, published_date, datetime.utcnow()))
-
-        conn.commit()
-        post_id = cursor.lastrowid
-        conn.close()
-        return post_id
-    except Exception as e:
-        print(f"Error saving blog post: {e}")
-        return None
 
 def refresh_rss_feed(feed_url=RSS_FEED_URL):
     """Fetch RSS feed and save new articles to database. Skips articles with less than 200 words."""
@@ -329,6 +335,7 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                     print(f"⏭️ Skipping article '{title}' - only {word_count} words (minimum 200 required)")
                     skipped_count += 1
                     continue
+
                 try:
                     conn = get_db_connection()
                     cursor = conn.cursor()
@@ -375,14 +382,14 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                 )
                 if post_id:
                     new_count += 1
-
+    
     # Get total blog count
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT COUNT(*) as count FROM blogs')
     total = cursor.fetchone()['count']
     conn.close()
-
+    
     message = f'Added {new_count} new articles'
     if skipped_count > 0:
         message += f', skipped {skipped_count} articles (too short)'
@@ -415,8 +422,9 @@ def get_all_blogs(limit=None):
     conn.close()
     return [dict(blog) for blog in blogs] if blogs else []
 
+
 def get_blogs_paginated(page=1, per_page=10):
-    """Return tagged blogs and total count"""
+    """Return paginated blogs and total count"""
     offset = (page - 1) * per_page
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -433,6 +441,7 @@ def get_blogs_paginated(page=1, per_page=10):
         'blogs': [dict(b) for b in blogs]
     }
 
+
 def get_blog_by_id(blog_id):
     """Get a single blog post by ID"""
     conn = get_db_connection()
@@ -441,13 +450,14 @@ def get_blog_by_id(blog_id):
     blog = cursor.fetchone()
     conn.close()
     return dict(blog) if blog else None
-    
+
+
 def update_blog(blog_id, title=None, summary=None, image_url=None, full_text=None, author=None, thumbnail=None, published_date=None):
     """Update blog post details"""
     try:
         updates = []
         params = []
-
+        
         if title is not None:
             updates.append('title = ?')
             params.append(title)
@@ -469,23 +479,23 @@ def update_blog(blog_id, title=None, summary=None, image_url=None, full_text=Non
         if published_date is not None:
             updates.append('published_date = ?')
             params.append(published_date)
-
+        
         if not updates:
             return False
-
+        
         params.append(blog_id)
         query = f'UPDATE blogs SET {", ".join(updates)} WHERE id = ?'
-
+        
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(query, params)
         conn.commit()
         conn.close()
         return True
-
     except Exception as e:
         print(f"Error updating blog: {e}")
         return False
+
 
 def delete_blog(blog_id):
     """Delete a blog post"""
