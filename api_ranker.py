@@ -23,3 +23,6 @@ logger = logging.getLogger(__name__)
 
 class APICVRanker:
     """CV Ranker using ChatPDF API"""
+
+    def __init__(self):
+        self.api_key = os.getenv("CHATPDF_API_KEY")
