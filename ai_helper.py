@@ -106,7 +106,7 @@ def choose_field_from_answers(answers):
         genai.configure(api_key=api_key)
 
         model = genai.GenerativeModel("gemini-2.5-flash-lite")
-        prompt = build_prompt(answers)
+        prompt = build_prompt(answers, available_fields)
 
         response = model.generate_content(prompt)
         field = response.text.strip()
