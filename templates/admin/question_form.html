@@ -1,1 +1,14 @@
+{% extends "base.html" %}
 
+{% block title %}Create Question - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h1>Create Question</h1>
+
+    <form method="POST">
+        <textarea name="question_text" placeholder="Question text"></textarea>
+        <button type="submit">Create</button>
+    </form>
+</div>
+{% endblock %}
