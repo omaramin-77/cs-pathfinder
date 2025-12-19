@@ -1,1 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Create New Roadmap - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Create New Roadmap</h1>
+        <p>Create a new career field roadmap</p>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" class="blog-form">
+            <div class="form-group">
+                <label for="field_name">Career Field Name *</label>
+                <input type="text" id="field_name" name="field_name" required 
+                       placeholder="e.g., AI Engineer, Data Scientist, Web Developer">
+                <small style="color: #90a4ae; margin-top: 5px;">
+                    Enter the name of the career field (e.g., "AI Engineer", "Data Scientist"). 
+                    This will be the title of the roadmap.
+                </small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Create Roadmap</button>
+                <a href="{{ url_for('admin_roadmaps') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="info-box" style="margin-top: 30px;">
+        <p><strong>Note:</strong> After creating the roadmap, you'll be able to add steps to it. 
+        Steps can be added, edited, and deleted from the roadmap edit page.</p>
+    </div>
+
+    <div class="admin-footer">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
 
