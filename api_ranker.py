@@ -26,3 +26,5 @@ class APICVRanker:
 
     def __init__(self):
         self.api_key = os.getenv("CHATPDF_API_KEY")
+        if not self.api_key:
+            raise ValueError("CHATPDF_API_KEY not found in environment variables")
