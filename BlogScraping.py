@@ -487,3 +487,15 @@ def update_blog(blog_id, title=None, summary=None, image_url=None, full_text=Non
         print(f"Error updating blog: {e}")
         return False
 
+def delete_blog(blog_id):
+    """Delete a blog post"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM blogs WHERE id = ?', (blog_id,))
+        conn.commit()
+        conn.close()
+        return True
+    except Exception as e:
+        print(f"Error deleting blog: {e}")
+        return False
