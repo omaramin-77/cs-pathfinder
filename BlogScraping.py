@@ -309,7 +309,7 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
     entries = parse_feed_entries(feed)
     new_count = 0
     skipped_count = 0
-    
+
     for entry in entries:
         if not article_exists(entry['url']):
             # Scrape full article content
@@ -329,3 +329,30 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                     print(f"⏭️ Skipping article '{title}' - only {word_count} words (minimum 200 required)")
                     skipped_count += 1
                     continue
+                try:
+                    conn = get_db_connection()
+                    cursor = conn.cursor()
+                    
+                    # Check if full_html column exists, if not use full_text
+                    full_html = scraped.get('full_html', full_text)
+                    
+                    cursor.execute('''
+                        INSERT INTO blogs (title, url, summary, full_text, author, thumbnail, published_date, scraped_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    ''', (
+                        title,
+                        entry['url'],
+                        entry.get('summary'),
+                        full_html or full_text,  # Use HTML if available, fallback to text
+                        author,
+                        thumb,
+                        pub,
+                        datetime.utcnow()
+                    ))
+                    conn.commit()
+                    post_id = cursor.lastrowid
+                    conn.close()
+                    if post_id:
+                        new_count += 1
+                except Exception as e:
+                    print(f"Error saving scraped article: {e}")
