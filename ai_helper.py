@@ -53,7 +53,33 @@ def get_available_fields():
         roadmaps = cursor.fetchall()
         conn.close()
         
-
+        if roadmaps:
+            return [r['field_name'] for r in roadmaps]
+        else:
+            # Fallback to default fields if no roadmaps exist
+            return [
+                "AI Engineer",
+                "ML Engineer",
+                "Data Scientist",
+                "Web Developer",
+                "Cybersecurity Analyst",
+                "Cloud Engineer",
+                "Mobile Developer",
+                "Game Developer"
+            ]
+    except Exception as e:
+        print(f"Error fetching roadmaps from database: {e}")
+        # Fallback to default fields on error
+        return [
+            "AI Engineer",
+            "ML Engineer",
+            "Data Scientist",
+            "Web Developer",
+            "Cybersecurity Analyst",
+            "Cloud Engineer",
+            "Mobile Developer",
+            "Game Developer"
+        ]
 
 
 
