@@ -112,14 +112,20 @@ def choose_field_from_answers(answers):
         field = response.text.strip()
 
         # Validate
-        if field in AVAILABLE_FIELDS:
+        if field in available_fields:
             return field
 
-        for f in AVAILABLE_FIELDS:
-            if f.lower() in field.lower():
+        # Try partial match (case-insensitive)
+        for f in available_fields:
+            if f.lower() in field.lower() or field.lower() in f.lower():
                 return f
 
-        print("⚠️ Unexpected output:", field)
+        # If no match found, return first available field as fallback
+        print(f"⚠️ AI returned '{field}' which doesn't match any roadmap. Using first available field.")
+        if available_fields:
+            return available_fields[0]
+        
+        # Last resort fallback
         return "AI Engineer"
 
     except Exception as e:
