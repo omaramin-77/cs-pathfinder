@@ -22,3 +22,10 @@ def test_detect_language_english(ranker):
     text = "This is a simple English sentence used for testing."
     lang = ranker.detect_language(text)
     assert lang == "en"
+
+
+def test_detect_language_short_text_defaults_to_en(ranker):
+    text = "Hi"
+    lang = ranker.detect_language(text)
+    assert lang == "en"
+
