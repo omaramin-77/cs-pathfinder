@@ -4,6 +4,30 @@
 
 {% block content %}
 <div class="admin-container">
-    <h1>Admin Dashboard</h1>
+
+    <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <p>Manage users, quiz questions, roadmaps, and blog content</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ user_count }}</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ question_count }}</div>
+            <div class="stat-label">Quiz Questions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ blog_count }}</div>
+            <div class="stat-label">Blog Posts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ job_desc_count }}</div>
+            <div class="stat-label">Job Descriptions</div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
