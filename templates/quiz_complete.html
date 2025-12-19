@@ -10,24 +10,11 @@
         <h1>You're ready to submit</h1>
         <p>Review your answers below. You can go back to change any answer.</p>
 
-        <form method="POST" action="/submit_quiz" id="quizSubmitForm">
-            <button type="submit" class="btn btn-primary btn-large" id="submitBtn">
-                <span id="submitText">Get My Recommendation</span>
-                <span id="submitLoader" class="loader hidden"></span>
+        <form method="POST" action="/submit_quiz">
+            <button type="submit" class="btn btn-primary btn-large">
+                Get My Recommendation
             </button>
         </form>
-        
-        <script>
-            document.getElementById('quizSubmitForm').addEventListener('submit', function() {
-                const btn = document.getElementById('submitBtn');
-                const text = document.getElementById('submitText');
-                const loader = document.getElementById('submitLoader');
-                
-                btn.disabled = true;
-                text.classList.add('hidden');
-                loader.classList.remove('hidden');
-            });
-        </script>
         
         <a href="/" class="btn btn-secondary">Cancel</a>
         </div>
