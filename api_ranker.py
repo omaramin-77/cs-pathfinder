@@ -28,3 +28,11 @@ class APICVRanker:
         self.api_key = os.getenv("CHATPDF_API_KEY")
         if not self.api_key:
             raise ValueError("CHATPDF_API_KEY not found in environment variables")
+
+    def detect_language(self, text: str) -> str:
+        """Detect language of text"""
+        try:
+            if not text or len(text.strip()) < 10:
+                return "en"
+            return detect(" ".join(text.split()))
+
