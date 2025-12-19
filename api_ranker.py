@@ -164,3 +164,21 @@ Respond with ONLY the JSON, no additional text."""
             )
         except Exception:
             pass
+
+    def parse_ranking_response(self, response: str) -> Dict:
+        """Parse JSON response from ChatPDF"""
+        try:
+            start_idx = response.find("{")
+            end_idx = response.rfind("}") + 1
+
+            if start_idx != -1 and end_idx > start_idx:
+                json_str = response[start_idx:end_idx]
+                data = json.loads(json_str)
+
+                return {
+                    "overall_score": data.get("score", 0),
+                    "matching_analysis": data.get("matching_analysis", ""),
+                    "description": data.get("description", ""),
+                    "recommendation": data.get("recommendation", ""),
+                }
+
