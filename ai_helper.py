@@ -7,12 +7,12 @@ from DB import get_db_connection
 load_dotenv()
 
 
-def build_prompt(answers):
+def build_prompt(answers, fields):
     lines = []
     for q, v in answers.items():
         if isinstance(v, dict):
-            q_text = v.get('question', '').strip()
-            a_text = v.get('answer', '').strip()
+            q_text = (v.get('question') or '').strip()
+            a_text = (v.get('answer') or '').strip()
             if q_text:
                 lines.append(f"Question {q}: {q_text}\nAnswer: {a_text}")
             else:
@@ -26,7 +26,7 @@ def build_prompt(answers):
 You are a career counselor for computer science students.
 
 Based on the following quiz answers, recommend EXACTLY ONE career field from this list:
-{', '.join(AVAILABLE_FIELDS)}
+{', '.join(fields)}
 
 Quiz Answers:
 {answers_text}
