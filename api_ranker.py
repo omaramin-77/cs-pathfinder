@@ -127,3 +127,28 @@ class APICVRanker:
 
 Provide the complete translated CV now."""
         return self.chat_with_chatpdf(source_id, prompt)
+    
+    def rank_with_chatpdf(self, source_id: str, job_description: str) -> str:
+        """Rank CV against job description using ChatPDF"""
+        prompt = f"""You are an expert HR recruiter. Analyze the uploaded CV against this job description and provide a detailed assessment.
+
+Job Description:
+{job_description[:3000]}
+
+Analyze the CV and respond with ONLY valid JSON in this exact format:
+
+{{
+    "matching_analysis": "Detailed analysis of how the candidate matches the job requirements (200-300 characters)",
+    "description": "Brief summary of candidate's profile (150-200 characters)",
+    "score": 85,
+    "recommendation": "Your hiring recommendation (150-200 characters)"
+}}
+
+Important:
+- Score should be 0-100 based on job fit
+- Be specific about matching skills and experience
+- Mention any gaps or concerns
+- Provide actionable recommendation
+
+Respond with ONLY the JSON, no additional text."""
+        return self.chat_with_chatpdf(source_id, prompt)
