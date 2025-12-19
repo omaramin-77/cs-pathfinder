@@ -115,3 +115,15 @@ class APICVRanker:
         except Exception as e:
             logger.error(f"Error during ChatPDF chat: {e}")
             return None
+
+    def translate_with_chatpdf(self, source_id: str) -> str:
+        """Translate CV to English using ChatPDF"""
+        prompt = """Translate this entire CV/resume to professional English. Follow these rules:
+
+1. Translate ALL text including personal information, education, experience, skills, certifications, languages, and projects.
+2. Keep unchanged: email addresses, phone numbers, URLs, dates, and numbers.
+3. Format as a structured CV with clear sections.
+4. Use professional English terminology.
+
+Provide the complete translated CV now."""
+        return self.chat_with_chatpdf(source_id, prompt)
