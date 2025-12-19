@@ -35,4 +35,5 @@ class APICVRanker:
             if not text or len(text.strip()) < 10:
                 return "en"
             return detect(" ".join(text.split()))
-
+        except Exception:
+            return "en"
