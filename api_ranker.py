@@ -188,3 +188,20 @@ Respond with ONLY the JSON, no additional text."""
                     "description": response[:200] if response else "No description",
                     "recommendation": "Manual review recommended",
                 }
+
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON parsing failed: {e}")
+            return {
+                "overall_score": 50,
+                "matching_analysis": "JSON parsing error",
+                "description": response[:200] if response else "No description",
+                "recommendation": "Manual review required",
+            }
+        except Exception as e:
+            logger.error(f"Error parsing response: {e}")
+            return {
+                "overall_score": 0,
+                "matching_analysis": "Parsing error occurred",
+                "description": str(e),
+                "recommendation": "Manual review required",
+            }
