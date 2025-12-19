@@ -485,11 +485,14 @@ def update_blog(
         
         params.append(blog_id)
         query = f'UPDATE blogs SET {", ".join(updates)} WHERE id = ?'
-        
+
         conn = get_db_connection()
         cursor = conn.cursor()
+        cursor.execute(query, params)
+        conn.commit()
         conn.close()
         return True
+        
     except Exception as e:
         print(f"Error updating blog: {e}")
         return False
