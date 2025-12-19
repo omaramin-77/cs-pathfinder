@@ -4,23 +4,41 @@
 
 {% block content %}
 <div class="admin-container">
-
     <div class="admin-header">
         <h1>Quiz Question Management</h1>
-        <a href="{{ url_for('admin_new_question') }}" class="btn btn-primary">
-            + Add New Question
-        </a>
+        <a href="{{ url_for('admin_new_question') }}" class="btn btn-primary">+ Add New Question</a>
     </div>
 
     {% if questions %}
-        <ul>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Question</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for q in questions %}
-                <li>#{{ q.id }} — {{ q.question_text }}</li>
+            <tr>
+                <td>#{{ q.id }}</td>
+                <td>{{ q.question_text }}</td>
+                <td>
+                    <a href="{{ url_for('admin_edit_question', q_id=q.id) }}" class="btn btn-small btn-secondary">Edit</a>
+                    <form method="POST" action="{{ url_for('delete_question', q_id=q.id) }}" style="display: inline;" onsubmit="return confirm('Delete this question?');">
+                        <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
             {% endfor %}
-        </ul>
+        </tbody>
+    </table>
     {% else %}
-        <p>No questions found</p>
+    <p class="empty-message">No questions found</p>
     {% endif %}
 
+    <div class="admin-footer">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
 </div>
 {% endblock %}
