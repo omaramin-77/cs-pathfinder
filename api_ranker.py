@@ -205,3 +205,35 @@ Respond with ONLY the JSON, no additional text."""
                 "description": str(e),
                 "recommendation": "Manual review required",
             }
+        
+    def rank_single_cv(self, job_description: str, cv_path) -> Dict:
+        """Rank a single PDF CV against job description"""
+        cv_filename = getattr(cv_path, 'filename', 'uploaded_cv.pdf')
+        source_id = None
+        
+        try:
+            cv_text = self.extract_text_from_pdf(cv_path)
+            detected_lang = self.detect_language(cv_text) if cv_text else "unknown"
+            
+            source_id = self.upload_pdf_to_chatpdf(cv_path)
+            if not source_id:
+                return {"cv_filename": cv_filename, "error": "Failed to upload PDF", "overall_score": 0}
+
+            if detected_lang not in ("en", "unknown"):
+                if not self.translate_with_chatpdf(source_id):
+                    return {"cv_filename": cv_filename, "error": "Translation failed", "overall_score": 0}
+
+            response = self.rank_with_chatpdf(source_id, job_description)
+            if not response:
+                return {"cv_filename": cv_filename, "error": "Ranking failed", "overall_score": 0}
+
+            result = self.parse_ranking_response(response)
+            result["cv_filename"] = cv_filename
+            return result
+
+        except Exception as e:
+            logger.error(f"Error processing {cv_filename}: {e}")
+            return {"cv_filename": cv_filename, "error": str(e), "overall_score": 0}
+        finally:
+            if source_id:
+                self.cleanup_chatpdf(source_id)
