@@ -21,7 +21,7 @@ def build_prompt(answers, fields):
         else:
             lines.append(f"Question {q}: {v}")
 
-    answers_text = "\n\n".join(lines)
+    answers_text = "\n\n".join(lines) if lines else "No answers provided."
 
     return f"""
 You are a career counselor for computer science students.
