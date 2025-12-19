@@ -82,9 +82,7 @@ def get_available_fields():
         ]
 
 
-
 def choose_field_from_answers(answers):
-    
     """
     Send quiz answers to Gemini API and get field recommendation
     
@@ -95,17 +93,7 @@ def choose_field_from_answers(answers):
         String with recommended field name
     """
     
-    # Available CS career fields
-    available_fields = [
-        "AI Engineer",
-        "ML Engineer",
-        "Data Scientist",
-        "Web Developer",
-        "Cybersecurity Analyst",
-        "Cloud Engineer",
-        "Mobile Developer",
-        "Game Developer"
-    ]
+
     api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
