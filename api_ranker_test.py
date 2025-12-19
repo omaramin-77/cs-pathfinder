@@ -51,3 +51,9 @@ def test_parse_invalid_json_response(ranker):
 
     assert result["overall_score"] == 50
     assert "Manual review" in result["recommendation"]
+
+
+def test_extract_text_from_pdf_empty_file(ranker):
+    fake_pdf = io.BytesIO(b"")
+    text = ranker.extract_text_from_pdf(fake_pdf)
+    assert text == ""
