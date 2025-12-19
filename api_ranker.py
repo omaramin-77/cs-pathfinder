@@ -152,3 +152,15 @@ Important:
 
 Respond with ONLY the JSON, no additional text."""
         return self.chat_with_chatpdf(source_id, prompt)
+
+    def cleanup_chatpdf(self, source_id: str):
+        """Delete uploaded PDF from ChatPDF"""
+        try:
+            requests.post(
+                "https://api.chatpdf.com/v1/sources/delete",
+                headers={"x-api-key": self.api_key},
+                json={"sources": [source_id]},
+                timeout=30,
+            )
+        except Exception:
+            pass
