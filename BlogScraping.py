@@ -6,7 +6,7 @@ from pathlib import Path
 import feedparser
 import requests
 from datetime import datetime
-
+from DB import get_db_connection
 from bs4 import BeautifulSoup
 
 RSS_FEED_URL = "https://www.kdnuggets.com/feed"
@@ -266,3 +266,11 @@ def count_words(text):
 
 
 
+def article_exists(url):
+    """Check if article with given URL already exists in database"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM blogs WHERE url = ?', (url,))
+    result = cursor.fetchone()
+    conn.close()
+    return result is not None
