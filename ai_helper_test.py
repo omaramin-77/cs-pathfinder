@@ -31,3 +31,24 @@ def test_build_prompt_contains_answers_and_fields():
     assert "AI Engineer, Web Developer" in prompt
     assert "Respond *only* with the field name" in prompt
 
+
+# ------------------------------------------------------------------
+# Tests for get_available_fields
+# ------------------------------------------------------------------
+
+@patch("ai_helper.get_db_connection")
+def test_get_available_fields_from_database(mock_get_db):
+    # Mock DB cursor and connection
+    mock_cursor = MagicMock()
+    mock_cursor.fetchall.return_value = [
+        {"field_name": "AI Engineer"},
+        {"field_name": "Data Scientist"}
+    ]
+
+    mock_conn = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+    mock_get_db.return_value = mock_conn
+
+    fields = get_available_fields()
+
+    assert fields == ["AI Engineer", "Data Scientist"]
