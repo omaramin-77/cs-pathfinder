@@ -350,31 +350,158 @@ def _validate_cv_file(cv_file):
 
 
 def _get_job_description(job_desc_type):
-    return job_description
+    """Retrieve job description based on type"""
+    if job_desc_type == 'predefined':
+        job_desc_id = request.form.get('job_desc_id')
+        if not job_desc_id:
+            return None, None, 'Please select a job description'
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT description FROM job_descriptions WHERE id = ?', (job_desc_id,))
+        job_desc_row = cursor.fetchone()
+        conn.close()
+        
+        if not job_desc_row:
+            return None, None, 'Job description not found'
+        
+        return job_desc_row['description'], job_desc_id, None
+    else:
+        job_description = request.form.get('custom_job_desc', '').strip()
+        if not job_description:
+            return None, None, 'Please provide a job description'
+        return job_description, None, None
 
-def _save_ranking_result(cv_filename, job_desc_id, job_description):
+
+def _save_ranking_result(cv_filename, job_desc_id, job_description, job_desc_type, result):
+    """Save CV ranking result to database"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO cv_rankings 
+        (user_id, cv_filename, job_description_id, custom_job_description, 
+         overall_score, matching_analysis, description, recommendation)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        session['user_id'],
+        secure_filename(cv_filename),
+        job_desc_id if job_desc_type == 'predefined' else None,
+        job_description if job_desc_type == 'custom' else None,
+        result.get('overall_score', 0),
+        result.get('matching_analysis', ''),
+        result.get('description', ''),
+        result.get('recommendation', '')
+    ))
+    conn.commit()
+    ranking_id = cursor.lastrowid
+    conn.close()
     return ranking_id
 
 
 @app.route('/cv-ranker/rank', methods=['POST'])
 def rank_cv():
-    flash('CV ranked successfully!', 'success')
-    return redirect(url_for('cv_ranking_result', ranking_id=ranking_id))
+    """Rank uploaded CV against job description"""
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    # Validate CV file
+    if 'cv_file' not in request.files:
+        flash('No CV file uploaded', 'error')
+        return redirect(url_for('cv_ranker'))
+    
+    cv_file = request.files['cv_file']
+    is_valid, error_msg = _validate_cv_file(cv_file)
+    if not is_valid:
+        flash(error_msg, 'error')
+        return redirect(url_for('cv_ranker'))
+    
+    # Get job description
+    job_desc_type = request.form.get('job_desc_type')
+    job_description, job_desc_id, error_msg = _get_job_description(job_desc_type)
+    if error_msg:
+        flash(error_msg, 'error')
+        return redirect(url_for('cv_ranker'))
+    
+    # Rank CV
+    try:
+        ranker = APICVRanker()
+        result = ranker.rank_single_cv(job_description, cv_file)
+        
+        if 'error' in result:
+            flash(f'Error ranking CV: {result["error"]}', 'error')
+            return redirect(url_for('cv_ranker'))
+        
+        # Save result
+        ranking_id = _save_ranking_result(
+            cv_file.filename, job_desc_id, job_description, job_desc_type, result
+        )
+        
+        flash('CV ranked successfully!', 'success')
+        return redirect(url_for('cv_ranking_result', ranking_id=ranking_id))
+        
+    except Exception as e:
+        flash(f'Error processing CV: {str(e)}', 'error')
+        return redirect(url_for('cv_ranker'))
 
 @app.route('/cv-ranker/result/<int:ranking_id>')
 def cv_ranking_result(ranking_id):
+    """Display CV ranking result"""
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT r.*, j.title as job_title 
+        FROM cv_rankings r
+        LEFT JOIN job_descriptions j ON r.job_description_id = j.id
+        WHERE r.id = ? AND r.user_id = ?
+    ''', (ranking_id, session['user_id']))
+    ranking = cursor.fetchone()
+    conn.close()
+    
+    if not ranking:
+        flash('Ranking not found', 'error')
+        return redirect(url_for('cv_ranker'))
+    
     return render_template('cv_ranking_result.html', ranking=ranking)
-
 
 @app.route('/cv-ranker/history')
 def cv_ranking_history():
+    """View all CV ranking history"""
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT r.*, j.title as job_title 
+        FROM cv_rankings r
+        LEFT JOIN job_descriptions j ON r.job_description_id = j.id
+        WHERE r.user_id = ?
+        ORDER BY r.created_at DESC
+    ''', (session['user_id'],))
+    rankings = cursor.fetchall()
+    conn.close()
+    
     return render_template('cv_ranking_history.html', rankings=rankings)
-
 
 @app.route('/cv-ranker/delete/<int:ranking_id>', methods=['POST'])
 def delete_cv_ranking(ranking_id):
+    """Delete a CV ranking"""
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM cv_rankings WHERE id = ? AND user_id = ?', 
+                (ranking_id, session['user_id']))
+    conn.commit()
+    conn.close()
+    
     flash('Ranking deleted', 'success')
     return redirect(url_for('cv_ranking_history'))
+
 
 @app.route('/news')
 def news_list():
