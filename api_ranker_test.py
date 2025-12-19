@@ -43,3 +43,11 @@ def test_parse_valid_json_response(ranker):
 
     assert result["overall_score"] == 85
     assert "Python" in result["matching_analysis"]
+
+
+def test_parse_invalid_json_response(ranker):
+    response = "This is not JSON at all"
+    result = ranker.parse_ranking_response(response)
+
+    assert result["overall_score"] == 50
+    assert "Manual review" in result["recommendation"]
