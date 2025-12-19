@@ -3,20 +3,23 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from werkzeug.security import generate_password_hash, check_password_hash
 from DB import init_db, get_db_connection
 from ai_helper import choose_field_from_answers
-from roadmaps_data import ROADMAPS
+from BlogScraping import (refresh_rss_feed, get_all_blogs, get_blog_by_id, 
+                          update_blog, delete_blog, get_blogs_paginated)
 from datetime import datetime
 from functools import wraps
 from werkzeug.utils import secure_filename
 from api_ranker import APICVRanker
 
 app = Flask(__name__)
-app.secret_key = '12345' #need to chnge later
+app.secret_key = '12345'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config['UPLOAD_FOLDER'] = 'pdf_cvs'
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 init_db()
+
+# ============ ADMIN DECORATOR ============
 
 def admin_required(f):
     """Decorator to protect admin routes"""
@@ -70,7 +73,6 @@ def login():
             flash('Invalid credentials, please try again.', 'error')
     
     return render_template('login.html')
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -181,6 +183,7 @@ def submit_quiz():
     conn = get_db_connection()
     cursor = conn.cursor()
 
+    # ✅ Prevent duplication
     cursor.execute(
         'SELECT 1 FROM user_fields WHERE user_id = ? AND field_name = ?',
         (session['user_id'], field_name)
@@ -200,9 +203,6 @@ def submit_quiz():
     session.pop('answers', None)
     flash(f'Your recommended field: {field_name}!', 'success')
     return redirect(url_for('results'))
-
-
-
 
 @app.route("/results")
 def results():
@@ -231,7 +231,6 @@ def remove_field(id):
     
     flash("Field removed", "success")
     return redirect(url_for("results"))
-
 
 @app.route("/roadmap/<field>")
 def roadmap(field):
@@ -267,7 +266,6 @@ def roadmap(field):
     
     return render_template('roadmap.html', field=field, steps=steps, progress=progress,
                           percentage=percentage, total_steps=total_steps, completed_steps=completed_steps)
-
 
 @app.route("/roadmap/<field>/update", methods=["POST"])
 def update_roadmap(field):
@@ -314,7 +312,6 @@ def reset_roadmap(field):
     return redirect(url_for("roadmap", field=field))
 
 
-
 @app.route('/cv-ranker')
 def cv_ranker():
     """CV Ranker landing page"""
@@ -338,7 +335,6 @@ def cv_ranker():
                           job_descriptions=job_descriptions,
                           rankings=rankings)
 
-
 def _validate_cv_file(cv_file):
     """Validate uploaded CV file"""
     if not cv_file or cv_file.filename == '':
@@ -346,7 +342,6 @@ def _validate_cv_file(cv_file):
     if not cv_file.filename.lower().endswith('.pdf'):
         return False, 'Only PDF files are allowed'
     return True, None
-
 
 
 def _get_job_description(job_desc_type):
@@ -531,146 +526,609 @@ def news_detail(blog_id):
 @app.route('/admin/dashboard')
 @admin_required
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    """Admin dashboard homepage"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) as count FROM users')
+    user_count = cursor.fetchone()['count']
+    cursor.execute('SELECT COUNT(*) as count FROM quiz_questions')
+    question_count = cursor.fetchone()['count']
+    cursor.execute('SELECT COUNT(*) as count FROM blogs')
+    blog_count = cursor.fetchone()['count']
+    cursor.execute('SELECT COUNT(*) as count FROM job_descriptions')
+    job_desc_count = cursor.fetchone()['count']
+    conn.close()
+    
+    return render_template('admin/dashboard.html', 
+                          user_count=user_count,
+                          question_count=question_count,
+                          blog_count=blog_count,
+                          job_desc_count=job_desc_count)
 
 @app.route('/admin/users')
 @admin_required
 def admin_users():
-    return render_template('admin_users.html', users=users)
+    """View all users and manage admin status"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, email, is_admin FROM users ORDER BY id DESC')
+    users = cursor.fetchall()
+    conn.close()
+    return render_template('admin/users.html', users=users)
 
 @app.route('/admin/users/new', methods=['GET', 'POST'])
 @admin_required
 def admin_new_user():
+    """Create a new user"""
     if request.method == 'POST':
-        flash('New user created', 'success')
-        return render_template('admin_new_user.html')
-
+        email = request.form.get('email')
+        password = request.form.get('password')
+        is_admin = request.form.get('is_admin')
+        
+        if not email or not password:
+            flash('Email and password are required', 'error')
+            return redirect(url_for('admin_new_user'))
+        
+        if len(password) < 6:
+            flash('Password must be at least 6 characters', 'error')
+            return redirect(url_for('admin_new_user'))
+        
+        password_hash = generate_password_hash(password)
+        # Check if admin checkbox was checked (value="1" or exists in form)
+        admin_status = 1 if is_admin in ('1', 'on', True) else 0
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute(
+                'INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)',
+                (email, password_hash, admin_status)
+            )
+            conn.commit()
+            flash(f'User {email} created successfully!', 'success')
+            return redirect(url_for('admin_users'))
+        except Exception as e:
+            flash(f'Error creating user: {str(e)}', 'error')
+        finally:
+            conn.close()
+        
+        return redirect(url_for('admin_new_user'))
+    
+    return render_template('admin/user_form.html')
 
 @app.route('/admin/users/<int:user_id>/toggle_admin', methods=['POST'])
 @admin_required
 def toggle_user_admin(user_id):
-    flash('User admin status toggled', 'success')
+    """Toggle admin status for a user"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT is_admin FROM users WHERE id = ?', (user_id,))
+    user = cursor.fetchone()
+    
+    if user:
+        new_status = 1 - user['is_admin']
+        cursor.execute('UPDATE users SET is_admin = ? WHERE id = ?', (new_status, user_id))
+        conn.commit()
+        status_text = 'promoted to admin' if new_status else 'demoted from admin'
+        flash(f'User {status_text}', 'success')
+    
+    conn.close()
     return redirect(url_for('admin_users'))
-
 
 @app.route('/admin/users/<int:user_id>/delete', methods=['POST'])
 @admin_required
 def delete_user(user_id):
-    flash('User deleted', 'success')
+    """Delete a user and their data"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Delete associated data first
+        cursor.execute('DELETE FROM roadmap_progress WHERE user_id = ?', (user_id,))
+        cursor.execute('DELETE FROM user_fields WHERE user_id = ?', (user_id,))
+        cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
+        
+        conn.commit()
+        flash('User deleted successfully', 'success')
+    except Exception as e:
+        flash(f'Error deleting user: {str(e)}', 'error')
+    finally:
+        conn.close()
+    
     return redirect(url_for('admin_users'))
 
 @app.route('/admin/questions')
 @admin_required
 def admin_questions():
-    return render_template('admin_questions.html', questions=questions)
-
+    """View all quiz questions"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM quiz_questions ORDER BY id')
+    questions = cursor.fetchall()
+    conn.close()
+    return render_template('admin/questions.html', questions=questions)
 
 @app.route('/admin/questions/new', methods=['GET', 'POST'])
 @admin_required
 def admin_new_question():
+    """Create a new quiz question"""
     if request.method == 'POST':
-        flash('New question added', 'success')
-        return redirect(url_for('admin_questions'))
-    return render_template('admin_new_question.html')
+        question_text = request.form.get('question_text')
+        option_a = request.form.get('option_a')
+        option_b = request.form.get('option_b')
+        option_c = request.form.get('option_c')
+        option_d = request.form.get('option_d')
+        
+        if not all([question_text, option_a, option_b, option_c, option_d]):
+            flash('All fields are required', 'error')
+            return redirect(url_for('admin_new_question'))
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute('''
+                INSERT INTO quiz_questions (question_text, option_a, option_b, option_c, option_d)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (question_text, option_a, option_b, option_c, option_d))
+            conn.commit()
+            flash('Question created successfully', 'success')
+            return redirect(url_for('admin_questions'))
+        except Exception as e:
+            flash(f'Error creating question: {str(e)}', 'error')
+        finally:
+            conn.close()
+    
+    return render_template('admin/question_form.html')
 
 @app.route('/admin/questions/<int:q_id>/edit', methods=['GET', 'POST'])
 @admin_required
 def admin_edit_question(q_id):
+    """Edit an existing quiz question"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM quiz_questions WHERE id = ?', (q_id,))
+    question = cursor.fetchone()
+    
+    if not question:
+        flash('Question not found', 'error')
+        conn.close()
+        return redirect(url_for('admin_questions'))
+    
+    if request.method == 'POST':
+        question_text = request.form.get('question_text')
+        option_a = request.form.get('option_a')
+        option_b = request.form.get('option_b')
+        option_c = request.form.get('option_c')
+        option_d = request.form.get('option_d')
+        
+        if not all([question_text, option_a, option_b, option_c, option_d]):
+            flash('All fields are required', 'error')
+            return redirect(url_for('admin_edit_question', q_id=q_id))
+        
+        try:
+            cursor.execute('''
+                UPDATE quiz_questions 
+                SET question_text = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?
+                WHERE id = ?
+            ''', (question_text, option_a, option_b, option_c, option_d, q_id))
+            conn.commit()
+            flash('Question updated successfully', 'success')
+            conn.close()
+            return redirect(url_for('admin_questions'))
+        except Exception as e:
+            flash(f'Error updating question: {str(e)}', 'error')
+            conn.close()
+            return redirect(url_for('admin_edit_question', q_id=q_id))
+    
+    conn.close()
     return render_template('admin/question_form.html', question=question, edit=True)
-
 
 @app.route('/admin/questions/<int:q_id>/delete', methods=['POST'])
 @admin_required
 def delete_question(q_id):
-    flash('Question deleted', 'success')
+    """Delete a quiz question"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM quiz_questions WHERE id = ?', (q_id,))
+        conn.commit()
+        flash('Question deleted successfully', 'success')
+    except Exception as e:
+        flash(f'Error deleting question: {str(e)}', 'error')
+    finally:
+        conn.close()
+    
     return redirect(url_for('admin_questions'))
 
 @app.route('/admin/roadmaps')
 @admin_required
 def admin_roadmaps():
-    return render_template('admin_roadmaps.html', roadmaps=roadmaps)
+    """View all roadmaps"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT field_name FROM roadmaps ORDER BY field_name')
+    roadmaps = cursor.fetchall()
+    conn.close()
+    roadmap_names = [r['field_name'] for r in roadmaps]
+    return render_template('admin/roadmap_list.html', roadmaps=roadmap_names)
 
 @app.route('/admin/roadmaps/new', methods=['GET', 'POST'])
 @admin_required
 def admin_new_roadmap():
+    """Create a new roadmap"""
     if request.method == 'POST':
-        flash('New roadmap created', 'success')
-        return redirect(url_for('admin_roadmaps'))
+        field_name = request.form.get('field_name', '').strip()
+        
+        if not field_name:
+            flash('Field name is required', 'error')
+            return redirect(url_for('admin_new_roadmap'))
+        
+        # Check if roadmap already exists
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field_name,))
+        existing = cursor.fetchone()
+        
+        if existing:
+            conn.close()
+            flash(f'Roadmap for "{field_name}" already exists', 'error')
+            return redirect(url_for('admin_new_roadmap'))
+        
+        try:
+            cursor.execute('INSERT INTO roadmaps (field_name) VALUES (?)', (field_name,))
+            conn.commit()
+            roadmap_id = cursor.lastrowid
+            conn.close()
+            
+            flash(f'Roadmap "{field_name}" created successfully! You can now add steps.', 'success')
+            return redirect(url_for('admin_edit_roadmap', field=field_name))
+        except Exception as e:
+            conn.close()
+            flash(f'Error creating roadmap: {str(e)}', 'error')
+            return redirect(url_for('admin_new_roadmap'))
     
+    return render_template('admin/roadmap_form.html')
 
 @app.route('/admin/roadmaps/<field>/delete', methods=['POST'])
 @admin_required
 def admin_delete_roadmap(field):
-    flash('Roadmap deleted', 'success')
+    """Delete a roadmap and all its steps"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Get roadmap ID
+        cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field,))
+        roadmap = cursor.fetchone()
+        
+        if not roadmap:
+            conn.close()
+            flash('Roadmap not found', 'error')
+            return redirect(url_for('admin_roadmaps'))
+        
+        roadmap_id = roadmap['id']
+        
+        # Delete all steps first (foreign key constraint)
+        cursor.execute('DELETE FROM roadmap_steps WHERE roadmap_id = ?', (roadmap_id,))
+        
+        # Delete the roadmap
+        cursor.execute('DELETE FROM roadmaps WHERE id = ?', (roadmap_id,))
+        
+        conn.commit()
+        conn.close()
+        
+        flash(f'Roadmap "{field}" deleted successfully', 'success')
+    except Exception as e:
+        flash(f'Error deleting roadmap: {str(e)}', 'error')
+    
     return redirect(url_for('admin_roadmaps'))
-
 
 @app.route('/admin/roadmaps/<field>/edit', methods=['GET', 'POST'])
 @admin_required
 def admin_edit_roadmap(field):
+    """Edit roadmap content"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field,))
+    roadmap = cursor.fetchone()
+    
+    if not roadmap:
+        conn.close()
+        flash('Roadmap not found', 'error')
+        return redirect(url_for('admin_roadmaps'))
+    
+    cursor.execute('''
+        SELECT id, step_number, step_text as text, description, course_url as course 
+        FROM roadmap_steps 
+        WHERE roadmap_id = ? 
+        ORDER BY step_number
+    ''', (roadmap['id'],))
+    steps = cursor.fetchall()
+    conn.close()
+    
     return render_template('admin/roadmap_edit.html', field=field, steps=steps, roadmap_id=roadmap['id'])
-
 
 @app.route('/admin/roadmaps/<int:roadmap_id>/steps/add', methods=['POST'])
 @admin_required
 def admin_add_roadmap_step(roadmap_id):
-    return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
-
+    """Add a new step to a roadmap"""
+    step_text = request.form.get('step_text', '').strip()
+    description = request.form.get('description', '').strip()
+    course_url = request.form.get('course_url', '').strip()
+    
+    if not step_text:
+        flash('Step text is required', 'error')
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (roadmap_id,))
+        roadmap = cursor.fetchone()
+        conn.close()
+        return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        # Get next step number
+        cursor.execute(
+            'SELECT MAX(step_number) as max_step FROM roadmap_steps WHERE roadmap_id = ?', 
+            (roadmap_id,)
+        )
+        result = cursor.fetchone()
+        max_step = result['max_step'] or 0
+        
+        cursor.execute('''
+            INSERT INTO roadmap_steps (roadmap_id, step_number, step_text, description, course_url)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (roadmap_id, max_step + 1, step_text, description, course_url))
+        conn.commit()
+        
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (roadmap_id,))
+        roadmap = cursor.fetchone()
+        conn.close()
+        
+        flash('Step added successfully', 'success')
+        return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
+    except Exception as e:
+        flash(f'Error adding step: {str(e)}', 'error')
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (roadmap_id,))
+        roadmap = cursor.fetchone()
+        conn.close()
+        return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
 
 @app.route('/admin/roadmaps/steps/<int:step_id>/edit', methods=['POST'])
 @admin_required
 def admin_edit_roadmap_step(step_id):
-    return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
-
+    """Edit a roadmap step"""
+    step_text = request.form.get('step_text', '').strip()
+    description = request.form.get('description', '').strip()
+    course_url = request.form.get('course_url', '').strip()
+    
+    if not step_text:
+        flash('Step text is required', 'error')
+        return redirect(request.referrer or url_for('admin_roadmaps'))
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT roadmap_id FROM roadmap_steps WHERE id = ?', (step_id,))
+        step = cursor.fetchone()
+        
+        if not step:
+            conn.close()
+            flash('Step not found', 'error')
+            return redirect(url_for('admin_roadmaps'))
+        
+        cursor.execute('''
+            UPDATE roadmap_steps 
+            SET step_text = ?, description = ?, course_url = ?
+            WHERE id = ?
+        ''', (step_text, description, course_url, step_id))
+        conn.commit()
+        
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (step['roadmap_id'],))
+        roadmap = cursor.fetchone()
+        conn.close()
+        
+        flash('Step updated successfully', 'success')
+        return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
+    except Exception as e:
+        flash(f'Error updating step: {str(e)}', 'error')
+        return redirect(request.referrer or url_for('admin_roadmaps'))
 
 @app.route('/admin/roadmaps/steps/<int:step_id>/delete', methods=['POST'])
 @admin_required
 def admin_delete_roadmap_step(step_id):
-    return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
-
+    """Delete a roadmap step"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT roadmap_id FROM roadmap_steps WHERE id = ?', (step_id,))
+        step = cursor.fetchone()
+        
+        if not step:
+            conn.close()
+            flash('Step not found', 'error')
+            return redirect(url_for('admin_roadmaps'))
+        
+        cursor.execute('DELETE FROM roadmap_steps WHERE id = ?', (step_id,))
+        conn.commit()
+        
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (step['roadmap_id'],))
+        roadmap = cursor.fetchone()
+        conn.close()
+        
+        flash('Step deleted successfully', 'success')
+        return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
+    except Exception as e:
+        flash(f'Error deleting step: {str(e)}', 'error')
+        return redirect(request.referrer or url_for('admin_roadmaps'))
 
 @app.route('/admin/blogs')
 @admin_required
 def admin_blogs():
-    return render_template('admin_blogs.html', blogs=blogs)
-
+    """View and manage blog posts"""
+    blogs = get_all_blogs()
+    return render_template('admin/blog_list.html', blogs=blogs)
 
 @app.route('/admin/blogs/<int:blog_id>/edit', methods=['GET', 'POST'])
 @admin_required
 def admin_edit_blog(blog_id):
+    """Edit a blog post"""
+    blog = get_blog_by_id(blog_id)
+    
+    if not blog:
+        flash('Blog post not found', 'error')
+        return redirect(url_for('admin_blogs'))
+    
+    if request.method == 'POST':
+        title = request.form.get('title')
+        summary = request.form.get('summary')
+        image_url = request.form.get('image_url')
+        author = request.form.get('author')
+        full_text = request.form.get('full_text')
+        published_date = request.form.get('published_date')
+        thumbnail = request.form.get('thumbnail')
+        
+        if not title or not summary:
+            flash('Title and summary are required', 'error')
+            return redirect(url_for('admin_edit_blog', blog_id=blog_id))
+        
+        if update_blog(blog_id, title=title, summary=summary, image_url=image_url,
+                       author=author, full_text=full_text, thumbnail=thumbnail,
+                       published_date=published_date):
+            flash('Blog post updated successfully', 'success')
+            return redirect(url_for('admin_blogs'))
+        else:
+            flash('Error updating blog post', 'error')
+    
     return render_template('admin/edit_blog.html', blog=blog)
-
 
 @app.route('/admin/blogs/<int:blog_id>/delete', methods=['POST'])
 @admin_required
-def admin_delete_blog(blog_id):    
+def admin_delete_blog(blog_id):
+    """Delete a blog post"""
+    if delete_blog(blog_id):
+        flash('Blog post deleted successfully', 'success')
+    else:
+        flash('Error deleting blog post', 'error')
+    
+    return redirect(url_for('admin_blogs'))
+
+@app.route('/admin/blogs/refresh', methods=['POST'])
+@admin_required
+def admin_refresh_blogs():
+    """Refresh RSS feed and fetch new articles"""
+    result = refresh_rss_feed()
+    
+    if result['success']:
+        flash(f"Feed refreshed! {result['new_count']} new articles added. Total: {result['total_count']}", 'success')
+    else:
+        flash(f"Feed refresh failed: {result['message']}", 'error')
+    
     return redirect(url_for('admin_blogs'))
 
 @app.route('/admin/job-descriptions')
 @admin_required
 def admin_job_descriptions():
-    return render_template('admin_job_descriptions.html', job_descriptions=job_descriptions)
-
+    """View all job descriptions"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT j.*, u.email as creator_email 
+        FROM job_descriptions j
+        JOIN users u ON j.created_by = u.id
+        ORDER BY j.created_at DESC
+    ''')
+    job_descriptions = cursor.fetchall()
+    conn.close()
+    return render_template('admin/job_descriptions.html', job_descriptions=job_descriptions)
 
 @app.route('/admin/job-descriptions/new', methods=['GET', 'POST'])
 @admin_required
-def admin_new_job_description():    
+def admin_new_job_description():
+    """Create a new job description"""
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        
+        if not title or not description:
+            flash('Title and description are required', 'error')
+            return redirect(url_for('admin_new_job_description'))
+        
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO job_descriptions (title, description, created_by)
+                VALUES (?, ?, ?)
+            ''', (title, description, session['user_id']))
+            conn.commit()
+            conn.close()
+            
+            flash('Job description created successfully', 'success')
+            return redirect(url_for('admin_job_descriptions'))
+        except Exception as e:
+            flash(f'Error creating job description: {str(e)}', 'error')
+    
     return render_template('admin/job_description_form.html')
-
 
 @app.route('/admin/job-descriptions/<int:job_id>/edit', methods=['GET', 'POST'])
 @admin_required
 def admin_edit_job_description(job_id):
-    return render_template('admin/job_description_form.html', job_description=job_description, edit=True)
-
+    """Edit a job description"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM job_descriptions WHERE id = ?', (job_id,))
+    job_desc = cursor.fetchone()
+    
+    if not job_desc:
+        conn.close()
+        flash('Job description not found', 'error')
+        return redirect(url_for('admin_job_descriptions'))
+    
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        
+        if not title or not description:
+            flash('Title and description are required', 'error')
+            return redirect(url_for('admin_edit_job_description', job_id=job_id))
+        
+        try:
+            cursor.execute('''
+                UPDATE job_descriptions 
+                SET title = ?, description = ?, updated_at = CURRENT_TIMESTAMP
+                WHERE id = ?
+            ''', (title, description, job_id))
+            conn.commit()
+            conn.close()
+            
+            flash('Job description updated successfully', 'success')
+            return redirect(url_for('admin_job_descriptions'))
+        except Exception as e:
+            conn.close()
+            flash(f'Error updating job description: {str(e)}', 'error')
+    
+    conn.close()
+    return render_template('admin/job_description_form.html', job_desc=job_desc, edit=True)
 
 @app.route('/admin/job-descriptions/<int:job_id>/delete', methods=['POST'])
 @admin_required
 def admin_delete_job_description(job_id):
+    """Delete a job description"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM job_descriptions WHERE id = ?', (job_id,))
+        conn.commit()
+        conn.close()
+        flash('Job description deleted successfully', 'success')
+    except Exception as e:
+        flash(f'Error deleting job description: {str(e)}', 'error')
+    
     return redirect(url_for('admin_job_descriptions'))
-
-
-
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", "8000"))
