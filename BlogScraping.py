@@ -382,7 +382,7 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
     cursor.execute('SELECT COUNT(*) as count FROM blogs')
     total = cursor.fetchone()['count']
     conn.close()
-    
+
     message = f'Added {new_count} new articles'
     if skipped_count > 0:
         message += f', skipped {skipped_count} articles (too short)'
@@ -393,3 +393,24 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
         'total_count': total,
         'message': message
     }
+
+    
+def get_all_blogs(limit=None):
+    """Get all blog posts from database"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    if limit:
+        cursor.execute(
+            'SELECT * FROM blogs ORDER BY published_date DESC LIMIT ?',
+            (limit,)
+        )
+        blogs = cursor.fetchall()
+    else:
+        cursor.execute(
+            'SELECT * FROM blogs ORDER BY published_date DESC'
+        )
+        blogs = cursor.fetchall()
+    
+    conn.close()
+    return [dict(blog) for blog in blogs] if blogs else []
