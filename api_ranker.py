@@ -59,3 +59,27 @@ class APICVRanker:
             pass
 
         return ""
+
+    def upload_pdf_to_chatpdf(self, pdf_path) -> str:
+        """Upload PDF to ChatPDF and return source ID"""
+        try:
+            filename = getattr(pdf_path, 'filename', 'uploaded_cv.pdf')
+            pdf_path.seek(0)
+            files = {"file": (filename, pdf_path, "application/pdf")}
+            response = requests.post(
+                "https://api.chatpdf.com/v1/sources/add-file",
+                headers={"x-api-key": self.api_key},
+                files=files,
+                timeout=120,
+            )
+                
+            if response.status_code == 200:
+                source_id = response.json().get("sourceId")
+                logger.info(f"📤 PDF uploaded to ChatPDF with ID: {source_id}")
+                return source_id
+            else:
+                logger.error(
+                    f"ChatPDF upload failed: {response.status_code} - {response.text}"
+                )
+                return None
+            
