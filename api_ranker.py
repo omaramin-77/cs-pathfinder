@@ -37,3 +37,25 @@ class APICVRanker:
             return detect(" ".join(text.split()))
         except Exception:
             return "en"
+
+    def extract_text_from_pdf(self, pdf_path) -> str:
+        """Extract text from PDF file"""
+        try:
+            pdf_path.seek(0)
+            with pdfplumber.open(pdf_path) as pdf:
+                text = "\n".join(page.extract_text() or "" for page in pdf.pages)
+                if text.strip():
+                    return text.strip()
+        except Exception:
+            pass
+
+        try:
+            pdf_path.seek(0)
+            pdf_reader = PyPDF2.PdfReader(pdf_path)
+            text = "\n".join(page.extract_text() or "" for page in pdf_reader.pages)
+            if text.strip():
+                return text.strip()
+        except Exception:
+            pass
+
+        return ""
