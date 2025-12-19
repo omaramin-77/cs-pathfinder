@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{% if edit %}Edit{% else %}Create{% endif %} Question - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>{% if edit %}Edit Question{% else %}Create New Question{% endif %}</h1>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" class="question-form">
+            <div class="form-group">
+                <label for="question_text">Question Text *</label>
+                <textarea id="question_text" name="question_text" required>{{ question.question_text if question else '' }}</textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="option_a">Option A *</label>
+                    <input type="text" id="option_a" name="option_a" required value="{{ question.option_a if question else '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="option_b">Option B *</label>
+                    <input type="text" id="option_b" name="option_b" required value="{{ question.option_b if question else '' }}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="option_c">Option C *</label>
+                    <input type="text" id="option_c" name="option_c" required value="{{ question.option_c if question else '' }}">
+                </div>
+                <div class="form-group">
+                    <label for="option_d">Option D *</label>
+                    <input type="text" id="option_d" name="option_d" required value="{{ question.option_d if question else '' }}">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{% if edit %}Update Question{% else %}Create Question{% endif %}</button>
+                <a href="{{ url_for('admin_questions') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="admin-footer">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

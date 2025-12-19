@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Job Descriptions - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h1>💼 Manage Job Descriptions</h1>
+    
+    <div class="admin-actions">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+        <a href="{{ url_for('admin_new_job_description') }}" class="btn btn-primary">+ Add New Job Description</a>
+    </div>
+
+    {% if job_descriptions %}
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Created By</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in job_descriptions %}
+                <tr>
+                    <td>{{ job['id'] }}</td>
+                    <td><strong>{{ job['title'] }}</strong></td>
+                    <td>{{ job['creator_email'] }}</td>
+                    <td>{{ job['created_at'] }}</td>
+                    <td>{{ job['updated_at'] }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('admin_edit_job_description', job_id=job['id']) }}" class="btn-action btn-edit">Edit</a>
+                        <form action="{{ url_for('admin_delete_job_description', job_id=job['id']) }}" method="POST" style="display: inline;">
+                            <button type="submit" class="btn-action btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="no-data">
+        <p>No job descriptions yet. Create your first one!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
