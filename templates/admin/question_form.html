@@ -4,11 +4,47 @@
 
 {% block content %}
 <div class="admin-container">
-    <h1>Create Question</h1>
 
-    <form method="POST">
-        <textarea name="question_text" placeholder="Question text"></textarea>
-        <button type="submit">Create</button>
-    </form>
+    <div class="admin-header">
+        <h1>Create New Question</h1>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" class="question-form">
+
+            <div class="form-group">
+                <label>Question Text *</label>
+                <textarea name="question_text" required></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Option A *</label>
+                    <input type="text" name="option_a" required>
+                </div>
+                <div class="form-group">
+                    <label>Option B *</label>
+                    <input type="text" name="option_b" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Option C *</label>
+                    <input type="text" name="option_c" required>
+                </div>
+                <div class="form-group">
+                    <label>Option D *</label>
+                    <input type="text" name="option_d" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Create Question
+            </button>
+
+        </form>
+    </div>
+
 </div>
 {% endblock %}
