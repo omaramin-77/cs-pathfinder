@@ -22,7 +22,7 @@ def run():
         fake_feed = type("Feed", (), {})()
         fake_feed.entries = [
             {
-                "title": "Example Title",
+                "title": "Example Title",   
                 "link": "https://example.com/article",
                 "summary": "Example summary",
                 "published": "2025-01-01",
