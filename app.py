@@ -5,11 +5,40 @@ from DB import init_db, get_db_connection
 from ai_helper import choose_field_from_answers
 from roadmaps_data import ROADMAPS
 from datetime import datetime
+from functools import wraps
+from werkzeug.utils import secure_filename
+from api_ranker import APICVRanker
 
 app = Flask(__name__)
 app.secret_key = '12345' #need to chnge later
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+app.config['UPLOAD_FOLDER'] = 'pdf_cvs'
+
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 init_db()
+
+def admin_required(f):
+    """Decorator to protect admin routes"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Please log in first', 'error')
+            return redirect(url_for('login'))
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT is_admin FROM users WHERE id = ?', (session['user_id'],))
+        user = cursor.fetchone()
+        conn.close()
+        
+        if not user or user['is_admin'] != 1:
+            flash('Access denied. Admin privileges required.', 'error')
+            return redirect(url_for('home'))
+        
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @app.route('/')
 def home():
@@ -22,18 +51,26 @@ def login():
         password = request.form.get('password')
         
         conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
+        user = cursor.fetchone()
         conn.close()
 
         if user and check_password_hash(user['password_hash'], password):
             session['user_id'] = user['id']
             session['email'] = user['email']
+            session['is_admin'] = user['is_admin']
             flash('Login successful!', 'success')
+            
+            # Redirect admins to dashboard
+            if user['is_admin']:
+                return redirect(url_for('admin_dashboard'))
             return redirect(url_for('home'))
         else:
             flash('Invalid credentials, please try again.', 'error')
     
     return render_template('login.html')
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -43,8 +80,9 @@ def signup():
 
         password_hash = generate_password_hash(password)
         conn = get_db_connection()
+        cursor = conn.cursor()
         try:
-            conn.execute('INSERT INTO users (email, password_hash) VALUES (?, ?)',
+            cursor.execute('INSERT INTO users (email, password_hash) VALUES (?, ?)',
                         (email, password_hash))
             conn.commit()
             flash('Signup successful! Please log in.', 'success')
@@ -75,11 +113,12 @@ def quiz_question(id):
         answer = request.form.get("answer")
 
         conn = get_db_connection()
-        qrow = conn.execute('SELECT question_text FROM quiz_questions WHERE id = ?', (id,)).fetchone()
+        cursor = conn.cursor()
+        cursor.execute('SELECT question_text FROM quiz_questions WHERE id = ?', (id,))
+        qrow = cursor.fetchone()
         conn.close()
 
-
-        question_text = qrow['question_text'] if qrow and 'question_text' in qrow.keys() else ''
+        question_text = qrow['question_text'] if qrow else ''
         
         session['answers'][str(id)] = {
             'question': question_text,
@@ -88,8 +127,9 @@ def quiz_question(id):
         session.modified = True
         
         conn = get_db_connection()
-        next_question = conn.execute('SELECT id FROM quiz_questions WHERE id > ? ORDER BY id LIMIT 1', 
-                                     (id,)).fetchone()
+        cursor = conn.cursor()
+        cursor.execute('SELECT id FROM quiz_questions WHERE id > ? ORDER BY id LIMIT 1', (id,))
+        next_question = cursor.fetchone()
         conn.close()
         
         if next_question:
@@ -98,8 +138,11 @@ def quiz_question(id):
             return redirect(url_for('quiz_complete'))
     
     conn = get_db_connection()
-    question = conn.execute('SELECT * FROM quiz_questions WHERE id = ?', (id,)).fetchone()
-    total_questions = conn.execute('SELECT COUNT(*) as count FROM quiz_questions').fetchone()['count']
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM quiz_questions WHERE id = ?', (id,))
+    question = cursor.fetchone()
+    cursor.execute('SELECT COUNT(*) as count FROM quiz_questions')
+    total_questions = cursor.fetchone()['count']
     conn.close()
     
     if not question:
@@ -127,6 +170,7 @@ def quiz_complete():
 def submit_quiz():
     if 'user_id' not in session:
         return redirect(url_for('login'))
+
     answers = session.get("answers", {})
     if not answers:
         flash("No answers found", "error")
@@ -135,14 +179,25 @@ def submit_quiz():
     field_name = choose_field_from_answers(answers)
 
     conn = get_db_connection()
-    conn.execute('INSERT INTO user_fields (user_id, field_name, timestamp) VALUES (?, ?, ?)',
-                (session['user_id'], field_name, datetime.now().isoformat()))
-    conn.commit()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        'SELECT 1 FROM user_fields WHERE user_id = ? AND field_name = ?',
+        (session['user_id'], field_name)
+    )
+
+    if cursor.fetchone() is None:
+        cursor.execute(
+            'INSERT INTO user_fields (user_id, field_name, timestamp) VALUES (?, ?, ?)',
+            (session['user_id'], field_name, datetime.now().isoformat())
+        )
+        conn.commit()
+    else:
+        flash(f'Field "{field_name}" already exists in your results.', 'error')
+
     conn.close()
-    
 
     session.pop('answers', None)
-    
     flash(f'Your recommended field: {field_name}!', 'success')
     return redirect(url_for('results'))
 
@@ -155,8 +210,9 @@ def results():
         return redirect(url_for('login'))
      
     conn = get_db_connection()
-    fields = conn.execute('SELECT * FROM user_fields WHERE user_id = ? ORDER BY timestamp DESC',
-                         (session['user_id'],)).fetchall()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM user_fields WHERE user_id = ? ORDER BY timestamp DESC', (session['user_id'],))
+    fields = cursor.fetchall()
     conn.close()
     
     return render_template("results.html", fields=fields)
@@ -167,7 +223,8 @@ def remove_field(id):
         return redirect(url_for('login'))
     
     conn = get_db_connection()
-    conn.execute('DELETE FROM user_fields WHERE id = ? AND user_id = ?',
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM user_fields WHERE id = ? AND user_id = ?',
                 (id, session['user_id']))
     conn.commit()
     conn.close()
@@ -175,36 +232,42 @@ def remove_field(id):
     flash("Field removed", "success")
     return redirect(url_for("results"))
 
+
 @app.route("/roadmap/<field>")
 def roadmap(field):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
-    if field not in ROADMAPS:
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field,))
+    roadmap = cursor.fetchone()
+    if not roadmap:
+        conn.close()
         flash('Roadmap not found!', 'error')
         return redirect(url_for('results'))
     
-    steps = ROADMAPS[field]
+    cursor.execute('''
+        SELECT step_number, step_text as text, description, course_url as course 
+        FROM roadmap_steps WHERE roadmap_id = ? ORDER BY step_number
+    ''', (roadmap['id'],))
+    steps = cursor.fetchall()
     
-    conn = get_db_connection()
-    progress_rows = conn.execute(
+    cursor.execute(
         'SELECT step_number, completed FROM roadmap_progress WHERE user_id = ? AND field_name = ?',
         (session['user_id'], field)
-    ).fetchall()
+    )
+    progress = {row['step_number']: row['completed'] for row in cursor.fetchall()}
     conn.close()
-    
-    progress = {row['step_number']: row['completed'] for row in progress_rows}
     
     total_steps = len(steps)
     completed_steps = sum(1 for p in progress.values() if p == 1)
     percentage = int((completed_steps / total_steps * 100)) if total_steps > 0 else 0
     
-    return render_template('roadmap.html', field=field,
-                          steps=steps,
-                          progress=progress,
-                          percentage=percentage,
-                          total_steps=total_steps,
-                          completed_steps=completed_steps)
+    return render_template('roadmap.html', field=field, steps=steps, progress=progress,
+                          percentage=percentage, total_steps=total_steps, completed_steps=completed_steps)
+
 
 @app.route("/roadmap/<field>/update", methods=["POST"])
 def update_roadmap(field):
@@ -215,26 +278,25 @@ def update_roadmap(field):
     completed = int(request.form.get('completed'))
     
     conn = get_db_connection()
-    
-    existing = conn.execute(
+    cursor = conn.cursor()
+    cursor.execute(
         'SELECT id FROM roadmap_progress WHERE user_id = ? AND field_name = ? AND step_number = ?',
         (session['user_id'], field, step_number)
-    ).fetchone()
+    )
     
-    if existing:
-        conn.execute(
+    if cursor.fetchone():
+        cursor.execute(
             'UPDATE roadmap_progress SET completed = ? WHERE user_id = ? AND field_name = ? AND step_number = ?',
             (completed, session['user_id'], field, step_number)
         )
     else:
-        conn.execute(
+        cursor.execute(
             'INSERT INTO roadmap_progress (user_id, field_name, step_number, completed) VALUES (?, ?, ?, ?)',
             (session['user_id'], field, step_number, completed)
         )
     
     conn.commit()
     conn.close()
-    
     return redirect(url_for("roadmap", field=field))
 
 @app.route("/roadmap/<field>/reset", methods=["POST"])
@@ -243,7 +305,8 @@ def reset_roadmap(field):
         return redirect(url_for('login'))
     
     conn = get_db_connection()
-    conn.execute('DELETE FROM roadmap_progress WHERE user_id = ? AND field_name = ?',
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM roadmap_progress WHERE user_id = ? AND field_name = ?',
                 (session['user_id'], field))
     conn.commit()
     conn.close()
@@ -254,6 +317,23 @@ def reset_roadmap(field):
 
 @app.route('/cv-ranker')
 def cv_ranker():
+    """CV Ranker landing page"""
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, title FROM job_descriptions ORDER BY title')
+    job_descriptions = cursor.fetchall()
+    cursor.execute('''
+        SELECT * FROM cv_rankings 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC 
+        LIMIT 10
+    ''', (session['user_id'],))
+    rankings = cursor.fetchall()
+    conn.close()
+    
     return render_template('cv_ranker.html', 
                           job_descriptions=job_descriptions,
                           rankings=rankings)
@@ -266,6 +346,7 @@ def _validate_cv_file(cv_file):
     if not cv_file.filename.lower().endswith('.pdf'):
         return False, 'Only PDF files are allowed'
     return True, None
+
 
 
 def _get_job_description(job_desc_type):
