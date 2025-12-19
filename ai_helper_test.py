@@ -52,3 +52,11 @@ def test_get_available_fields_from_database(mock_get_db):
     fields = get_available_fields()
 
     assert fields == ["AI Engineer", "Data Scientist"]
+
+
+@patch("ai_helper.get_db_connection", side_effect=Exception("DB error"))
+def test_get_available_fields_fallback_on_error(mock_get_db):
+    fields = get_available_fields()
+
+    assert "AI Engineer" in fields
+    assert len(fields) > 0
