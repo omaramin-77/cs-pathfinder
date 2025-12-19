@@ -1,6 +1,7 @@
 # AI helper for Gemini API integration
 import os
 from dotenv import load_dotenv
+import google.generativeai as genai
 from DB import get_db_connection
 
 # Load environment variables from .env file
@@ -102,7 +103,6 @@ def choose_field_from_answers(answers):
         return "AI Engineer"
 
     try:
-        import google.generativeai as genai
         genai.configure(api_key=api_key)
 
         model = genai.GenerativeModel("gemini-2.5-flash-lite")
@@ -111,12 +111,13 @@ def choose_field_from_answers(answers):
         response = model.generate_content(prompt)
         field = response.text.strip()
 
-        # Validate
+        # Validate - exact match first
         if field in available_fields:
             return field
 
+        # Try partial match (case-insensitive)
         for f in available_fields:
-            if f.lower() in field.lower():
+            if f.lower() in field.lower() or field.lower() in f.lower():
                 return f
 
         # If no match found, return first available field as fallback
