@@ -1,1 +1,54 @@
+{% extends "base.html" %}
 
+{% block title %}CV Ranking Result - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <h1>📊 CV Ranking Result</h1>
+    
+    <div class="result-card">
+        <div class="result-header">
+            <div>
+                <h2>{{ ranking['cv_filename'] }}</h2>
+                <p class="result-date">Analyzed on {{ ranking['created_at'] }}</p>
+            </div>
+            <div class="score-badge score-{{ 'high' if ranking['overall_score'] >= 70 else 'medium' if ranking['overall_score'] >= 50 else 'low' }}">
+                <div class="score-number">{{ ranking['overall_score'] }}</div>
+                <div class="score-label">/ 100</div>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <h3>📋 Job Description</h3>
+            {% if ranking['job_title'] %}
+            <p><strong>{{ ranking['job_title'] }}</strong></p>
+            {% else %}
+            <p><em>Custom job description</em></p>
+            {% endif %}
+        </div>
+
+        <div class="result-section">
+            <h3>👤 Candidate Profile</h3>
+            <p>{{ ranking['description'] or 'No description available' }}</p>
+        </div>
+
+        <div class="result-section">
+            <h3>🔍 Matching Analysis</h3>
+            <p>{{ ranking['matching_analysis'] or 'No analysis available' }}</p>
+        </div>
+
+        <div class="result-section">
+            <h3>💡 Recommendation</h3>
+            <p>{{ ranking['recommendation'] or 'No recommendation available' }}</p>
+        </div>
+
+        <div class="result-actions">
+            <a href="{{ url_for('cv_ranker') }}" class="btn btn-primary">Rank Another CV</a>
+            <a href="{{ url_for('cv_ranking_history') }}" class="btn btn-secondary">View History</a>
+            <form action="{{ url_for('delete_cv_ranking', ranking_id=ranking['id']) }}" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
