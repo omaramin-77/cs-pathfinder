@@ -29,3 +29,17 @@ def test_detect_language_short_text_defaults_to_en(ranker):
     lang = ranker.detect_language(text)
     assert lang == "en"
 
+
+def test_parse_valid_json_response(ranker):
+    response = """
+    {
+        "matching_analysis": "Strong Python and backend experience.",
+        "description": "Backend developer with 3 years experience.",
+        "score": 85,
+        "recommendation": "Highly recommended for interview."
+    }
+    """
+    result = ranker.parse_ranking_response(response)
+
+    assert result["overall_score"] == 85
+    assert "Python" in result["matching_analysis"]
