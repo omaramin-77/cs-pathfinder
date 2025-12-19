@@ -21,3 +21,5 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+class APICVRanker:
+    """CV Ranker using ChatPDF API"""
