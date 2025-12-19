@@ -39,6 +39,24 @@ Instructions:
 Your recommendation:
 """
 
+def get_available_fields():
+    """
+    Get list of available career fields from database
+    
+    Returns:
+        List of field names (strings)
+    """
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT field_name FROM roadmaps ORDER BY field_name')
+        roadmaps = cursor.fetchall()
+        conn.close()
+        
+
+
+
+
 def choose_field_from_answers(answers):
     
     """
