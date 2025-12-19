@@ -455,6 +455,34 @@ def update_blog(
 ):
     """Update blog post details"""
     try:
+        updates = []
+        params = []
+
+        if title is not None:
+            updates.append('title = ?')
+            params.append(title)
+        if summary is not None:
+            updates.append('summary = ?')
+            params.append(summary)
+        if image_url is not None:
+            updates.append('image_url = ?')
+            params.append(image_url)
+        if full_text is not None:
+            updates.append('full_text = ?')
+            params.append(full_text)
+        if author is not None:
+            updates.append('author = ?')
+            params.append(author)
+        if thumbnail is not None:
+            updates.append('thumbnail = ?')
+            params.append(thumbnail)
+        if published_date is not None:
+            updates.append('published_date = ?')
+            params.append(published_date)
+
+        if not updates:
+            return False
+
         conn = get_db_connection()
         cursor = conn.cursor()
         conn.close()
