@@ -293,3 +293,19 @@ def save_blog_post(title, url, summary, image_url, published_date):
     except Exception as e:
         print(f"Error saving blog post: {e}")
         return None
+
+def refresh_rss_feed(feed_url=RSS_FEED_URL):
+    """Fetch RSS feed and save new articles to database. Skips articles with less than 200 words."""
+    feed = fetch_rss_feed(feed_url)
+    
+    if not feed:
+        return {
+            'success': False,
+            'new_count': 0,
+            'total_count': 0,
+            'message': 'Failed to fetch RSS feed'
+        }
+    
+    entries = parse_feed_entries(feed)
+    new_count = 0
+    skipped_count = 0
