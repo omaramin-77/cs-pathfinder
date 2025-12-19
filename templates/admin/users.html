@@ -6,5 +6,34 @@
 <div class="admin-container">
     <h1>User Management</h1>
     <p>View all users and manage admin privileges</p>
+
+    {% if users %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Admin Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>#{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.is_admin %}
+                        Admin
+                    {% else %}
+                        User
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No users found</p>
+    {% endif %}
 </div>
 {% endblock %}
