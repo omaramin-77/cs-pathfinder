@@ -505,12 +505,28 @@ def delete_cv_ranking(ranking_id):
 
 @app.route('/news')
 def news_list():
-    return render_template('news_list.html', articles=news_articles)
-
+    """Display blog posts with pagination"""
+    try:
+        page = int(request.args.get('page', 1))
+    except ValueError:
+        page = 1
+    per_page = 8
+    result = get_blogs_paginated(page=page, per_page=per_page)
+    total = result['total']
+    blogs = result['blogs']
+    total_pages = max(1, (total + per_page - 1) // per_page)
+    return render_template('news.html', blogs=blogs, page=page, total_pages=total_pages)
 
 @app.route('/news/<int:blog_id>')
 def news_detail(blog_id):
+    """Display single blog post"""
+    blog = get_blog_by_id(blog_id)
+    if not blog:
+        flash('Blog post not found', 'error')
+        return redirect(url_for('news_list'))
+    # Prefer full_html when available
     return render_template('news_detail.html', blog=blog)
+
 
 @app.route('/admin/dashboard')
 @admin_required
