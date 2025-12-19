@@ -274,3 +274,22 @@ def article_exists(url):
     result = cursor.fetchone()
     conn.close()
     return result is not None
+
+def save_blog_post(title, url, summary, image_url, published_date):
+    """Save a blog post to database"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            INSERT INTO blogs (title, url, summary, image_url, published_date, scraped_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (title, url, summary, image_url, published_date, datetime.utcnow()))
+
+        conn.commit()
+        post_id = cursor.lastrowid
+        conn.close()
+        return post_id
+    except Exception as e:
+        print(f"Error saving blog post: {e}")
+        return None
