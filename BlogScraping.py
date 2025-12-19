@@ -356,3 +356,23 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                         new_count += 1
                 except Exception as e:
                     print(f"Error saving scraped article: {e}")
+            else:
+                # Fallback to saving RSS summary only - check length first
+                summary_text = entry.get('summary', '')
+                word_count = count_words(summary_text)
+                
+                if word_count < 200:
+                    print(f"⏭️ Skipping article '{entry['title']}' - only {word_count} words (minimum 200 required)")
+                    skipped_count += 1
+                    continue
+                
+                post_id = save_blog_post(
+                    entry['title'],
+                    entry['url'],
+                    summary_text,
+                    entry.get('image_url'),
+                    entry.get('published_date')
+                )
+                if post_id:
+                    new_count += 1
+    
