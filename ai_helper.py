@@ -1,6 +1,7 @@
 # AI helper for Gemini API integration
 import os
 from dotenv import load_dotenv
+from DB import get_db_connection
 
 # Load environment variables from .env file
 load_dotenv()
