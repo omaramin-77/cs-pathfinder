@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CS Career Recommender{% endblock %}</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">CS Career Recommender</h1>
+            <div class="nav-links">
+                {% if session.user_id %}
+                <a href="/">Home</a>
+                <a href="/results">My Results</a>
+                <a href="/logout">Logout</a>
+                {% else %}
+                <a href="/login" class="nav-btn nav-btn-login">Login</a>
+                <a href="/signup" class="nav-btn nav-btn-signup">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 CS Career Recommender | Built with Flask & Gemini AI</p>
+    </footer>
+</body>
+</html>

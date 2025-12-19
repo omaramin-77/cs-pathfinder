@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <p>Manage users, quiz questions, roadmaps, and blog content</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ user_count }}</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ question_count }}</div>
+            <div class="stat-label">Quiz Questions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ blog_count }}</div>
+            <div class="stat-label">Blog Posts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ job_desc_count }}</div>
+            <div class="stat-label">Job Descriptions</div>
+        </div>
+    </div>
+
+    <div class="admin-menu">
+        <div class="menu-section">
+            <h3>User Management</h3>
+            <a href="{{ url_for('admin_users') }}" class="admin-link">
+                👥 Manage Users
+            </a>
+            <p>View all users, promote/demote admins, delete users</p>
+        </div>
+
+        <div class="menu-section">
+            <h3>Quiz Management</h3>
+            <a href="{{ url_for('admin_questions') }}" class="admin-link">
+                ❓ Manage Questions
+            </a>
+            <p>View, create, edit, and delete quiz questions</p>
+        </div>
+
+        <div class="menu-section">
+            <h3>Roadmap Management</h3>
+            <a href="{{ url_for('admin_roadmaps') }}" class="admin-link">
+                🗺️ Manage Roadmaps
+            </a>
+            <p>Create, view, and edit career roadmaps</p>
+        </div>
+
+        <div class="menu-section">
+            <h3>Blog Management</h3>
+            <a href="{{ url_for('admin_blogs') }}" class="admin-link">
+                📰 Manage Blog Posts
+            </a>
+            <p>View, edit, and delete blog posts from RSS feed</p>
+        </div>
+
+        <div class="menu-section">
+            <h3>CV Ranker Management</h3>
+            <a href="{{ url_for('admin_job_descriptions') }}" class="admin-link">
+                💼 Manage Job Descriptions
+            </a>
+            <p>Create, edit, and delete predefined job descriptions for CV ranking</p>
+        </div>
+    </div>
+
+    <div class="admin-footer">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

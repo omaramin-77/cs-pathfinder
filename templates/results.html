@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}My Results - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="results-container container">
+    <h1>Your Recommendations</h1>
+
+    {% if fields %}
+        <div class="results-grid">
+            {% for field in fields %}
+            <div class="result-card">
+                <div class="result-header">
+                    <h3>{{ field.field_name }}</h3>
+                    <div class="result-date">{{ field.timestamp[:10] }}</div>
+                </div>
+                
+                <div class="result-actions">
+                    <a class="btn btn-primary" href="/roadmap/{{ field.field_name }}">View Roadmap</a>
+
+                    <form method="POST" action="/remove_field/{{ field.id }}" style="display: inline;">
+                        <button class="btn btn-danger" type="submit">Remove</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>You haven't taken the quiz yet!</p>
+            <a href="/quiz/1" class="btn btn-primary">
+                Take Quiz Now
+            </a>
+        </div>
+    {% endif %}
+    
+    <div class="back-link">
+        <a href="/"> Back to Home</a>
+    </div>
+</div>
+{% endblock %}

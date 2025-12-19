@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Blog Post - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Edit Blog Post</h1>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" class="blog-form">
+            <div class="form-group">
+                <label for="title">Title *</label>
+                <input type="text" id="title" name="title" required value="{{ blog.title }}">
+            </div>
+
+            <div class="form-group">
+                <label for="summary">Summary *</label>
+                <textarea id="summary" name="summary" required>{{ blog.summary }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image_url">Image URL</label>
+                <input type="url" id="image_url" name="image_url" value="{{ blog.image_url or '' }}" placeholder="https://example.com/image.jpg">
+                {% if blog.image_url %}
+                <img src="{{ blog.image_url }}" alt="Preview" class="image-preview">
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="thumbnail">Thumbnail URL</label>
+                <input type="url" id="thumbnail" name="thumbnail" value="{{ blog.thumbnail or '' }}" placeholder="https://example.com/thumb.jpg">
+            </div>
+
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" value="{{ blog.author or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="published_date">Published Date</label>
+                <input type="text" id="published_date" name="published_date" value="{{ blog.published_date or '' }}" placeholder="YYYY-MM-DD or original string">
+            </div>
+
+            <div class="form-info">
+                <p><strong>URL:</strong> <a href="{{ blog.url }}" target="_blank">{{ blog.url }}</a></p>
+                <p><strong>Published:</strong> {{ blog.published_date }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="full_text">Full Text Content</label>
+                <textarea id="full_text" name="full_text" rows="12">{{ blog.full_text or '' }}</textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update Post</button>
+                <a href="{{ url_for('admin_blogs') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="admin-footer">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}{{ field }} Roadmap - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="roadmap-container">
+    <div class="roadmap-header">
+        <h1> {{ field }} Roadmap</h1>
+
+        <div class="progress-section">
+            <div class="progress-stats">
+                <span>{{ completed_steps }} / {{ total_steps }} completed</span>
+                <span>{{ percentage }}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ percentage }}%"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="roadmap-steps">
+        <ol class="steps-list">
+            {% for step in steps %}
+            <li class="step-item {% if progress.get(loop.index, 0) == 1 %}completed{% endif %}">
+                <div class="step-content">
+                    <form method="POST" action="/roadmap/{{ field }}/update" class="step-form">
+                        <input type="hidden" name="step_number" value="{{ loop.index }}">
+                        <input type="hidden" name="completed" value="{% if progress.get(loop.index, 0) == 1 %}0{% else %}1{% endif %}">
+                        
+                        <label class="step-checkbox">
+                            <input type="checkbox" {% if progress.get(loop.index, 0) == 1 %}checked{% endif %} onchange="this.form.submit()">
+                            <span class="step-text">{{ step['text'] }}</span>
+                        </label>
+                    </form>
+
+                    <button type="button" class="step-info-btn" onclick="toggleStepInfo({{ loop.index }})"> Info </button>
+                </div>
+
+
+                <div id="step-info-{{ loop.index }}" class="step-info-panel" style="display: none;">
+                    <div class="step-description">
+                        <h4>Why This Matters:</h4>
+                        <p>{{ step['description'] }}</p>
+                    </div>
+                    <div class="step-course">
+                        <a href="{{ step['course'] }}" target="_blank" class="course-link">
+                            🎓 Start Learning →
+                        </a>
+                    </div>
+                </div>
+
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+
+
+
+    <div class="roadmap-actions">
+        <form method="POST" action="/roadmap/{{ field }}/reset" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Reset Progress</button>
+        </form>
+        
+        <a href="/results" class="btn btn-secondary">Back to Results</a>
+    </div>
+</div>
+
+<script>
+function toggleStepInfo(stepNumber) {
+    const panel = document.getElementById('step-info-' + stepNumber);
+    const allPanels = document.querySelectorAll('.step-info-panel');
+    
+    allPanels.forEach(p => {
+        if (p.id !== 'step-info-' + stepNumber) {
+            p.style.display = 'none';
+        }
+    });
+
+    if (panel.style.display === 'none') {
+        panel.style.display = 'block';
+    } else {
+        panel.style.display = 'none';
+    }
+}
+
+document.querySelectorAll('.step-checkbox input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const stepItem = this.closest('.step-item');
+        if (this.checked) {
+            stepItem.classList.add('completed');
+        } else {
+            stepItem.classList.remove('completed');
+        }
+    });
+});
+</script>
+
+{% endblock %}
