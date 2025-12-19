@@ -394,7 +394,7 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
         'message': message
     }
 
-    
+
 def get_all_blogs(limit=None):
     """Get all blog posts from database"""
     conn = get_db_connection()
@@ -414,3 +414,21 @@ def get_all_blogs(limit=None):
     
     conn.close()
     return [dict(blog) for blog in blogs] if blogs else []
+
+def get_blogs_paginated(page=1, per_page=10):
+    """Return tagged blogs and total count"""
+    offset = (page - 1) * per_page
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) as count FROM blogs')
+    total = cursor.fetchone()['count']
+    cursor.execute(
+        'SELECT * FROM blogs ORDER BY published_date DESC LIMIT ? OFFSET ?',
+        (per_page, offset)
+    )
+    blogs = cursor.fetchall()
+    conn.close()
+    return {
+        'total': total,
+        'blogs': [dict(b) for b in blogs]
+    }
