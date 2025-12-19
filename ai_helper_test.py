@@ -98,3 +98,27 @@ def test_choose_field_exact_match(
     result = choose_field_from_answers(answers)
 
     assert result == "Web Developer"
+
+
+@patch("ai_helper.get_available_fields")
+@patch("ai_helper.os.getenv")
+@patch("ai_helper.genai.GenerativeModel")
+def test_choose_field_partial_match(
+    mock_model,
+    mock_getenv,
+    mock_get_fields
+):
+    mock_getenv.return_value = "fake-api-key"
+    mock_get_fields.return_value = ["AI Engineer", "Data Scientist"]
+
+    mock_response = MagicMock()
+    mock_response.text = "AI"
+
+    mock_instance = MagicMock()
+    mock_instance.generate_content.return_value = mock_response
+    mock_model.return_value = mock_instance
+
+    answers = {"1": "A"}
+    result = choose_field_from_answers(answers)
+
+    assert result == "AI Engineer"
