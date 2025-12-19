@@ -1,6 +1,7 @@
 # AI helper for Gemini API integration
 import os
 from dotenv import load_dotenv
+from DB import get_db_connection
 
 # Load environment variables from .env file
 load_dotenv()
@@ -38,8 +39,50 @@ Instructions:
 Your recommendation:
 """
 
-def choose_field_from_answers(answers):
+def get_available_fields():
+    """
+    Get list of available career fields from database
     
+    Returns:
+        List of field names (strings)
+    """
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT field_name FROM roadmaps ORDER BY field_name')
+        roadmaps = cursor.fetchall()
+        conn.close()
+        
+        if roadmaps:
+            return [r['field_name'] for r in roadmaps]
+        else:
+            # Fallback to default fields if no roadmaps exist
+            return [
+                "AI Engineer",
+                "ML Engineer",
+                "Data Scientist",
+                "Web Developer",
+                "Cybersecurity Analyst",
+                "Cloud Engineer",
+                "Mobile Developer",
+                "Game Developer"
+            ]
+    except Exception as e:
+        print(f"Error fetching roadmaps from database: {e}")
+        # Fallback to default fields on error
+        return [
+            "AI Engineer",
+            "ML Engineer",
+            "Data Scientist",
+            "Web Developer",
+            "Cybersecurity Analyst",
+            "Cloud Engineer",
+            "Mobile Developer",
+            "Game Developer"
+        ]
+
+
+def choose_field_from_answers(answers):
     """
     Send quiz answers to Gemini API and get field recommendation
     
@@ -50,17 +93,8 @@ def choose_field_from_answers(answers):
         String with recommended field name
     """
     
-    # Available CS career fields
-    available_fields = [
-        "AI Engineer",
-        "ML Engineer",
-        "Data Scientist",
-        "Web Developer",
-        "Cybersecurity Analyst",
-        "Cloud Engineer",
-        "Mobile Developer",
-        "Game Developer"
-    ]
+    # Get available fields from database (includes newly created roadmaps)
+    available_fields = get_available_fields()
     api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
@@ -85,7 +119,12 @@ def choose_field_from_answers(answers):
             if f.lower() in field.lower():
                 return f
 
-        print("⚠️ Unexpected output:", field)
+        # If no match found, return first available field as fallback
+        print(f"⚠️ AI returned '{field}' which doesn't match any roadmap. Using first available field.")
+        if available_fields:
+            return available_fields[0]
+        
+        # Last resort fallback
         return "AI Engineer"
 
     except Exception as e:
