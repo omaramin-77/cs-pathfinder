@@ -57,3 +57,34 @@ def test_extract_text_from_pdf_empty_file(ranker):
     fake_pdf = io.BytesIO(b"")
     text = ranker.extract_text_from_pdf(fake_pdf)
     assert text == ""
+
+
+def test_rank_single_cv_success(monkeypatch, ranker):
+    """
+    Fully mock ChatPDF interaction (NO real API calls)
+    """
+
+    fake_pdf = io.BytesIO(b"%PDF-1.4 fake content")
+    fake_pdf.filename = "test_cv.pdf"
+
+    # Mock internal methods
+    monkeypatch.setattr(ranker, "extract_text_from_pdf", lambda x: "Experienced Python developer")
+    monkeypatch.setattr(ranker, "detect_language", lambda x: "en")
+    monkeypatch.setattr(ranker, "upload_pdf_to_chatpdf", lambda x: "fake_source_id")
+    monkeypatch.setattr(ranker, "rank_with_chatpdf", lambda s, j: """
+        {
+            "matching_analysis": "Good Python experience.",
+            "description": "Software developer.",
+            "score": 90,
+            "recommendation": "Strong hire."
+        }
+    """)
+    monkeypatch.setattr(ranker, "cleanup_chatpdf", lambda x: None)
+
+    job_description = "Looking for a Python developer."
+
+    result = ranker.rank_single_cv(job_description, fake_pdf)
+
+    assert result["cv_filename"] == "test_cv.pdf"
+    assert result["overall_score"] == 90
+    assert "Python" in result["matching_analysis"]
