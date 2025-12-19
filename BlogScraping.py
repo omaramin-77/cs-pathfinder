@@ -443,7 +443,16 @@ def get_blog_by_id(blog_id):
     return dict(blog) if blog else None
     
 
-def update_blog(blog_id):
+def update_blog(
+    blog_id,
+    title=None,
+    summary=None,
+    image_url=None,
+    full_text=None,
+    author=None,
+    thumbnail=None,
+    published_date=None
+):
     """Update blog post details"""
     try:
         conn = get_db_connection()
