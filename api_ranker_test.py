@@ -88,3 +88,15 @@ def test_rank_single_cv_success(monkeypatch, ranker):
     assert result["cv_filename"] == "test_cv.pdf"
     assert result["overall_score"] == 90
     assert "Python" in result["matching_analysis"]
+
+
+def test_rank_single_cv_upload_failure(monkeypatch, ranker):
+    fake_pdf = io.BytesIO(b"%PDF-1.4 fake content")
+    fake_pdf.filename = "fail_cv.pdf"
+
+    monkeypatch.setattr(ranker, "upload_pdf_to_chatpdf", lambda x: None)
+
+    result = ranker.rank_single_cv("JD", fake_pdf)
+
+    assert result["overall_score"] == 0
+    assert "Failed to upload" in result["error"]
