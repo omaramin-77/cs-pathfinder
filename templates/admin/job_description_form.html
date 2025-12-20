@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="form-container">
-    <h1>{% if edit %}✏️ Edit{% else %}➕ New{% endif %} Job Description</h1>
+    <h1>{% if edit %}Edit{% else %}New{% endif %} Job Description</h1>
     
     <form action="" method="POST" class="admin-form">
         <div class="form-group">
@@ -25,7 +25,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                {% if edit %}💾 Update{% else %}➕ Create{% endif %} Job Description
+                {% if edit %}Update{% else %}Create{% endif %} Job Description
             </button>
             <a href="{{ url_for('admin_job_descriptions') }}" class="btn btn-secondary">Cancel</a>
         </div>
