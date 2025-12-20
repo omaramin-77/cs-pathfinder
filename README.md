@@ -2,4 +2,4 @@
 
 
 deployment link:
-[cs-pathfinder-production.up.railway.app](https://cs-pathfinder-production.up.railway.app/)
+https://cs-pathfinder-production-e9c6.up.railway.app/
