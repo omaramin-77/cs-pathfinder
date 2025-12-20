@@ -17,3 +17,5 @@ jobs:
         run: railway up --service (name)
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+
