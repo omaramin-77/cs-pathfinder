@@ -12,7 +12,7 @@ from app import app
 from DB import get_db_connection
 
 # Constants for performance testing
-NUM_CONCURRENT_USERS = 10
+NUM_CONCURRENT_USERS = 100
 NUM_REQUESTS_PER_USER = 5
 
 # Helper function to generate random strings
