@@ -12,7 +12,7 @@
             <div class="result-card">
                 <div class="result-header">
                     <h3>{{ field.field_name }}</h3>
-                    <div class="result-date">{{ field.timestamp[:10] }}</div>
+                    <div class="result-date">{{ field.timestamp[:16].replace('T', ' ') }}</div>
                 </div>
                 
                 <div class="result-actions">
