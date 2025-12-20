@@ -1,59 +1,95 @@
 {% extends "base.html" %}
 
-{% block title %}Manage Users - Admin{% endblock %}
+{% block title %}Edit Roadmap - Admin{% endblock %}
 
 {% block content %}
 <div class="admin-container">
-    <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <h1>User Management</h1>
-            <p>View all users and manage admin privileges</p>
-        </div>
-        <a href="{{ url_for('admin_new_user') }}" class="btn btn-primary">+ Create New User</a>
+    <div class="admin-header">
+        <h1>{{ field }} Roadmap</h1>
+        <p>Total steps: {{ steps|length }}</p>
     </div>
 
-    {% if users %}
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Admin Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>#{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    {% if user.is_admin %}
-                        <span class="badge badge-admin">Admin</span>
-                    {% else %}
-                        <span class="badge badge-user">User</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <form method="POST" action="{{ url_for('toggle_user_admin', user_id=user.id) }}" style="display: inline;">
-                        <button type="submit" class="btn btn-small btn-secondary">
-                            {% if user.is_admin %}Demote{% else %}Promote{% endif %}
-                        </button>
-                    </form>
-                    <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}" style="display: inline;" onsubmit="return confirm('Delete this user? This cannot be undone.');">
+    <div class="steps-list">
+        {% for step in steps %}
+        <div class="step-item">
+            <div class="step-preview">
+                <div class="step-number">{{ step.step_number }}</div>
+                <div class="step-content">
+                    <h4>{{ step.text }}</h4>
+                </div>
+
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button type="button" class="step-info-btn" onclick="toggleEditStep({{ step.id }})">Edit</button>
+                    <form method="POST" action="{{ url_for('admin_delete_roadmap_step', step_id=step.id) }}" style="display: inline;" onsubmit="return confirm('Delete this step?');">
                         <button type="submit" class="btn btn-small btn-danger">Delete</button>
                     </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p class="empty-message">No users found</p>
-    {% endif %}
+                </div>
+            </div>
+
+            <!-- Edit Panel (Hidden by default) -->
+            <div id="edit-form-{{ step.id }}" class="step-edit-panel" style="display: none;">
+                <form method="POST" action="{{ url_for('admin_edit_roadmap_step', step_id=step.id) }}" class="blog-form">
+                    <div class="form-group">
+                        <label for="step_text_{{ step.id }}">Step Text *</label>
+                        <input id="step_text_{{ step.id }}" type="text" name="step_text" required value="{{ step.text }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description_{{ step.id }}">Description</label>
+                        <textarea id="description_{{ step.id }}" name="description">{{ step.description }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course_url_{{ step.id }}">Course URL</label>
+                        <input id="course_url_{{ step.id }}" type="url" name="course_url" value="{{ step.course or '' }}">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleEditStep({{ step.id }})">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add New Step Form -->
+    <div class="form-card" style="margin-top: 30px;">
+        <h3 style="color: #64b5f6; margin-bottom: 20px;">Add New Step</h3>
+        <form method="POST" action="{{ url_for('admin_add_roadmap_step', roadmap_id=roadmap_id) }}" class="blog-form">
+            <div class="form-group">
+                <label for="step_text">Step Text *</label>
+                <input type="text" id="step_text" name="step_text" required placeholder="e.g., Learn Python Basics">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Detailed description of this step" style="min-height: 100px;"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="course_url">Course URL</label>
+                <input type="url" id="course_url" name="course_url" placeholder="https://example.com/course">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add Step</button>
+            </div>
+        </form>
+    </div>
 
     <div class="admin-footer">
-        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        <a href="{{ url_for('admin_roadmaps') }}" class="btn btn-secondary">Back to Roadmaps</a>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Dashboard</a>
     </div>
 </div>
+
+<script>
+function toggleEditStep(stepId) {
+    const form = document.getElementById('edit-form-' + stepId);
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+}
+</script>
 {% endblock %}
