@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 from api_ranker import APICVRanker
 
 app = Flask(__name__)
-app.secret_key = '12345'
+app.secret_key = '-wGdfh05VMRqkFOpjm0jiOeS9pD-UBkJuD5OADv7oQc'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config['UPLOAD_FOLDER'] = 'pdf_cvs'
 
@@ -31,7 +31,7 @@ def admin_required(f):
         
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT is_admin FROM users WHERE id = ?', (session['user_id'],))
+        cursor.execute('SELECT is_admin FROM users WHERE id = %s', (session['user_id'],))
         user = cursor.fetchone()
         conn.close()
         
@@ -55,7 +55,7 @@ def login():
         
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
+        cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
         user = cursor.fetchone()
         conn.close()
 
@@ -84,7 +84,7 @@ def signup():
         conn = get_db_connection()
         cursor = conn.cursor()
         try:
-            cursor.execute('INSERT INTO users (email, password_hash) VALUES (?, ?)',
+            cursor.execute('INSERT INTO users (email, password_hash) VALUES (%s, %s)',
                         (email, password_hash))
             conn.commit()
             flash('Signup successful! Please log in.', 'success')
@@ -116,7 +116,7 @@ def quiz_question(id):
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT question_text FROM quiz_questions WHERE id = ?', (id,))
+        cursor.execute('SELECT question_text FROM quiz_questions WHERE id = %s', (id,))
         qrow = cursor.fetchone()
         conn.close()
 
@@ -130,7 +130,7 @@ def quiz_question(id):
         
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT id FROM quiz_questions WHERE id > ? ORDER BY id LIMIT 1', (id,))
+        cursor.execute('SELECT id FROM quiz_questions WHERE id > %s ORDER BY id LIMIT 1', (id,))
         next_question = cursor.fetchone()
         conn.close()
         
@@ -141,7 +141,7 @@ def quiz_question(id):
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM quiz_questions WHERE id = ?', (id,))
+    cursor.execute('SELECT * FROM quiz_questions WHERE id = %s', (id,))
     question = cursor.fetchone()
     cursor.execute('SELECT COUNT(*) as count FROM quiz_questions')
     total_questions = cursor.fetchone()['count']
@@ -185,13 +185,13 @@ def submit_quiz():
 
     # ✅ Prevent duplication
     cursor.execute(
-        'SELECT 1 FROM user_fields WHERE user_id = ? AND field_name = ?',
+        'SELECT 1 FROM user_fields WHERE user_id = %s AND field_name = %s',
         (session['user_id'], field_name)
     )
 
     if cursor.fetchone() is None:
         cursor.execute(
-            'INSERT INTO user_fields (user_id, field_name, timestamp) VALUES (?, ?, ?)',
+            'INSERT INTO user_fields (user_id, field_name, timestamp) VALUES (%s, %s, %s)',
             (session['user_id'], field_name, datetime.now().isoformat())
         )
         conn.commit()
@@ -211,7 +211,7 @@ def results():
      
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM user_fields WHERE user_id = ? ORDER BY timestamp DESC', (session['user_id'],))
+    cursor.execute('SELECT * FROM user_fields WHERE user_id = %s ORDER BY timestamp DESC', (session['user_id'],))
     fields = cursor.fetchall()
     conn.close()
     
@@ -224,7 +224,7 @@ def remove_field(id):
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM user_fields WHERE id = ? AND user_id = ?',
+    cursor.execute('DELETE FROM user_fields WHERE id = %s AND user_id = %s',
                 (id, session['user_id']))
     conn.commit()
     conn.close()
@@ -240,7 +240,7 @@ def roadmap(field):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field,))
+    cursor.execute('SELECT id FROM roadmaps WHERE field_name = %s', (field,))
     roadmap = cursor.fetchone()
     if not roadmap:
         conn.close()
@@ -249,12 +249,12 @@ def roadmap(field):
     
     cursor.execute('''
         SELECT step_number, step_text as text, description, course_url as course 
-        FROM roadmap_steps WHERE roadmap_id = ? ORDER BY step_number
+        FROM roadmap_steps WHERE roadmap_id = %s ORDER BY step_number
     ''', (roadmap['id'],))
     steps = cursor.fetchall()
     
     cursor.execute(
-        'SELECT step_number, completed FROM roadmap_progress WHERE user_id = ? AND field_name = ?',
+        'SELECT step_number, completed FROM roadmap_progress WHERE user_id = %s AND field_name = %s',
         (session['user_id'], field)
     )
     progress = {row['step_number']: row['completed'] for row in cursor.fetchall()}
@@ -278,18 +278,18 @@ def update_roadmap(field):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(
-        'SELECT id FROM roadmap_progress WHERE user_id = ? AND field_name = ? AND step_number = ?',
+        'SELECT id FROM roadmap_progress WHERE user_id = %s AND field_name = %s AND step_number = %s',
         (session['user_id'], field, step_number)
     )
     
     if cursor.fetchone():
         cursor.execute(
-            'UPDATE roadmap_progress SET completed = ? WHERE user_id = ? AND field_name = ? AND step_number = ?',
+            'UPDATE roadmap_progress SET completed = %s WHERE user_id = %s AND field_name = %s AND step_number = %s',
             (completed, session['user_id'], field, step_number)
         )
     else:
         cursor.execute(
-            'INSERT INTO roadmap_progress (user_id, field_name, step_number, completed) VALUES (?, ?, ?, ?)',
+            'INSERT INTO roadmap_progress (user_id, field_name, step_number, completed) VALUES (%s, %s, %s, %s)',
             (session['user_id'], field, step_number, completed)
         )
     
@@ -304,7 +304,7 @@ def reset_roadmap(field):
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM roadmap_progress WHERE user_id = ? AND field_name = ?',
+    cursor.execute('DELETE FROM roadmap_progress WHERE user_id = %s AND field_name = %s',
                 (session['user_id'], field))
     conn.commit()
     conn.close()
@@ -324,7 +324,7 @@ def cv_ranker():
     job_descriptions = cursor.fetchall()
     cursor.execute('''
         SELECT * FROM cv_rankings 
-        WHERE user_id = ? 
+        WHERE user_id = %s 
         ORDER BY created_at DESC 
         LIMIT 10
     ''', (session['user_id'],))
@@ -353,7 +353,7 @@ def _get_job_description(job_desc_type):
         
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT description FROM job_descriptions WHERE id = ?', (job_desc_id,))
+        cursor.execute('SELECT description FROM job_descriptions WHERE id = %s', (job_desc_id,))
         job_desc_row = cursor.fetchone()
         conn.close()
         
@@ -376,7 +376,8 @@ def _save_ranking_result(cv_filename, job_desc_id, job_description, job_desc_typ
         INSERT INTO cv_rankings 
         (user_id, cv_filename, job_description_id, custom_job_description, 
          overall_score, matching_analysis, description, recommendation)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        RETURNING id
     ''', (
         session['user_id'],
         secure_filename(cv_filename),
@@ -388,7 +389,8 @@ def _save_ranking_result(cv_filename, job_desc_id, job_description, job_desc_typ
         result.get('recommendation', '')
     ))
     conn.commit()
-    ranking_id = cursor.lastrowid
+    result_row = cursor.fetchone()
+    ranking_id = result_row['id'] if result_row else None
     conn.close()
     return ranking_id
 
@@ -450,7 +452,7 @@ def cv_ranking_result(ranking_id):
         SELECT r.*, j.title as job_title 
         FROM cv_rankings r
         LEFT JOIN job_descriptions j ON r.job_description_id = j.id
-        WHERE r.id = ? AND r.user_id = ?
+        WHERE r.id = %s AND r.user_id = %s
     ''', (ranking_id, session['user_id']))
     ranking = cursor.fetchone()
     conn.close()
@@ -473,7 +475,7 @@ def cv_ranking_history():
         SELECT r.*, j.title as job_title 
         FROM cv_rankings r
         LEFT JOIN job_descriptions j ON r.job_description_id = j.id
-        WHERE r.user_id = ?
+        WHERE r.user_id = %s
         ORDER BY r.created_at DESC
     ''', (session['user_id'],))
     rankings = cursor.fetchall()
@@ -489,7 +491,7 @@ def delete_cv_ranking(ranking_id):
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM cv_rankings WHERE id = ? AND user_id = ?', 
+    cursor.execute('DELETE FROM cv_rankings WHERE id = %s AND user_id = %s', 
                 (ranking_id, session['user_id']))
     conn.commit()
     conn.close()
@@ -581,7 +583,7 @@ def admin_new_user():
         cursor = conn.cursor()
         try:
             cursor.execute(
-                'INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)',
+                'INSERT INTO users (email, password_hash, is_admin) VALUES (%s, %s, %s)',
                 (email, password_hash, admin_status)
             )
             conn.commit()
@@ -602,12 +604,12 @@ def toggle_user_admin(user_id):
     """Toggle admin status for a user"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT is_admin FROM users WHERE id = ?', (user_id,))
+    cursor.execute('SELECT is_admin FROM users WHERE id = %s', (user_id,))
     user = cursor.fetchone()
     
     if user:
         new_status = 1 - user['is_admin']
-        cursor.execute('UPDATE users SET is_admin = ? WHERE id = ?', (new_status, user_id))
+        cursor.execute('UPDATE users SET is_admin = %s WHERE id = %s', (new_status, user_id))
         conn.commit()
         status_text = 'promoted to admin' if new_status else 'demoted from admin'
         flash(f'User {status_text}', 'success')
@@ -624,9 +626,9 @@ def delete_user(user_id):
         cursor = conn.cursor()
         
         # Delete associated data first
-        cursor.execute('DELETE FROM roadmap_progress WHERE user_id = ?', (user_id,))
-        cursor.execute('DELETE FROM user_fields WHERE user_id = ?', (user_id,))
-        cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
+        cursor.execute('DELETE FROM roadmap_progress WHERE user_id = %s', (user_id,))
+        cursor.execute('DELETE FROM user_fields WHERE user_id = %s', (user_id,))
+        cursor.execute('DELETE FROM users WHERE id = %s', (user_id,))
         
         conn.commit()
         flash('User deleted successfully', 'success')
@@ -668,7 +670,7 @@ def admin_new_question():
         try:
             cursor.execute('''
                 INSERT INTO quiz_questions (question_text, option_a, option_b, option_c, option_d)
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (%s, %s, %s, %s, %s)
             ''', (question_text, option_a, option_b, option_c, option_d))
             conn.commit()
             flash('Question created successfully', 'success')
@@ -686,7 +688,7 @@ def admin_edit_question(q_id):
     """Edit an existing quiz question"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM quiz_questions WHERE id = ?', (q_id,))
+    cursor.execute('SELECT * FROM quiz_questions WHERE id = %s', (q_id,))
     question = cursor.fetchone()
     
     if not question:
@@ -708,8 +710,8 @@ def admin_edit_question(q_id):
         try:
             cursor.execute('''
                 UPDATE quiz_questions 
-                SET question_text = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?
-                WHERE id = ?
+                SET question_text = %s, option_a = %s, option_b = %s, option_c = %s, option_d = %s
+                WHERE id = %s
             ''', (question_text, option_a, option_b, option_c, option_d, q_id))
             conn.commit()
             flash('Question updated successfully', 'success')
@@ -730,7 +732,7 @@ def delete_question(q_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM quiz_questions WHERE id = ?', (q_id,))
+        cursor.execute('DELETE FROM quiz_questions WHERE id = %s', (q_id,))
         conn.commit()
         flash('Question deleted successfully', 'success')
     except Exception as e:
@@ -766,7 +768,7 @@ def admin_new_roadmap():
         # Check if roadmap already exists
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field_name,))
+        cursor.execute('SELECT id FROM roadmaps WHERE field_name = %s', (field_name,))
         existing = cursor.fetchone()
         
         if existing:
@@ -775,9 +777,10 @@ def admin_new_roadmap():
             return redirect(url_for('admin_new_roadmap'))
         
         try:
-            cursor.execute('INSERT INTO roadmaps (field_name) VALUES (?)', (field_name,))
+            cursor.execute('INSERT INTO roadmaps (field_name) VALUES (%s) RETURNING id', (field_name,))
             conn.commit()
-            roadmap_id = cursor.lastrowid
+            result_row = cursor.fetchone()
+            roadmap_id = result_row['id'] if result_row else None
             conn.close()
             
             flash(f'Roadmap "{field_name}" created successfully! You can now add steps.', 'success')
@@ -798,7 +801,7 @@ def admin_delete_roadmap(field):
         cursor = conn.cursor()
         
         # Get roadmap ID
-        cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field,))
+        cursor.execute('SELECT id FROM roadmaps WHERE field_name = %s', (field,))
         roadmap = cursor.fetchone()
         
         if not roadmap:
@@ -809,10 +812,10 @@ def admin_delete_roadmap(field):
         roadmap_id = roadmap['id']
         
         # Delete all steps first (foreign key constraint)
-        cursor.execute('DELETE FROM roadmap_steps WHERE roadmap_id = ?', (roadmap_id,))
+        cursor.execute('DELETE FROM roadmap_steps WHERE roadmap_id = %s', (roadmap_id,))
         
         # Delete the roadmap
-        cursor.execute('DELETE FROM roadmaps WHERE id = ?', (roadmap_id,))
+        cursor.execute('DELETE FROM roadmaps WHERE id = %s', (roadmap_id,))
         
         conn.commit()
         conn.close()
@@ -829,7 +832,7 @@ def admin_edit_roadmap(field):
     """Edit roadmap content"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT id FROM roadmaps WHERE field_name = ?', (field,))
+    cursor.execute('SELECT id FROM roadmaps WHERE field_name = %s', (field,))
     roadmap = cursor.fetchone()
     
     if not roadmap:
@@ -840,7 +843,7 @@ def admin_edit_roadmap(field):
     cursor.execute('''
         SELECT id, step_number, step_text as text, description, course_url as course 
         FROM roadmap_steps 
-        WHERE roadmap_id = ? 
+        WHERE roadmap_id = %s 
         ORDER BY step_number
     ''', (roadmap['id'],))
     steps = cursor.fetchall()
@@ -860,7 +863,7 @@ def admin_add_roadmap_step(roadmap_id):
         flash('Step text is required', 'error')
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (roadmap_id,))
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = %s', (roadmap_id,))
         roadmap = cursor.fetchone()
         conn.close()
         return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
@@ -870,7 +873,7 @@ def admin_add_roadmap_step(roadmap_id):
         cursor = conn.cursor()
         # Get next step number
         cursor.execute(
-            'SELECT MAX(step_number) as max_step FROM roadmap_steps WHERE roadmap_id = ?', 
+            'SELECT MAX(step_number) as max_step FROM roadmap_steps WHERE roadmap_id = %s', 
             (roadmap_id,)
         )
         result = cursor.fetchone()
@@ -878,11 +881,11 @@ def admin_add_roadmap_step(roadmap_id):
         
         cursor.execute('''
             INSERT INTO roadmap_steps (roadmap_id, step_number, step_text, description, course_url)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s)
         ''', (roadmap_id, max_step + 1, step_text, description, course_url))
         conn.commit()
         
-        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (roadmap_id,))
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = %s', (roadmap_id,))
         roadmap = cursor.fetchone()
         conn.close()
         
@@ -892,7 +895,7 @@ def admin_add_roadmap_step(roadmap_id):
         flash(f'Error adding step: {str(e)}', 'error')
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (roadmap_id,))
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = %s', (roadmap_id,))
         roadmap = cursor.fetchone()
         conn.close()
         return redirect(url_for('admin_edit_roadmap', field=roadmap['field_name']))
@@ -912,7 +915,7 @@ def admin_edit_roadmap_step(step_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT roadmap_id FROM roadmap_steps WHERE id = ?', (step_id,))
+        cursor.execute('SELECT roadmap_id FROM roadmap_steps WHERE id = %s', (step_id,))
         step = cursor.fetchone()
         
         if not step:
@@ -922,12 +925,12 @@ def admin_edit_roadmap_step(step_id):
         
         cursor.execute('''
             UPDATE roadmap_steps 
-            SET step_text = ?, description = ?, course_url = ?
-            WHERE id = ?
+            SET step_text = %s, description = %s, course_url = %s
+            WHERE id = %s
         ''', (step_text, description, course_url, step_id))
         conn.commit()
         
-        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (step['roadmap_id'],))
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = %s', (step['roadmap_id'],))
         roadmap = cursor.fetchone()
         conn.close()
         
@@ -944,7 +947,7 @@ def admin_delete_roadmap_step(step_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT roadmap_id FROM roadmap_steps WHERE id = ?', (step_id,))
+        cursor.execute('SELECT roadmap_id FROM roadmap_steps WHERE id = %s', (step_id,))
         step = cursor.fetchone()
         
         if not step:
@@ -952,10 +955,10 @@ def admin_delete_roadmap_step(step_id):
             flash('Step not found', 'error')
             return redirect(url_for('admin_roadmaps'))
         
-        cursor.execute('DELETE FROM roadmap_steps WHERE id = ?', (step_id,))
+        cursor.execute('DELETE FROM roadmap_steps WHERE id = %s', (step_id,))
         conn.commit()
         
-        cursor.execute('SELECT field_name FROM roadmaps WHERE id = ?', (step['roadmap_id'],))
+        cursor.execute('SELECT field_name FROM roadmaps WHERE id = %s', (step['roadmap_id'],))
         roadmap = cursor.fetchone()
         conn.close()
         
@@ -1062,7 +1065,7 @@ def admin_new_job_description():
             cursor = conn.cursor()
             cursor.execute('''
                 INSERT INTO job_descriptions (title, description, created_by)
-                VALUES (?, ?, ?)
+                VALUES (%s, %s, %s)
             ''', (title, description, session['user_id']))
             conn.commit()
             conn.close()
@@ -1080,7 +1083,7 @@ def admin_edit_job_description(job_id):
     """Edit a job description"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM job_descriptions WHERE id = ?', (job_id,))
+    cursor.execute('SELECT * FROM job_descriptions WHERE id = %s', (job_id,))
     job_desc = cursor.fetchone()
     
     if not job_desc:
@@ -1099,8 +1102,8 @@ def admin_edit_job_description(job_id):
         try:
             cursor.execute('''
                 UPDATE job_descriptions 
-                SET title = ?, description = ?, updated_at = CURRENT_TIMESTAMP
-                WHERE id = ?
+                SET title = %s, description = %s, updated_at = CURRENT_TIMESTAMP
+                WHERE id = %s
             ''', (title, description, job_id))
             conn.commit()
             conn.close()
@@ -1121,7 +1124,7 @@ def admin_delete_job_description(job_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM job_descriptions WHERE id = ?', (job_id,))
+        cursor.execute('DELETE FROM job_descriptions WHERE id = %s', (job_id,))
         conn.commit()
         conn.close()
         flash('Job description deleted successfully', 'success')
@@ -1131,5 +1134,5 @@ def admin_delete_job_description(job_id):
     return redirect(url_for('admin_job_descriptions'))
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", "8000"))
-    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=True)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port, debug=False)

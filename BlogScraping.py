@@ -85,7 +85,7 @@ def article_exists(url):
     """Check if article with given URL already exists in database"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT id FROM blogs WHERE url = ?', (url,))
+    cursor.execute('SELECT id FROM blogs WHERE url = %s', (url,))
     result = cursor.fetchone()
     conn.close()
     return result is not None
@@ -99,11 +99,13 @@ def save_blog_post(title, url, summary, image_url, published_date):
 
         cursor.execute('''
             INSERT INTO blogs (title, url, summary, image_url, published_date, scraped_at)
-            VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            RETURNING id
         ''', (title, url, summary, image_url, published_date, datetime.utcnow()))
 
         conn.commit()
-        post_id = cursor.lastrowid
+        result = cursor.fetchone()
+        post_id = result['id'] if result else None
         conn.close()
         return post_id
     except Exception as e:
@@ -345,7 +347,8 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                     
                     cursor.execute('''
                         INSERT INTO blogs (title, url, summary, full_text, author, thumbnail, published_date, scraped_at)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id
                     ''', (
                         title,
                         entry['url'],
@@ -357,7 +360,8 @@ def refresh_rss_feed(feed_url=RSS_FEED_URL):
                         datetime.utcnow()
                     ))
                     conn.commit()
-                    post_id = cursor.lastrowid
+                    result = cursor.fetchone()
+                    post_id = result['id'] if result else None
                     conn.close()
                     if post_id:
                         new_count += 1
@@ -409,7 +413,7 @@ def get_all_blogs(limit=None):
     
     if limit:
         cursor.execute(
-            'SELECT * FROM blogs ORDER BY published_date DESC LIMIT ?',
+            'SELECT * FROM blogs ORDER BY published_date DESC LIMIT %s',
             (limit,)
         )
         blogs = cursor.fetchall()
@@ -431,7 +435,7 @@ def get_blogs_paginated(page=1, per_page=10):
     cursor.execute('SELECT COUNT(*) as count FROM blogs')
     total = cursor.fetchone()['count']
     cursor.execute(
-        'SELECT * FROM blogs ORDER BY published_date DESC LIMIT ? OFFSET ?',
+        'SELECT * FROM blogs ORDER BY published_date DESC LIMIT %s OFFSET %s',
         (per_page, offset)
     )
     blogs = cursor.fetchall()
@@ -446,7 +450,7 @@ def get_blog_by_id(blog_id):
     """Get a single blog post by ID"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM blogs WHERE id = ?', (blog_id,))
+    cursor.execute('SELECT * FROM blogs WHERE id = %s', (blog_id,))
     blog = cursor.fetchone()
     conn.close()
     return dict(blog) if blog else None
@@ -459,32 +463,32 @@ def update_blog(blog_id, title=None, summary=None, image_url=None, full_text=Non
         params = []
         
         if title is not None:
-            updates.append('title = ?')
+            updates.append('title = %s')
             params.append(title)
         if summary is not None:
-            updates.append('summary = ?')
+            updates.append('summary = %s')
             params.append(summary)
         if image_url is not None:
-            updates.append('image_url = ?')
+            updates.append('image_url = %s')
             params.append(image_url)
         if full_text is not None:
-            updates.append('full_text = ?')
+            updates.append('full_text = %s')
             params.append(full_text)
         if author is not None:
-            updates.append('author = ?')
+            updates.append('author = %s')
             params.append(author)
         if thumbnail is not None:
-            updates.append('thumbnail = ?')
+            updates.append('thumbnail = %s')
             params.append(thumbnail)
         if published_date is not None:
-            updates.append('published_date = ?')
+            updates.append('published_date = %s')
             params.append(published_date)
         
         if not updates:
             return False
         
         params.append(blog_id)
-        query = f'UPDATE blogs SET {", ".join(updates)} WHERE id = ?'
+        query = f'UPDATE blogs SET {", ".join(updates)} WHERE id = %s'
         
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -502,7 +506,7 @@ def delete_blog(blog_id):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM blogs WHERE id = ?', (blog_id,))
+        cursor.execute('DELETE FROM blogs WHERE id = %s', (blog_id,))
         conn.commit()
         conn.close()
         return True
