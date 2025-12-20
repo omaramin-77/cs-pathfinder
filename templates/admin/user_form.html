@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Create New User - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Create New User</h1>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" class="blog-form">
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required placeholder="user@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="password" required placeholder="Minimum 6 characters">
+                <small style="color: #90a4ae; margin-top: 5px;">Password must be at least 6 characters long</small>
+            </div>
+
+            <div class="form-group">
+                <label style="display: flex; align-items: center; margin-bottom: 0;">
+                    <input type="checkbox" id="is_admin" name="is_admin" value="1" style="width: 18px; height: 18px; margin-right: 10px;">
+                    <span>Make this user an admin</span>
+                </label>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Create User</button>
+                <a href="{{ url_for('admin_users') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="admin-footer">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

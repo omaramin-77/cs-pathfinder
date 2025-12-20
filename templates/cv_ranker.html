@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}CV Ranker - CS Career Recommender{% endblock %}
+
+{% block content %}
+<div class="cv-ranker-container">
+    <h1>CV Ranker</h1>
+    <p class="subtitle">Upload your CV and compare it against job descriptions to see how well you match!</p>
+
+    <div class="ranker-form-card">
+        <h2>Rank Your CV</h2>
+        <form action="{{ url_for('rank_cv') }}" method="POST" enctype="multipart/form-data" id="rankForm">
+            
+            <!-- CV Upload -->
+            <div class="form-group">
+                <label for="cv_file">Upload Your CV (PDF only)</label>
+                <input type="file" id="cv_file" name="cv_file" accept=".pdf" required>
+                <small>Maximum file size: 16MB</small>
+            </div>
+
+            <!-- Job Description Type -->
+            <div class="form-group">
+                <label>Choose Job Description Method</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="job_desc_type" value="predefined" checked onchange="toggleJobDescInput()">
+                        <span>Use Predefined Job Description</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="job_desc_type" value="custom" onchange="toggleJobDescInput()">
+                        <span>Enter Custom Job Description</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Predefined Job Description -->
+            <div class="form-group" id="predefinedGroup">
+                <label for="job_desc_id">Select Job Description</label>
+                {% if job_descriptions %}
+                <select id="job_desc_id" name="job_desc_id">
+                    <option value="">-- Select a job description --</option>
+                    {% for job in job_descriptions %}
+                    <option value="{{ job['id'] }}">{{ job['title'] }}</option>
+                    {% endfor %}
+                </select>
+                {% else %}
+                <p class="no-data">No predefined job descriptions available. Contact admin to add some.</p>
+                {% endif %}
+            </div>
+
+            <!-- Custom Job Description -->
+            <div class="form-group" id="customGroup" style="display: none;">
+                <label for="custom_job_desc">Enter Job Description</label>
+                <textarea id="custom_job_desc" name="custom_job_desc" rows="10" 
+                          placeholder="Paste the job description here..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="rankBtn">
+                <span id="rankText">Rank My CV</span>
+                <span id="rankLoader" class="loader hidden"></span>
+            </button>
+        </form>
+        
+        <script>
+            document.getElementById('rankForm').addEventListener('submit', function() {
+                const btn = document.getElementById('rankBtn');
+                const text = document.getElementById('rankText');
+                const loader = document.getElementById('rankLoader');
+                
+                btn.disabled = true;
+                text.classList.add('hidden');
+                loader.classList.remove('hidden');
+            });
+        </script>
+    </div>
+
+    <!-- Recent Rankings -->
+    {% if rankings %}
+    <div class="recent-rankings">
+        <h2>Recent Rankings</h2>
+        <div class="rankings-list">
+            {% for ranking in rankings %}
+            <div class="ranking-card">
+                <div class="ranking-header">
+                    <h3>{{ ranking['cv_filename'] }}</h3>
+                    <span class="score score-{{ 'high' if ranking['overall_score'] >= 70 else 'medium' if ranking['overall_score'] >= 50 else 'low' }}">
+                        {{ ranking['overall_score'] }}/100
+                    </span>
+                </div>
+                <p class="ranking-date">{{ ranking['created_at'] }}</p>
+                <a href="{{ url_for('cv_ranking_result', ranking_id=ranking['id']) }}" class="btn btn-small">View Details</a>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('cv_ranking_history') }}" class="btn btn-secondary">View All Rankings</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function toggleJobDescInput() {
+    const predefinedGroup = document.getElementById('predefinedGroup');
+    const customGroup = document.getElementById('customGroup');
+    const jobDescType = document.querySelector('input[name="job_desc_type"]:checked').value;
+    
+    if (jobDescType === 'predefined') {
+        predefinedGroup.style.display = 'block';
+        customGroup.style.display = 'none';
+        document.getElementById('custom_job_desc').removeAttribute('required');
+        document.getElementById('job_desc_id').setAttribute('required', 'required');
+    } else {
+        predefinedGroup.style.display = 'none';
+        customGroup.style.display = 'block';
+        document.getElementById('job_desc_id').removeAttribute('required');
+        document.getElementById('custom_job_desc').setAttribute('required', 'required');
+    }
+}
+</script>
+{% endblock %}

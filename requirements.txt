@@ -1,0 +1,30 @@
+# Core Dependencies
+Flask==3.0.0
+Werkzeug==3.0.1
+python-dotenv==1.0.0
+google-generativeai==0.3.0
+
+# Database
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.23
+
+# PDF Processing
+pdfplumber==0.10.3
+PyPDF2==3.0.1
+
+# Web Scraping & RSS
+feedparser==6.0.10
+beautifulsoup4==4.12.2
+requests==2.31.0
+
+# Language Detection
+langdetect==1.0.9
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+
+# Development
+black==23.11.0
+flake8==6.1.0
