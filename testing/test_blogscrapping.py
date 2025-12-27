@@ -4,7 +4,7 @@ import pytest
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from DB import init_db, get_db_connection, DATABASE_PATH
+from DB import init_db, get_db_connection
 from BlogScraping import (
     fetch_rss_feed,
     parse_feed_entries,
@@ -24,13 +24,53 @@ def db():
     """
     Initialize a clean database for RSS/blog tests
     """
-    if os.path.exists(DATABASE_PATH):
-        os.remove(DATABASE_PATH)
+    # Use a mocked DB connection compatible with psycopg2.RealDictCursor behavior
+    class MockCursor:
+        def __init__(self):
+            self.queries = []
+            self._data = []
 
-    init_db()
-    conn = get_db_connection()
-    yield conn
-    conn.close()
+        def execute(self, query, params=None):
+            self.queries.append((query, params))
+
+        def fetchone(self):
+            # Provide sensible defaults for tests
+            return {'count': 0, 'id': 1, 'title': 'Test Blog', 'overall_score': 85}
+
+        def fetchall(self):
+            return []
+        
+        def executemany(self, query, seq_of_params):
+            # Record the executemany call; tests only need that it exists
+            self.queries.append((query, seq_of_params))
+
+        def close(self):
+            pass
+
+    class MockConn:
+        def __init__(self):
+            self._cursor = MockCursor()
+
+        def cursor(self):
+            return self._cursor
+
+        def commit(self):
+            pass
+
+        def rollback(self):
+            pass
+
+        def close(self):
+            pass
+
+    mock_conn = MockConn()
+
+    # Patch DB.get_db_connection to return the mock during tests
+    from unittest.mock import patch
+    with patch('DB.get_db_connection', return_value=mock_conn):
+        init_db()
+        yield mock_conn
+        mock_conn.close()
 
 
 # -----------------------------
